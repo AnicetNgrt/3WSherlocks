@@ -1,8 +1,11 @@
-# Un tribunal de l'information
+# Bours Coddity 2021 : étude du sujet
 
-## Brainstorming initial
+*auteur : Anicet Nougaret*
 
-### Problématiques
+**Sujet : Un tribunal de l'information pour lutter contre les fake news**
+
+# Brainstorming initial
+## Problématiques
 - confiance
   - Qui juge de la validité ?
   - Comment trouver les arguments ?
@@ -13,7 +16,7 @@
     - Comment formuler un débat autours d'une information
   - Comment trouver l'origine d'une information ?
 
-### Nature de l'information
+## Nature de l'information
 - fiabilité
   - fait
     - hypothèse de degré de fiabilité élevé
@@ -42,7 +45,7 @@
     - peut être transcendante -> plusieurs personnes indépendantes y arrivent
     - quantifiable par des probabilités ?
 
-### Conclusions
+## Conclusions
 - Le tribunal ne doit jamais être dans l'erreur sinon il renforce les fake news qu'il combat
 - Les hypothèses peuvent être quantifiées
 - Les faits ne sont que des hypothèses qui ne font pas beaucoup débat
@@ -55,34 +58,34 @@
 - Le tribunal ne pourra pas accorder de la confiance à certains intervenants sans être parfois dans l'erreur
 - Le tribunal devra donc être 100% démocratique dans le traitement de l'information pour ne pas être "le menteur"
 
-## User stories
-En tant que chercheur
+# User stories
+1. En tant que chercheur
 Je veux savoir à quand remonte une hypothèse
 Afin de de mieux comprendre son contexte
 
-En tant qu'internaute
+2. En tant qu'internaute
 Je veux savoir quelles hypothèses font débat dans un domaine
 Afin de renforcer ma connaissance de ce domaine
 
-En tant qu'entreprise
+3. En tant qu'entreprise
 Je veux savoir si une hypothèse est probablement vraie ou fausse
 Afin de renforcer ma prise de décision
 
-En tant qu'internaute
+4. En tant qu'internaute
 Je veux savoir quels sont les arguments pour ou contre une hypothèse
 Afin de vérifier si elle est vraie ou fausse par moi-même
 
-En tant qu'expert
+5. En tant qu'expert
 Je veux exposer mes éléments de réponse à une hypothèse
 Afin de mettre à jour la perception du public sur une hypothèse
 
-## Idée #1 -> hypothesis.io
-1 - Catalogage et traçage des hypothèses
-2 - Recherche, découverte et ajout sur demande d'hypothèses
-3 - Participation au débat autours d'une hypothèse
-4 - Tri des hypothèses et des arguments
+# Idée #1 -> hypothesis.io
+1. Catalogage et traçage des hypothèses
+2. Recherche, découverte et ajout sur demande d'hypothèses
+3. Participation au débat autours d'une hypothèse
+4. Tri des hypothèses et des arguments
 
-### Catalogage et traçage des hypothèses
-#### Modération
+## Catalogage et traçage des hypothèses
+### Modération
 - Le tribunal n'est pas compétent pour rejeter de nouvelles hypothèses
 - Le tribunal peut rejeter des doublons, mais celà requiert de la transparence
