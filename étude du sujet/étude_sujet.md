@@ -78,14 +78,3 @@ Afin de vérifier si elle est vraie ou fausse par moi-même
 5. En tant qu'expert
 Je veux exposer mes éléments de réponse à une hypothèse
 Afin de mettre à jour la perception du public sur une hypothèse
-
-# Idée #1 -> hypothesis.io
-1. Catalogage et traçage des hypothèses
-2. Recherche, découverte et ajout sur demande d'hypothèses
-3. Participation au débat autours d'une hypothèse
-4. Tri des hypothèses et des arguments
-
-## Catalogage et traçage des hypothèses
-### Modération
-- Le tribunal n'est pas compétent pour rejeter de nouvelles hypothèses
-- Le tribunal peut rejeter des doublons, mais celà requiert de la transparence
