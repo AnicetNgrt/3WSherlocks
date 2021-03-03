@@ -50,7 +50,7 @@
 - Les hypothèses peuvent être quantifiées
 - Les faits ne sont que des hypothèses qui ne font pas beaucoup débat
 - Les hypothèses sont formulées par certains, mais n'importe qui peut les renforcer/afaiblir
-- Les hypothèses sont certainement plus objectives que les faits
+- Les hypothèses sont certainement plus objectives que les faits car elles restent humble
 - Le tribunal ne pourrait juger de faits avec 100% de réussite
 - Le tribunal pourrait mesurer de manière empirique la force d'une hypothèse
 - Le tribunal pourrait récolter et exposer le pour et le contre d'une hypothèse sans être dans l'erreur
