@@ -2,9 +2,10 @@
 
 *auteur : Anicet Nougaret*
 
-Après avoir finalement retenu l'idée de faire un site web de proposition et de vote d'hypothèses ([plus de détails ici](idées%20de%20solutions/solution-2.md)) j'ai réfléchi pendant quelques jours à la solution technique.
 
-Pour mettre en oeuvre cette idée, j'aura besoin de plusieurs choses :
+
+# Idée de solution 2
+Pour mettre en oeuvre la [solution-2.md](idées%20de%20solutions/solution-2.md), j'aura besoin de plusieurs choses :
 
 - Backend
   - Serveur web
