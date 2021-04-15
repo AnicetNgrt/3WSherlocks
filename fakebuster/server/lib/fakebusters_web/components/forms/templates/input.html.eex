@@ -1,0 +1,3 @@
+<div>
+    <%= assigns[:do] %>
+</div>

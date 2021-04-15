@@ -1,0 +1,31 @@
+<%= if @current_user do %>
+<a type="button" href="<%= Routes.user_settings_path(@conn, :edit) %>" class="flex w-16 sm:w-24 lg:w-32 items-center justify-center px-0 lg:px-3 lg:py-2 text-gray-50 hover:text-gray-900 bg-blue-600 hover:bg-green-400">
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden lg:block h-6 w-6 pr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+  </svg>
+  <p class="text-sm lg:text-base">Settings</p>
+</a>
+<div type="button" class="flex relative w-16 sm:w-24 lg:w-32 items-center justify-center px-0 lg:px-3 lg:py-2 text-gray-50 hover:text-gray-900 bg-red-600 hover:bg-pink-400">
+  <%= link "", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "absolute w-full h-full" %>
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden lg:block h-6 w-6 pr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+  </svg>
+  <p class="text-sm lg:text-base">Log out</p>
+</div>
+<div type="button" class="hidden md:flex items-center justify-center px-6 text-gray-50 bg-green-600">
+  <p class="text-sm lg:text-base">Logged in as <%= @current_user.email %></p>
+</div>
+<% else %>
+<a type="button" href="<%= Routes.user_session_path(@conn, :new) %>" class="flex w-16 sm:w-24 lg:w-32 items-center justify-center px-0 lg:px-3 lg:py-2 text-gray-50 hover:text-gray-900 bg-blue-600 hover:bg-green-400">
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden lg:block h-6 w-6 pr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+  </svg>
+  <p class="text-sm lg:text-base">Sign in</p>
+</a>
+<a type="button" href="<%= Routes.user_registration_path(@conn, :new) %>" class="transition duration-100 ease-in-out flex w-24 sm:w-32 lg:w-64 items-center justify-center px-3 md:py-2 text-gray-50 hover:text-gray-900 bg-gradient-to-l to-blue-300 from-green-400 hover:from-purple-200 hover:to-blue-400">
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden lg:block h-6 w-6 pr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+  </svg>
+  <p class="text-sm lg:text-base">Become a sherlock!</p>
+</a>
+<% end %>

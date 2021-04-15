@@ -1,0 +1,19 @@
+<%= c :forms, :form do %>
+  <h1 class="<%= tw_components()[:form_title] %>">Confirmation</h1>
+
+  <%= form_for :user, Routes.user_confirmation_path(@conn, :create), fn f -> %>
+    <%= c :forms, :field do %>
+      <%= label f, :email, class: tw_components()[:field_label] %>
+      <%= email_input f, :email, required: true, class: tw_components()[:input_text] %>
+    <% end %>
+
+    <%= c :forms, :buttons do %>
+      <%= submit "Resend email", class: tw_components()[:form_submit] %>
+    <% end %>
+  <% end %>
+
+  <p>
+    <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
+    <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
+  </p>
+<% end %>

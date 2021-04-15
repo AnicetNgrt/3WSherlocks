@@ -1,0 +1,37 @@
+<%= c :forms, :form do %>
+  <h1 class="<%= tw_components()[:form_title] %>">Sign in</h1>
+
+  <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>
+    <%= if @error_message do %>
+      <div class="<%= tw_components()[:form_error] %>">
+        <p><%= @error_message %></p>
+      </div>
+    <% end %>
+
+    <%= c :forms, :field do %>
+      <%= label f, :email, class: tw_components()[:field_label] %>
+      <%= email_input f, :email, required: true, class: tw_components()[:input_text] %>
+    <% end %>
+
+    <%= c :forms, :field do %>
+      <%= label f, :password, class: tw_components()[:field_label] %>
+      <%= password_input f, :password, required: true, class: tw_components()[:input_text] %>
+    <% end %>
+
+    <%= c :forms, :field do %>
+      <div>
+        <%= checkbox f, :remember_me %>
+        <%= label f, :remember_me, "Keep me logged in for 60 days", class: tw_components()[:field_label] %>
+      </div>
+    <% end %>
+
+    <%= c :forms, :buttons do %>
+      <%= submit "Log in", class: tw_components()[:form_submit] %>
+    <% end %>
+  <% end %>
+
+  <p>
+    <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
+    <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
+  </p>
+<% end %>
