@@ -346,4 +346,100 @@ defmodule Fakebusters.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  alias Fakebusters.Accounts.UserFavoriteTopic
+
+  @doc """
+  Returns the list of user_favorite_topics.
+
+  ## Examples
+
+      iex> list_user_favorite_topics()
+      [%UserFavoriteTopic{}, ...]
+
+  """
+  def list_user_favorite_topics do
+    Repo.all(UserFavoriteTopic)
+  end
+
+  @doc """
+  Gets a single user_favorite_topic.
+
+  Raises `Ecto.NoResultsError` if the User favorite topic does not exist.
+
+  ## Examples
+
+      iex> get_user_favorite_topic!(123)
+      %UserFavoriteTopic{}
+
+      iex> get_user_favorite_topic!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user_favorite_topic!(id), do: Repo.get!(UserFavoriteTopic, id)
+
+  @doc """
+  Creates a user_favorite_topic.
+
+  ## Examples
+
+      iex> create_user_favorite_topic(%{field: value})
+      {:ok, %UserFavoriteTopic{}}
+
+      iex> create_user_favorite_topic(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_user_favorite_topic(attrs \\ %{}) do
+    %UserFavoriteTopic{}
+    |> UserFavoriteTopic.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a user_favorite_topic.
+
+  ## Examples
+
+      iex> update_user_favorite_topic(user_favorite_topic, %{field: new_value})
+      {:ok, %UserFavoriteTopic{}}
+
+      iex> update_user_favorite_topic(user_favorite_topic, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user_favorite_topic(%UserFavoriteTopic{} = user_favorite_topic, attrs) do
+    user_favorite_topic
+    |> UserFavoriteTopic.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a user_favorite_topic.
+
+  ## Examples
+
+      iex> delete_user_favorite_topic(user_favorite_topic)
+      {:ok, %UserFavoriteTopic{}}
+
+      iex> delete_user_favorite_topic(user_favorite_topic)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_user_favorite_topic(%UserFavoriteTopic{} = user_favorite_topic) do
+    Repo.delete(user_favorite_topic)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user_favorite_topic changes.
+
+  ## Examples
+
+      iex> change_user_favorite_topic(user_favorite_topic)
+      %Ecto.Changeset{data: %UserFavoriteTopic{}}
+
+  """
+  def change_user_favorite_topic(%UserFavoriteTopic{} = user_favorite_topic, attrs \\ %{}) do
+    UserFavoriteTopic.changeset(user_favorite_topic, attrs)
+  end
 end

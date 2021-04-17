@@ -1,6 +1,6 @@
 <h1 class="mt-8 text-3xl">Settings</h1>
 
-<div class="flex w-max max-width-full">
+<div class="flex flex-wrap justify-center w-screen">
 <%= c :forms, :form do %>
   <h3 class="<%= tw_components()[:form_title] %>">Change email</h3>
 
