@@ -2,15 +2,22 @@ defmodule FakebustersWeb.Router do
   use FakebustersWeb, :router
 
   import FakebustersWeb.UserAuth
+  import FakebustersWeb.DashboardPlug
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {FakebustersWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :put_root_layout, {FakebustersWeb.LayoutView, :root}
+    plug :put_layout, {FakebustersWeb.LayoutView, "regular_nav.html"}
+  end
+
+  pipeline :dashboard do
+    plug :require_authenticated_user
+    plug :put_dashboard_assigns
   end
 
   pipeline :api do
@@ -18,11 +25,18 @@ defmodule FakebustersWeb.Router do
   end
 
   scope "/", FakebustersWeb do
-    pipe_through :browser
+    pipe_through [:browser]
 
     get "/", PageController, :index
   end
 
+  scope "/", FakebustersWeb do
+    pipe_through [:browser, :dashboard]
+
+    get "/dashboard", DashboardController, :index
+  end
+
+  # plug :put_root_layout, {FakebustersWeb.LayoutView, :root}
   # Other scopes may use custom stacks.
   # scope "/api", FakebustersWeb do
   #   pipe_through :api
@@ -62,7 +76,6 @@ defmodule FakebustersWeb.Router do
   scope "/", FakebustersWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/dashboard", DashboardController, :index
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email

@@ -1,4 +1,4 @@
-defmodule FakebustersWeb.Components.ComponentHelpers do
+defmodule FakebustersWeb.ComponentHelpers do
   alias Phoenix.Naming
   alias FakebustersWeb.Components
 

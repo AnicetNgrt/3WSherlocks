@@ -35,30 +35,10 @@ defmodule FakebustersWeb do
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
+      import FakebustersWeb.ComponentHelpers
+
       # Include shared imports and aliases for views
       unquote(view_helpers())
-
-      import FakebustersWeb.Components.ComponentHelpers
-
-      def tw_components() do
-        %{
-          form_title: "text-2xl mb-5",
-          input_text: "appearance-none text-xl m-1 px-3 py-2 focus:outline-none focus:ring ring-offset-4 rounded-md bg-gradient-to-l from-blue-200 to-blue-300",
-          field_label: "pb-1 pl-2",
-          field_error: "py-1 pl-2 text-red-700",
-          form_error: "mb-3 px-3 py-2 rounded-md bg-gradient-to-l from-red-200 to-red-300",
-          form_submit: "appearance-none mt-3 px-3 py-2 focus:ring ring-offset-4 rounded-md bg-gradient-to-l from-blue-200 to-blue-300 hover:from-green-200 hover:to-green-300 hover:shadow-md"
-        }
-      end
-
-      def error_tag(form, field, [class: class]) do
-        Enum.map(Keyword.get_values(form.errors, field), fn error ->
-          content_tag(:span, translate_error(error),
-            class: "invalid-feedback " <> class,
-            phx_feedback_for: input_name(form, field)
-          )
-        end)
-      end
     end
   end
 
@@ -66,6 +46,8 @@ defmodule FakebustersWeb do
     quote do
       use Phoenix.LiveView,
         layout: {FakebustersWeb.LayoutView, "live.html"}
+
+      import FakebustersWeb.ComponentHelpers
 
       unquote(view_helpers())
     end
@@ -106,6 +88,8 @@ defmodule FakebustersWeb do
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
+
+      import FakebustersWeb.StyleHelpers
 
       import FakebustersWeb.ErrorHelpers
       import FakebustersWeb.Gettext
