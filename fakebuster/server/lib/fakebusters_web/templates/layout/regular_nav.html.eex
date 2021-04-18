@@ -4,6 +4,6 @@
         <h1 class="text-green-600 text-md md:text-lg lg:text-xl m-4 font-bold text-center">3W <span class="text-gray-900">Sherlocks 🔍</span></h1>
     </header-title>
 </header>
-<section class="flex flex-col items-center p-0">
+<section class="flex flex-col items-center p-0 w-full">
     <%= @inner_content %>
 </section>

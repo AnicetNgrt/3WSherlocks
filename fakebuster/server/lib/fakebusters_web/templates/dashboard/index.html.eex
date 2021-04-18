@@ -1,1 +1,1 @@
-<%= live_render(@conn, FakebustersWeb.BoardCreationLive)  %>
+<%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
