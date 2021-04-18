@@ -6,9 +6,30 @@ defmodule Fakebusters.BoardsTest do
   describe "boards" do
     alias Fakebusters.Boards.Board
 
-    @valid_attrs %{description: "some description", fact: "some fact", phase: 42, rules: "some rules", verdict_falsy: 42, verdict_truthy: 42}
-    @update_attrs %{description: "some updated description", fact: "some updated fact", phase: 43, rules: "some updated rules", verdict_falsy: 43, verdict_truthy: 43}
-    @invalid_attrs %{description: nil, fact: nil, phase: nil, rules: nil, verdict_falsy: nil, verdict_truthy: nil}
+    @valid_attrs %{
+      description: "some description",
+      fact: "some fact",
+      phase: 42,
+      rules: "some rules",
+      verdict_falsy: 42,
+      verdict_truthy: 42
+    }
+    @update_attrs %{
+      description: "some updated description",
+      fact: "some updated fact",
+      phase: 43,
+      rules: "some updated rules",
+      verdict_falsy: 43,
+      verdict_truthy: 43
+    }
+    @invalid_attrs %{
+      description: nil,
+      fact: nil,
+      phase: nil,
+      rules: nil,
+      verdict_falsy: nil,
+      verdict_truthy: nil
+    }
 
     def board_fixture(attrs \\ %{}) do
       {:ok, board} =
@@ -109,7 +130,10 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_board_topic/2 with valid data updates the board_topic" do
       board_topic = board_topic_fixture()
-      assert {:ok, %BoardTopic{} = board_topic} = Boards.update_board_topic(board_topic, @update_attrs)
+
+      assert {:ok, %BoardTopic{} = board_topic} =
+               Boards.update_board_topic(board_topic, @update_attrs)
+
       assert board_topic.rank == 43
     end
 
@@ -168,13 +192,19 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_board_message/2 with valid data updates the board_message" do
       board_message = board_message_fixture()
-      assert {:ok, %BoardMessage{} = board_message} = Boards.update_board_message(board_message, @update_attrs)
+
+      assert {:ok, %BoardMessage{} = board_message} =
+               Boards.update_board_message(board_message, @update_attrs)
+
       assert board_message.content == "some updated content"
     end
 
     test "update_board_message/2 with invalid data returns error changeset" do
       board_message = board_message_fixture()
-      assert {:error, %Ecto.Changeset{}} = Boards.update_board_message(board_message, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Boards.update_board_message(board_message, @invalid_attrs)
+
       assert board_message == Boards.get_board_message!(board_message.id)
     end
 
@@ -227,13 +257,19 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_board_member/2 with valid data updates the board_member" do
       board_member = board_member_fixture()
-      assert {:ok, %BoardMember{} = board_member} = Boards.update_board_member(board_member, @update_attrs)
+
+      assert {:ok, %BoardMember{} = board_member} =
+               Boards.update_board_member(board_member, @update_attrs)
+
       assert board_member.role == 43
     end
 
     test "update_board_member/2 with invalid data returns error changeset" do
       board_member = board_member_fixture()
-      assert {:error, %Ecto.Changeset{}} = Boards.update_board_member(board_member, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Boards.update_board_member(board_member, @invalid_attrs)
+
       assert board_member == Boards.get_board_member!(board_member.id)
     end
 
@@ -285,7 +321,9 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_board_resource/2 with valid data updates the board_resource" do
       board_resource = board_resource_fixture()
-      assert {:ok, %BoardResource{} = board_resource} = Boards.update_board_resource(board_resource, @update_attrs)
+
+      assert {:ok, %BoardResource{} = board_resource} =
+               Boards.update_board_resource(board_resource, @update_attrs)
     end
 
     # test "update_board_resource/2 with invalid data returns error changeset" do

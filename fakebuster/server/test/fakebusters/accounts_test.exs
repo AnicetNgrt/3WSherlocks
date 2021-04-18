@@ -532,7 +532,8 @@ defmodule Fakebusters.AccountsTest do
     end
 
     test "create_user_favorite_topic/1 with valid data creates a user_favorite_topic" do
-      assert {:ok, %UserFavoriteTopic{} = user_favorite_topic} = Accounts.create_user_favorite_topic(@valid_attrs)
+      assert {:ok, %UserFavoriteTopic{} = user_favorite_topic} =
+               Accounts.create_user_favorite_topic(@valid_attrs)
     end
 
     # test "create_user_favorite_topic/1 with invalid data returns error changeset" do
@@ -541,7 +542,9 @@ defmodule Fakebusters.AccountsTest do
 
     test "update_user_favorite_topic/2 with valid data updates the user_favorite_topic" do
       user_favorite_topic = user_favorite_topic_fixture()
-      assert {:ok, %UserFavoriteTopic{} = user_favorite_topic} = Accounts.update_user_favorite_topic(user_favorite_topic, @update_attrs)
+
+      assert {:ok, %UserFavoriteTopic{} = user_favorite_topic} =
+               Accounts.update_user_favorite_topic(user_favorite_topic, @update_attrs)
     end
 
     # test "update_user_favorite_topic/2 with invalid data returns error changeset" do
@@ -552,8 +555,13 @@ defmodule Fakebusters.AccountsTest do
 
     test "delete_user_favorite_topic/1 deletes the user_favorite_topic" do
       user_favorite_topic = user_favorite_topic_fixture()
-      assert {:ok, %UserFavoriteTopic{}} = Accounts.delete_user_favorite_topic(user_favorite_topic)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_user_favorite_topic!(user_favorite_topic.id) end
+
+      assert {:ok, %UserFavoriteTopic{}} =
+               Accounts.delete_user_favorite_topic(user_favorite_topic)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_user_favorite_topic!(user_favorite_topic.id)
+      end
     end
 
     test "change_user_favorite_topic/1 returns a user_favorite_topic changeset" do

@@ -100,14 +100,20 @@ defmodule Fakebusters.TopicsTest do
 
     test "update_topic_resource/2 with valid data updates the topic_resource" do
       topic_resource = topic_resource_fixture()
-      assert {:ok, %TopicResource{} = topic_resource} = Topics.update_topic_resource(topic_resource, @update_attrs)
+
+      assert {:ok, %TopicResource{} = topic_resource} =
+               Topics.update_topic_resource(topic_resource, @update_attrs)
+
       assert topic_resource.link == "some updated link"
       assert topic_resource.name == "some updated name"
     end
 
     test "update_topic_resource/2 with invalid data returns error changeset" do
       topic_resource = topic_resource_fixture()
-      assert {:error, %Ecto.Changeset{}} = Topics.update_topic_resource(topic_resource, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Topics.update_topic_resource(topic_resource, @invalid_attrs)
+
       assert topic_resource == Topics.get_topic_resource!(topic_resource.id)
     end
 
@@ -161,14 +167,20 @@ defmodule Fakebusters.TopicsTest do
 
     test "update_topic_expert/2 with valid data updates the topic_expert" do
       topic_expert = topic_expert_fixture()
-      assert {:ok, %TopicExpert{} = topic_expert} = Topics.update_topic_expert(topic_expert, @update_attrs)
+
+      assert {:ok, %TopicExpert{} = topic_expert} =
+               Topics.update_topic_expert(topic_expert, @update_attrs)
+
       assert topic_expert.description == "some updated description"
       assert topic_expert.grade == 43
     end
 
     test "update_topic_expert/2 with invalid data returns error changeset" do
       topic_expert = topic_expert_fixture()
-      assert {:error, %Ecto.Changeset{}} = Topics.update_topic_expert(topic_expert, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Topics.update_topic_expert(topic_expert, @invalid_attrs)
+
       assert topic_expert == Topics.get_topic_expert!(topic_expert.id)
     end
 

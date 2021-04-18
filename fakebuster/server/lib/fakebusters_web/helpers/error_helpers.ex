@@ -17,7 +17,7 @@ defmodule FakebustersWeb.ErrorHelpers do
     end)
   end
 
-  def error_tag(form, field, [class: class]) do
+  def error_tag(form, field, class: class) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
       content_tag(:span, translate_error(error),
         class: "invalid-feedback " <> class,
