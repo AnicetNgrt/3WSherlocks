@@ -1,12 +1,33 @@
-<a type="button" href="<%= Routes.user_session_path(@conn, :new) %>" class="flex w-16 sm:w-24 lg:w-32 items-center justify-center px-0 lg:px-3 lg:py-2 text-gray-50 hover:text-gray-900 bg-blue-600 hover:bg-green-400">
-    <svg xmlns="http://www.w3.org/2000/svg" class="hidden lg:block h-6 w-6 pr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+<a
+type="button"
+href="<%= Routes.user_session_path(@conn, :new) %>"
+class="
+    relative
+    flex items-center justify-center
+    w-16 sm:w-24 lg:w-32
+    px-0 lg:px-3 lg:py-2
+">
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden sm:block h-6 w-6 pr-1 stroke-1 lg:stroke-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
     </svg>
     <p class="text-sm lg:text-base">Sign in</p>
 </a>
-<a type="button" href="<%= Routes.user_registration_path(@conn, :new) %>" class="transition duration-100 ease-in-out flex w-24 sm:w-64 lg:w-64 items-center justify-center px-3 md:py-2 text-gray-50 hover:text-gray-900 bg-gradient-to-l to-blue-300 from-green-400 hover:from-purple-200 hover:to-blue-400">
+<a
+type="button"
+href="<%= Routes.user_registration_path(@conn, :new) %>"
+class="
+    flex items-center justify-center
+    transition duration-300 ease-in-out
+    w-max
+    h-10 sm:h-12 lg:h-14
+    px-4 md:py-2 lg:px-6
+    text-yellow-300 hover:text-indigo-900
+    bg-indigo-800 hover:bg-yellow-400
+    rounded-full
+">
     <svg xmlns="http://www.w3.org/2000/svg" class="hidden sm:block h-6 w-6 pr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
     </svg>
-    <p class="text-sm lg:text-base">Become a sherlock!</p>
+    <p class="hidden sm:block text-sm lg:text-base">Become a sherlock!</p>
+    <p class="block sm:hidden text-sm lg:text-base">Register</p>
 </a>

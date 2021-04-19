@@ -89,7 +89,7 @@ defmodule FakebustersWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import FakebustersWeb.StyleHelpers
+      import FakebustersWeb.TailwindHelpers
 
       import FakebustersWeb.ErrorHelpers
       import FakebustersWeb.Gettext

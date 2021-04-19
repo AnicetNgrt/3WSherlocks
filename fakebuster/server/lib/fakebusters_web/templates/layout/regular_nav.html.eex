@@ -1,7 +1,8 @@
-<header class="flex justify-between bg-yellow-400 shadow-lg">
+<header class="flex justify-between px-6 py-4">
     <%= render "_user_menu.html", assigns %>
-    <header-title class="flex justify-end items-center w-1/2 sm:w-1/3">
-        <h1 class="text-green-600 text-md md:text-lg lg:text-xl m-4 font-bold text-center">3W <span class="text-gray-900">Sherlocks 🔍</span></h1>
+    <header-title class="flex justify-end w-1/2 sm:w-1/3">
+        <h1 class="hidden sm:block text-md md:text-lg lg:text-xl m-4 text-center">3W Sherlocks 🎩</h1>
+        <h1 class="block sm:hidden text-md md:text-lg lg:text-xl m-4 text-center">3W🎩</h1>
     </header-title>
 </header>
 <section class="flex flex-col items-center p-0 w-full">
