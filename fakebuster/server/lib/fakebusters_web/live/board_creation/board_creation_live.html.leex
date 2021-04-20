@@ -1,8 +1,16 @@
 <%= if not @show_form do %>
-<div class="relative flex flex-col items-center max-w-full md:px-32 shadow-md mt-6 rounded-md">
-    <div class="absolute opacity-50 w-full h-full bg-gradient-to-bl to-yellow-50 from-yellow-200 rounded-md"></div>
-    <section class="mx-0 my-3 z-10 px-6 pb-4 pt-6 max-w-5xl">
-        <p class="text-gray-900 text-xl">
+<div
+class="
+    relative
+    flex flex-col items-center
+    w-full max-w-prose
+    px-4
+    mt-6
+    border-2 border-indigo-800
+    rounded-md
+">
+    <section class="flex flex-col items-center mx-0 my-6">
+        <p class="text-indigo-500 text-xl mb-4">
             Questions needing answers, rumors to investigate...
             <br/>
             What's you next move inspector?
@@ -10,16 +18,13 @@
         <button
             phx-click="show_form"
             class="
-                transition duration-100 ease-in-out
-                w-max rounded-full
-                cursor-pointer
-                flex items-center justify-center px-3
-                md:py-2
-                mx-auto mt-6 mb-1
-                hover:shadow-md transform hover:scale-105
-                text-gray-50 hover:text-white
-                py-2 px-3
-                bg-gradient-to-l to-green-500 from-green-600 hover:from-green-400 hover:to-green-500
+                flex items-center justify-center
+                transition duration-300 ease-in-out
+                w-max h-max
+                px-3 py-2
+                text-yellow-300 hover:text-indigo-900
+                bg-indigo-800 hover:bg-yellow-400
+                rounded-full
             ">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 pr-1 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
@@ -63,13 +68,13 @@
 
             <%= c :forms, :field do %>
                 <%= label f, :description, class: tw_components()[:field_label] %>
-                <%= textarea f, :description, required: true, class: tw_components()[:input_text] %>
+                <%= textarea f, :description, required: true, class: tw_components()[:input_text] <> " resize-none h-40" %>
                 <%= error_tag f, :description, class: tw_components()[:field_error] %>
             <% end %>
 
             <%= c :forms, :field do %>
                 <%= label f, :rules, class: tw_components()[:field_label] %>
-                <%= textarea f, :rules, required: true, class: tw_components()[:input_text] %>
+                <%= textarea f, :rules, required: true, class: tw_components()[:input_text] <> " resize-none h-40" %>
                 <%= error_tag f, :rules, class: tw_components()[:field_error] %>
             <% end %>
 

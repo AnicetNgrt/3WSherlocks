@@ -16,9 +16,9 @@ defmodule FakebustersWeb.TailwindHelpers do
       field_label:
         "pb-1 pl-2",
       field_error:
-        "py-1 pl-2 text-red-700",
+        "py-1 pl-2 text-red-400",
       form_error:
-        "mb-3 px-3 py-2 rounded-md bg-gradient-to-l from-red-200 to-red-300",
+        "mb-3 px-3 py-2 rounded-md border-2 border-red-500 text-red-400",
       form_submit:
       "
         flex items-center justify-center
