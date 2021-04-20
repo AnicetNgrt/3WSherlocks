@@ -1,1 +1,8 @@
-<%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
+<div class="flex justify-center w-full">
+    <div class="flex flex-col flex-grow">
+        <%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
+        <div class="mt-12">
+            <%= live_render(@conn, FakebustersWeb.BoardListLive) %>
+        </div>
+    </div>
+</div>

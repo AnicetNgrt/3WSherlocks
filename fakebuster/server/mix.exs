@@ -50,7 +50,8 @@ defmodule Fakebusters.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:navigation_history, "~> 0.4.0"},
       {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:math, "~> 0.6.0"}
     ]
   end
 

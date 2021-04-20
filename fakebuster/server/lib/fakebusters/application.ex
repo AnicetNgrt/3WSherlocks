@@ -14,9 +14,10 @@ defmodule Fakebusters.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Fakebusters.PubSub},
       # Start the Endpoint (http/https)
-      FakebustersWeb.Endpoint
+      FakebustersWeb.Endpoint,
       # Start a worker by calling: Fakebusters.Worker.start_link(arg)
       # {Fakebusters.Worker, arg}
+      {Fakebusters.Topics.Initiator, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

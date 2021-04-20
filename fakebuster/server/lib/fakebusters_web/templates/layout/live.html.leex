@@ -1,9 +1,30 @@
-<main role="main" style="width: 100vw;">
+<main role="main">
   <div class="relative flex justify-center">
-    <p class="alert alert-info absolute bg-gradient-to-r from-green-500 to-green-300 w-max m-0 py-2 px-6 rounded-b-md text-yellow-50" role="alert"
+    <p class="
+      alert alert-info
+      absolute
+      border-2 border-green-500
+      w-max
+      bg-gray-800
+      shadow-md
+      py-2 px-6
+      rounded-md
+      text-green-500
+      z-10
+    " role="alert"
       phx-click="lv:clear-flash"
       phx-value-key="info"><%= live_flash(@flash, :info) %></p>
-    <p class="alert alert-danger absolute bg-gradient-to-r from-red-500 to-pink-800 w-max m-0 py-2 px-6 rounded-b-md text-red-50" role="alert"
+    <p class="alert alert-danger
+      absolute
+      border-2 border-red-500
+      w-max
+      bg-gray-800
+      shadow-md
+      py-2 px-6
+      rounded-md
+      text-red-500
+      z-10
+    " role="alert"
       phx-click="lv:clear-flash"
       phx-value-key="error"><%= live_flash(@flash, :error) %></p>
   </div>

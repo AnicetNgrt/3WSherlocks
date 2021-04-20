@@ -1,7 +1,27 @@
 <main role="main">
   <div class="relative flex justify-center">
-    <p class="absolute bg-gradient-to-r from-green-500 to-green-300 w-max m-0 py-2 px-6 rounded-b-md text-yellow-50 alert" role="alert"><%= get_flash(@conn, :info) %></p>
-    <p class="absolute bg-gradient-to-r from-red-500 to-pink-800 w-max m-0 py-2 px-6 rounded-b-md text-red-50 alert" role="alert"><%= get_flash(@conn, :error) %></p>
+    <p class="
+      absolute
+      border-2 border-green-500
+      w-max
+      bg-gray-800
+      shadow-md
+      py-2 px-6
+      rounded-md
+      text-green-500
+      z-10
+      alert" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="
+      absolute
+      border-2 border-red-500
+      w-max
+      bg-gray-800
+      shadow-md
+      py-2 px-6
+      rounded-md
+      text-red-500
+      z-10
+      alert" role="alert"><%= get_flash(@conn, :error) %></p>
   </div>
   <div class="flex flex-col items-center">
     <%= @inner_content %>
