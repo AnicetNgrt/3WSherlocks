@@ -6,7 +6,10 @@ defmodule Fakebusters.Boards do
   import Ecto.Query, warn: false
   alias Fakebusters.Repo
 
+  alias Fakebusters.Accounts.User
+
   alias Fakebusters.Boards.Board
+  alias Fakebusters.Boards.BoardMember
 
   @topic inspect(__MODULE__)
 
@@ -33,6 +36,20 @@ defmodule Fakebusters.Boards do
   """
   def list_boards do
     Repo.all(Board)
+  end
+
+  def members_count(%Board{id: id} = _board) do
+    query = from bm in "board_members",
+      where: bm.user_id == ^id
+
+    Repo.aggregate(query, :count)
+  end
+
+  def is_member?(%Board{id: board_id} = _board, %User{id: user_id} = _user) do
+    query = from bm in "board_members",
+      where: [user_id: ^user_id, board_id: ^board_id]
+
+    Repo.aggregate(query, :count) > 0
   end
 
   @doc """
@@ -68,6 +85,29 @@ defmodule Fakebusters.Boards do
       %Board{}
       |> Board.changeset(attrs)
       |> Repo.insert()
+
+    case res do
+      {:ok, %Board{} = board} ->
+        notify_global_subscribers(board, :board_created)
+
+      _ ->
+        nil
+    end
+
+    res
+  end
+
+  def create_board_with_judge(attrs, %User{id: id} = _judge) do
+    res = Repo.transaction(fn ->
+      board = Repo.insert!(change_board(%Board{}, attrs))
+      Repo.insert!(change_board_member(%BoardMember{}, %{
+        role: BoardMember.role(:judge),
+        user_id: id,
+        board_id: board.id
+      }))
+
+      board
+    end)
 
     case res do
       {:ok, %Board{} = board} ->
@@ -146,5 +186,99 @@ defmodule Fakebusters.Boards do
   """
   def change_board(%Board{} = board, attrs \\ %{}) do
     Board.changeset(board, attrs)
+  end
+
+  @doc """
+  Returns the list of board_members.
+
+  ## Examples
+
+      iex> list_board_members()
+      [%BoardMember{}, ...]
+
+  """
+  def list_board_members do
+    Repo.all(BoardMember)
+  end
+
+  @doc """
+  Gets a single board_member.
+
+  Raises `Ecto.NoResultsError` if the Board member does not exist.
+
+  ## Examples
+
+      iex> get_board_member!(123)
+      %BoardMember{}
+
+      iex> get_board_member!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_board_member!(id), do: Repo.get!(BoardMember, id)
+
+  @doc """
+  Creates a board_member.
+
+  ## Examples
+
+      iex> create_board_member(%{field: value})
+      {:ok, %BoardMember{}}
+
+      iex> create_board_member(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_board_member(attrs \\ %{}) do
+    %BoardMember{}
+    |> BoardMember.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a board_member.
+
+  ## Examples
+
+      iex> update_board_member(board_member, %{field: new_value})
+      {:ok, %BoardMember{}}
+
+      iex> update_board_member(board_member, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_board_member(%BoardMember{} = board_member, attrs) do
+    board_member
+    |> BoardMember.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a board_member.
+
+  ## Examples
+
+      iex> delete_board_member(board_member)
+      {:ok, %BoardMember{}}
+
+      iex> delete_board_member(board_member)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_board_member(%BoardMember{} = board_member) do
+    Repo.delete(board_member)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking board_member changes.
+
+  ## Examples
+
+      iex> change_board_member(board_member)
+      %Ecto.Changeset{data: %BoardMember{}}
+
+  """
+  def change_board_member(%BoardMember{} = board_member, attrs \\ %{}) do
+    BoardMember.changeset(board_member, attrs)
   end
 end

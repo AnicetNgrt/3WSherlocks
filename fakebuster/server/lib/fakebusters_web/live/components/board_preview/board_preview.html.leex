@@ -1,3 +1,30 @@
-<div>
-<%= @board.fact %>
+<div class="flex items-center divide-x-2 divide-indigo-800">
+    <div class="pr-6 w-64"><%= @board.fact %></div>
+    <div class="px-6 w-32"><%= @board.topic_name %></div>
+    <div class="px-6 w-24"><%= @board.members_count %></div>
+    <%= if @board.is_member do %>
+    <div class="flex justify-center pl-6 w-max">
+        <button class="
+            px-3 py-2
+            border-2 border-green-500 hover:border-green-400
+            rounded-md
+            hover:bg-green-400
+            text-green-400 hover:text-indigo-900
+        ">
+            open
+        </button>
+    </div>
+    <% else %>
+    <div class="flex justify-center pl-6 w-max">
+        <button class="
+            px-3 py-2
+            border-2 border-yellow-500 hover:border-yellow-400
+            rounded-md
+            hover:bg-yellow-400
+            text-yellow-400 hover:text-indigo-800
+        ">
+            join
+        </button>
+    </div>
+    <% end %>
 </div>

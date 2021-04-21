@@ -1,16 +1,21 @@
 <div class="
     flex flex-col
     w-max
-    px-4
     mt-6
     border-2 border-indigo-800
     rounded-md
-    divide-y divide-indigo-800
+    divide-y-2 divide-indigo-800
 ">
     <div class="
         px-6 py-4
+        border-b-1 border-indigo-800
     ">
-
+        <div class="flex divide-x-2 divide-indigo-800 text-indigo-500 text-sm">
+            <div class="pr-4 w-64">fact</div>
+            <div class="px-6 w-32">topic</div>
+            <div class="px-4 w-24">members</div>
+            <div class="px-4">actions</div>
+        </div>
     </div>
     <%= for board <- @boards do %>
         <div class="

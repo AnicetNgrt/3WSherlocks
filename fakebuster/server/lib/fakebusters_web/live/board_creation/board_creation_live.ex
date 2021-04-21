@@ -7,17 +7,21 @@ defmodule FakebustersWeb.BoardCreationLive do
   alias Fakebusters.Boards
   alias Fakebusters.Boards.Board
   alias Fakebusters.Topics
+  alias Fakebusters.Accounts
 
   @duration_min 9
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
+
     socket =
       socket
       |> assign(
         :changeset,
         Fakebusters.Accounts.change_user_registration(%Fakebusters.Accounts.User{})
       )
+      |> assign(:current_user, user)
       |> assign(:show_form, false)
       |> assign(:show_form_explanation, false)
       |> assign(:duration_min, @duration_min)
@@ -68,7 +72,7 @@ defmodule FakebustersWeb.BoardCreationLive do
   def handle_event("save", %{"board" => params}, socket) do
     params = fix_duration(params)
 
-    case Boards.create_board(params) do
+    case Boards.create_board_with_judge(params, socket.assigns[:current_user]) do
       {:ok, _board} ->
         {:noreply,
          socket

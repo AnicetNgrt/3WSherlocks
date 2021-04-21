@@ -92,4 +92,63 @@ defmodule Fakebusters.BoardsTest do
     #   assert %Ecto.Changeset{} = Boards.change_board(board)
     # end
   end
+
+  describe "board_members" do
+    alias Fakebusters.Boards.BoardMember
+
+    @valid_attrs %{role: 42}
+    @update_attrs %{role: 43}
+    @invalid_attrs %{role: nil}
+
+    def board_member_fixture(attrs \\ %{}) do
+      {:ok, board_member} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Boards.create_board_member()
+
+      board_member
+    end
+
+    test "list_board_members/0 returns all board_members" do
+      board_member = board_member_fixture()
+      assert Boards.list_board_members() == [board_member]
+    end
+
+    test "get_board_member!/1 returns the board_member with given id" do
+      board_member = board_member_fixture()
+      assert Boards.get_board_member!(board_member.id) == board_member
+    end
+
+    test "create_board_member/1 with valid data creates a board_member" do
+      assert {:ok, %BoardMember{} = board_member} = Boards.create_board_member(@valid_attrs)
+      assert board_member.role == 42
+    end
+
+    test "create_board_member/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Boards.create_board_member(@invalid_attrs)
+    end
+
+    test "update_board_member/2 with valid data updates the board_member" do
+      board_member = board_member_fixture()
+      assert {:ok, %BoardMember{} = board_member} = Boards.update_board_member(board_member, @update_attrs)
+      assert board_member.role == 43
+    end
+
+    test "update_board_member/2 with invalid data returns error changeset" do
+      board_member = board_member_fixture()
+      assert {:error, %Ecto.Changeset{}} = Boards.update_board_member(board_member, @invalid_attrs)
+      assert board_member == Boards.get_board_member!(board_member.id)
+    end
+
+    test "delete_board_member/1 deletes the board_member" do
+      board_member = board_member_fixture()
+      assert {:ok, %BoardMember{}} = Boards.delete_board_member(board_member)
+      assert_raise Ecto.NoResultsError, fn -> Boards.get_board_member!(board_member.id) end
+    end
+
+    test "change_board_member/1 returns a board_member changeset" do
+      board_member = board_member_fixture()
+      assert %Ecto.Changeset{} = Boards.change_board_member(board_member)
+    end
+  end
 end
