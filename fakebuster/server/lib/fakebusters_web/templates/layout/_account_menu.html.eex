@@ -1,6 +1,5 @@
 <div class="flex flex-col">
     <a
-    type="button"
     href="<%= Routes.user_settings_path(@conn, :edit) %>"
     class="
         relative
@@ -15,18 +14,16 @@
         </svg>
         <p class="text-sm lg:text-base">Settings</p>
     </a>
-    <div
-    type="button"
+    <a
+    href="<%= Routes.user_session_path(@conn, :delete) %>"
     class="
-        relative
         flex items-center justify-center
         w-20 sm:w-24 lg:w-32 h-1/2
         px-0 lg:px-3
     ">
-        <%= link "", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "absolute w-full h-full" %>
         <svg xmlns="http://www.w3.org/2000/svg" class="hidden md:block h-6 w-6 pr-1 stroke-1 lg:stroke-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
         </svg>
         <p class="text-sm lg:text-base">Log out</p>
-    </div>
+    </a>
 </div>
