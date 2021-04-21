@@ -1,4 +1,6 @@
 defmodule Fakebusters.Topics.Topic do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
 

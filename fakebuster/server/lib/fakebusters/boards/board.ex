@@ -1,4 +1,6 @@
 defmodule Fakebusters.Boards.Board do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
   alias Fakebusters.Topics.Topic
@@ -24,6 +26,6 @@ defmodule Fakebusters.Boards.Board do
     |> validate_length(:fact, min: 6, max: 128)
     |> validate_length(:description, max: 1000)
     |> validate_length(:rules, max: 1000)
-    |> validate_number(:duration_sec, greater_than: 300, less_than: 21600 * 60)
+    |> validate_number(:duration_sec, greater_than: 300, less_than: 21_600 * 60)
   end
 end

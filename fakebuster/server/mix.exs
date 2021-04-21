@@ -10,7 +10,8 @@ defmodule Fakebusters.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [plt_add_deps: :transitive]
     ]
   end
 
@@ -33,25 +34,31 @@ defmodule Fakebusters.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:pbkdf2_elixir, "~> 1.0"},
-      {:phoenix, "~> 1.5.7"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.4"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.15.0"},
-      {:floki, ">= 0.27.0", only: :test},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.4"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
-      {:navigation_history, "~> 0.4.0"},
-      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:math, "~> 0.6.0"}
+      # Phoenix deps
+      {:pbkdf2_elixir, "~> 1.0"}, # Password hashing
+      {:phoenix, "~> 1.5.7"}, # Framework internals & DSL
+      {:phoenix_ecto, "~> 4.1"}, # Database
+      {:ecto_sql, "~> 3.4"}, # Database
+      {:postgrex, ">= 0.0.0"}, # Database
+      {:phoenix_live_view, "~> 0.15.0"}, # DOM patching through Websockets
+      {:floki, ">= 0.27.0", only: :test}, # HTML Parsing
+      {:phoenix_html, "~> 2.11"}, # Templating bits
+      {:phoenix_live_reload, "~> 1.2", only: :dev}, # Hot reload through LiveView
+      {:phoenix_live_dashboard, "~> 0.4"}, # Dashboard for admin monitoring
+      {:telemetry_metrics, "~> 0.4"}, # Telemetry
+      {:telemetry_poller, "~> 0.4"}, # Telemetry
+      {:gettext, "~> 0.11"}, # Strings externalization
+      {:jason, "~> 1.0"}, # JSON encoding/decoding
+      {:plug_cowboy, "~> 2.0"}, # API Middleware engine
+
+      # Fakebusters deps
+      {:navigation_history, "~> 0.4.0"}, # Get user's on-site history
+      {:math, "~> 0.6.0"}, # Advanced Mathematical operations
+
+      # Dev deps
+      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false}, # Auth system generator
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}, # Static code analysis
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false} # Static code analysis
     ]
   end
 
@@ -66,7 +73,9 @@ defmodule Fakebusters.MixProject do
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "lint.setup": ["deps.compile", "dialyzer --plt"],
+      "lint": ["credo", "dialyzer"]
     ]
   end
 end

@@ -1,4 +1,6 @@
 defmodule FakebustersWeb.TailwindHelpers do
+  @moduledoc false
+
   def tw_components() do
     %{
       form_title: "text-2xl mb-5 text-yellow-400",

@@ -1,15 +1,16 @@
 defmodule FakebustersWeb.BoardListLive do
+  @moduledoc false
+
   use FakebustersWeb, :live_view
   use Phoenix.HTML
-  import FakebustersWeb.TimeHelpers
   alias Fakebusters.Boards
-  alias Fakebusters.Boards.Board
   alias FakebustersWeb.LiveComponents.BoardPreview
 
   @impl true
   def mount(_params, _session, socket) do
-    socket = socket
-    |> refresh_list()
+    socket =
+      socket
+      |> refresh_list()
 
     Boards.subscribe_globally()
 

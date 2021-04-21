@@ -1,4 +1,6 @@
 defmodule FakebustersWeb.DashboardPlug do
+  @moduledoc false
+
   import Plug.Conn
 
   def put_dashboard_assigns(conn, _opts) do

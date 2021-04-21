@@ -1,4 +1,6 @@
 defmodule Fakebusters.Accounts.UserFavoriteTopic do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -1,11 +1,12 @@
 defmodule FakebustersWeb.BoardCreationLive do
+  @moduledoc false
+
   use FakebustersWeb, :live_view
   use Phoenix.HTML
   import FakebustersWeb.TimeHelpers
   alias Fakebusters.Boards
   alias Fakebusters.Boards.Board
   alias Fakebusters.Topics
-  alias FakebustersWeb.LiveComponents, as: LC
 
   @duration_min 9
 
@@ -30,8 +31,10 @@ defmodule FakebustersWeb.BoardCreationLive do
     {:ok, socket}
   end
 
+  @impl true
   def handle_event("show_form", _, socket), do: {:noreply, assign(socket, :show_form, true)}
 
+  @impl true
   def handle_event("show_form_explanation", _, socket),
     do:
       {:noreply,
@@ -66,7 +69,7 @@ defmodule FakebustersWeb.BoardCreationLive do
     params = fix_duration(params)
 
     case Boards.create_board(params) do
-      {:ok, board} ->
+      {:ok, _board} ->
         {:noreply,
          socket
          |> put_flash(:info, "Investigation created")

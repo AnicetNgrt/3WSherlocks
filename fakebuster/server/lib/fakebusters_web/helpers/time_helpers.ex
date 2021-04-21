@@ -1,4 +1,6 @@
 defmodule FakebustersWeb.TimeHelpers do
+  @moduledoc false
+
   def extract_days(sec), do: extract(sec, 60 * 60 * 24)
 
   def extract_hours(sec), do: extract(sec, 60 * 60)
@@ -35,7 +37,7 @@ defmodule FakebustersWeb.TimeHelpers do
         {hours, sec} -> {sec, ["#{hours} hours" | parts]}
       end
 
-    {sec, parts} =
+    {_sec, parts} =
       case extract_minutes(sec) do
         {0, sec} -> {sec, parts}
         {minutes, sec} -> {sec, ["#{minutes} minutes" | parts]}

@@ -1,4 +1,6 @@
 defmodule Fakebusters.Topics.Initiator do
+  @moduledoc false
+
   use Task
   require Logger
   alias Fakebusters.Repo
@@ -35,8 +37,8 @@ defmodule Fakebusters.Topics.Initiator do
   def run() do
     Enum.map(@topics, fn %{name: name} = topic ->
       case Repo.get_by(Topic, name: name) do
-        %Topic{} = existingTopic ->
-          Topics.update_topic(existingTopic, topic)
+        %Topic{} = existing_topic ->
+          Topics.update_topic(existing_topic, topic)
 
         nil ->
           Topics.create_topic(topic)

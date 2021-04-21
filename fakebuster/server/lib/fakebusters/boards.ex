@@ -64,9 +64,10 @@ defmodule Fakebusters.Boards do
 
   """
   def create_board(attrs \\ %{}) do
-    res = %Board{}
-    |> Board.changeset(attrs)
-    |> Repo.insert()
+    res =
+      %Board{}
+      |> Board.changeset(attrs)
+      |> Repo.insert()
 
     case res do
       {:ok, %Board{} = board} ->
@@ -92,9 +93,10 @@ defmodule Fakebusters.Boards do
 
   """
   def update_board(%Board{} = board, attrs) do
-    res = board
-    |> Board.changeset(attrs)
-    |> Repo.update()
+    res =
+      board
+      |> Board.changeset(attrs)
+      |> Repo.update()
 
     case res do
       {:ok, %Board{} = new_board} ->
