@@ -2,51 +2,44 @@
 class="
     flex flex-col items-center
     transition duration-300 ease-in-out
-    h-96 w-80
+    w-64 sm:w-80 h-max
     px-6 py-4
     bg-indigo-800
     text-white
     rounded-md
     transform skew-y-3 hover:scale-105
     hover:skew-y-1
-    hover:translate-x-10
+    hover:translate-x-5
 "
 style="
-    margin-left: -20px;
+    margin-left: -5px;
     box-shadow: 1rem 0 1rem rgba(0, 0, 0, 0.2);
 ">
-    <div class="text-md text-yellow-300 w-full h-8">
+    <div class="text-sm sm:text-md mb-2 text-yellow-300 w-full h-6">
         <%= @board.topic_name %>
     </div>
-    <div class="text-xl text-white w-full h-40">
+    <div class="text-lg sm:text-xl text-white w-full h-44">
         <%= @board.fact %>
     </div>
     <div class="
         flex flex-row
-        items-center
         rounded-md
-        w-full h-32
-        mt-3
+        w-full h-28
     ">
-        <div class="flex flex-col">
-            <p class="text-xs mb-1 ml-2">Members</p>
-            <div class="
-                flex flex-row
-                justify-center
-                items-center
-                w-24 h-16
-                bg-gray-800
-                rounded-full
-            ">
-                <h1 class="text-2xl"><%= @board.members_count %></h1>
-            </div>
+        <div class="
+            flex flex-row items-center h-14
+        ">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+            </svg>
+            <h1 class="text-xl ml-2 sm:text-2xl"><%= @board.members_count %></h1>
         </div>
     </div>
-    <div class="flex justify-center w-full mt-6">
+    <div class="mt-4 w-full">
         <%= if @board.is_member do %>
         <button class="
             px-3 py-2
-            flex-grow
+            w-full
             border-2 border-green-500 hover:border-green-400
             rounded-full
             hover:bg-green-400
@@ -57,7 +50,7 @@ style="
         <% else %>
         <button class="
             px-3 py-2
-            flex-grow
+            w-full
             border-2 border-yellow-500 hover:border-yellow-400
             rounded-full
             hover:bg-yellow-400
