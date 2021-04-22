@@ -40,7 +40,7 @@ defmodule Fakebusters.Boards do
 
   def members_count(%Board{id: id} = _board) do
     query = from bm in "board_members",
-      where: bm.user_id == ^id
+      where: bm.board_id == ^id
 
     Repo.aggregate(query, :count)
   end

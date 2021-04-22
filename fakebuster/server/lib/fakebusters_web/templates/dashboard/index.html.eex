@@ -1,7 +1,7 @@
-<div class="flex justify-center w-full">
-    <div class="flex flex-col flex-grow items-center">
+<div class="flex justify-center w-full max-w-full">
+    <div class="flex flex-col flex-grow items-center max-w-full">
         <%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
-        <h1 class="mt-12 text-indigo-600 text-2xl">Ongoing investigations: </h1>
+        <h1 class="mt-12 text-yellow-300 text-2xl">Ongoing investigations: </h1>
         <div class="mt-2">
             <%= live_render(@conn, FakebustersWeb.BoardListLive) %>
         </div>

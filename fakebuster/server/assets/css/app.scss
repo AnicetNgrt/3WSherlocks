@@ -7,10 +7,20 @@
 @import "../node_modules/nprogress/nprogress.css";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700;800&display=swap');
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
+
 body {
-  width: 100vw;
+  max-width: 100vw;
 }
 
 .alert:empty {
   display: none;
+}
+
+option {
+  color: black !important;
 }

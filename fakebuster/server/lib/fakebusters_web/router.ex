@@ -84,6 +84,7 @@ defmodule FakebustersWeb.Router do
   scope "/", FakebustersWeb do
     pipe_through [:browser]
 
+    get "/users/log_out", UserSessionController, :delete
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create

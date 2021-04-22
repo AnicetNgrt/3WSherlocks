@@ -5,6 +5,6 @@
         <h1 class="block sm:hidden text-md md:text-lg lg:text-xl m-4 text-center">3W🎩</h1>
     </header-title>
 </header>
-<section class="flex flex-col items-center p-0 w-full">
+<section class="flex flex-col items-center max-w-full">
     <%= @inner_content %>
 </section>

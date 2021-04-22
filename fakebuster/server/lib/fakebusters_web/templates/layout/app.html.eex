@@ -23,7 +23,7 @@
       z-10
       alert" role="alert"><%= get_flash(@conn, :error) %></p>
   </div>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center max-w-full">
     <%= @inner_content %>
   </div>
 </main>

@@ -1,11 +1,14 @@
 <div
 class="
-    mx-5 my-5 sm:m-6 md:m-8
-    px-6 py-4
+    my-5 sm:m-6 md:m-8
+    px-3 sm:px-6 py-4
     rounded-md
     border-2 border-indigo-800
     bg-transparent
-    w-full max-w-prose
+"
+style="
+    width: 64ch;
+    max-width: 100vw;
 ">
     <%= assigns[:do] %>
 </div>
