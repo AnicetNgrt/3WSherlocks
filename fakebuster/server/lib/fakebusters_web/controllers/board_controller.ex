@@ -8,6 +8,7 @@ defmodule FakebustersWeb.BoardController do
       %Board{} = board ->
         conn
         |> assign(:board, board)
+        |> assign(:judge, Boards.judge(board))
         |> render("index.html")
 
       nil ->

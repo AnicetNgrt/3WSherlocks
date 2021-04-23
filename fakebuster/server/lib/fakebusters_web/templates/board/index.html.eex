@@ -1,5 +1,27 @@
-<div class="flex justify-center w-full max-w-full">
-    <div class="flex flex-col flex-grow items-center max-w-full pb-5">
-        <h1><%= @board.fact %></h1>
+<div class="flex justify-center flex-wrap max-w-full py-10">
+    <div class="
+        px-6 py-4
+        sm:m-6 md:m-8
+        rounded-md
+        border-indigo-800 border-2
+        max-w-prose
+    ">
+        <div class="mb-6">
+            <h1 class="italic text-yellow-300 mb-2">Fact debated</h1>
+            <p class="text-lg">"<%= @board.fact %>"</p>
+        </div>
+        <div class="mb-6">
+            <h1 class="italic text-yellow-300 mb-2">Provided description</h1>
+            <p class="text-lg"><%= @board.description %></p>
+        </div>
+        <div class="mb-6">
+            <h1 class="italic text-yellow-300 mb-2">Provided rules</h1>
+            <p class="text-lg"><%= @board.rules %></p>
+        </div>
+        <div class="">
+            <h1 class="italic text-yellow-300 mb-2">Judge</h1>
+            <p class="text-lg"><%= @judge.username %> <%= @judge.emoji %></p>
+        </div>
     </div>
+    <%= live_render(@conn, FakebustersWeb.BoardLive, session: %{"board" => @board}) %>
 </div>
