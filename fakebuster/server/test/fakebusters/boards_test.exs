@@ -151,4 +151,65 @@ defmodule Fakebusters.BoardsTest do
       assert %Ecto.Changeset{} = Boards.change_board_member(board_member)
     end
   end
+
+  describe "join_requests" do
+    alias Fakebusters.Boards.JoinRequest
+
+    @valid_attrs %{motivation: "some motivation", preferred_role: 42}
+    @update_attrs %{motivation: "some updated motivation", preferred_role: 43}
+    @invalid_attrs %{motivation: nil, preferred_role: nil}
+
+    def join_request_fixture(attrs \\ %{}) do
+      {:ok, join_request} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Boards.create_join_request()
+
+      join_request
+    end
+
+    test "list_join_requests/0 returns all join_requests" do
+      join_request = join_request_fixture()
+      assert Boards.list_join_requests() == [join_request]
+    end
+
+    test "get_join_request!/1 returns the join_request with given id" do
+      join_request = join_request_fixture()
+      assert Boards.get_join_request!(join_request.id) == join_request
+    end
+
+    test "create_join_request/1 with valid data creates a join_request" do
+      assert {:ok, %JoinRequest{} = join_request} = Boards.create_join_request(@valid_attrs)
+      assert join_request.motivation == "some motivation"
+      assert join_request.preferred_role == 42
+    end
+
+    test "create_join_request/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Boards.create_join_request(@invalid_attrs)
+    end
+
+    test "update_join_request/2 with valid data updates the join_request" do
+      join_request = join_request_fixture()
+      assert {:ok, %JoinRequest{} = join_request} = Boards.update_join_request(join_request, @update_attrs)
+      assert join_request.motivation == "some updated motivation"
+      assert join_request.preferred_role == 43
+    end
+
+    test "update_join_request/2 with invalid data returns error changeset" do
+      join_request = join_request_fixture()
+      assert {:error, %Ecto.Changeset{}} = Boards.update_join_request(join_request, @invalid_attrs)
+      assert join_request == Boards.get_join_request!(join_request.id)
+    end
+
+    test "delete_join_request/1 deletes the join_request" do
+      join_request = join_request_fixture()
+      assert {:ok, %JoinRequest{}} = Boards.delete_join_request(join_request)
+      assert_raise Ecto.NoResultsError, fn -> Boards.get_join_request!(join_request.id) end
+    end
+
+    test "change_join_request/1 returns a join_request changeset" do
+      join_request = join_request_fixture()
+      assert %Ecto.Changeset{} = Boards.change_join_request(join_request)
+    end
+  end
 end

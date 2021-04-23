@@ -39,10 +39,20 @@ defmodule Fakebusters.Boards do
   end
 
   def members_count(%Board{id: id} = _board) do
-    query = from bm in "board_members",
+    query = from bm in BoardMember,
       where: bm.board_id == ^id
 
     Repo.aggregate(query, :count)
+  end
+
+  def judge(%Board{id: id} = _board) do
+    members = from bm in BoardMember, where: [board_id: ^id, role: 0]
+
+    users = from u in User,
+      join: bm in ^members, on: [user_id: u.id],
+      select: u
+
+    Repo.one(users)
   end
 
   def is_member?(%Board{id: board_id} = _board, %User{id: user_id} = _user) do
@@ -67,6 +77,20 @@ defmodule Fakebusters.Boards do
 
   """
   def get_board!(id), do: Repo.get!(Board, id)
+
+  @doc """
+  Gets a single board safely.
+
+  ## Examples
+
+      iex> get_board!(123)
+      %Board{}
+
+      iex> get_board!(456)
+      nil
+
+  """
+  def get_board(id), do: Repo.get(Board, id)
 
   @doc """
   Creates a board.
@@ -280,5 +304,101 @@ defmodule Fakebusters.Boards do
   """
   def change_board_member(%BoardMember{} = board_member, attrs \\ %{}) do
     BoardMember.changeset(board_member, attrs)
+  end
+
+  alias Fakebusters.Boards.JoinRequest
+
+  @doc """
+  Returns the list of join_requests.
+
+  ## Examples
+
+      iex> list_join_requests()
+      [%JoinRequest{}, ...]
+
+  """
+  def list_join_requests do
+    Repo.all(JoinRequest)
+  end
+
+  @doc """
+  Gets a single join_request.
+
+  Raises `Ecto.NoResultsError` if the Join request does not exist.
+
+  ## Examples
+
+      iex> get_join_request!(123)
+      %JoinRequest{}
+
+      iex> get_join_request!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_join_request!(id), do: Repo.get!(JoinRequest, id)
+
+  @doc """
+  Creates a join_request.
+
+  ## Examples
+
+      iex> create_join_request(%{field: value})
+      {:ok, %JoinRequest{}}
+
+      iex> create_join_request(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_join_request(attrs \\ %{}) do
+    %JoinRequest{}
+    |> JoinRequest.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a join_request.
+
+  ## Examples
+
+      iex> update_join_request(join_request, %{field: new_value})
+      {:ok, %JoinRequest{}}
+
+      iex> update_join_request(join_request, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_join_request(%JoinRequest{} = join_request, attrs) do
+    join_request
+    |> JoinRequest.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a join_request.
+
+  ## Examples
+
+      iex> delete_join_request(join_request)
+      {:ok, %JoinRequest{}}
+
+      iex> delete_join_request(join_request)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_join_request(%JoinRequest{} = join_request) do
+    Repo.delete(join_request)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking join_request changes.
+
+  ## Examples
+
+      iex> change_join_request(join_request)
+      %Ecto.Changeset{data: %JoinRequest{}}
+
+  """
+  def change_join_request(%JoinRequest{} = join_request, attrs \\ %{}) do
+    JoinRequest.changeset(join_request, attrs)
   end
 end

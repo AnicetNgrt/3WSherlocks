@@ -2,7 +2,6 @@ defmodule FakebustersWeb.Router do
   use FakebustersWeb, :router
 
   import FakebustersWeb.UserAuth
-  import FakebustersWeb.DashboardPlug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,14 +14,11 @@ defmodule FakebustersWeb.Router do
     plug :put_layout, {FakebustersWeb.LayoutView, "regular_nav.html"}
   end
 
-  pipeline :dashboard do
-    plug :require_authenticated_user
-    plug :put_dashboard_assigns
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
+
+  ## Public routes
 
   scope "/", FakebustersWeb do
     pipe_through [:browser]
@@ -30,32 +26,13 @@ defmodule FakebustersWeb.Router do
     get "/", PageController, :index
   end
 
+  ## Secured routes
+
   scope "/", FakebustersWeb do
-    pipe_through [:browser, :dashboard]
+    pipe_through [:browser, :require_authenticated_user]
 
     get "/dashboard", DashboardController, :index
-  end
-
-  # plug :put_root_layout, {FakebustersWeb.LayoutView, :root}
-  # Other scopes may use custom stacks.
-  # scope "/api", FakebustersWeb do
-  #   pipe_through :api
-  # end
-
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/monitoring", metrics: FakebustersWeb.Telemetry
-    end
+    get "/investigations/:id", BoardController, :index
   end
 
   ## Authentication routes
@@ -89,5 +66,16 @@ defmodule FakebustersWeb.Router do
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :confirm
+  end
+
+  ## Dev routes
+
+  if Mix.env() in [:dev, :test] do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/" do
+      pipe_through :browser
+      live_dashboard "/monitoring", metrics: FakebustersWeb.Telemetry
+    end
   end
 end

@@ -64,7 +64,11 @@ class="
         <%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save] %>
             <%= c :forms, :field do %>
                 <%= label f, :fact, class: tw_components()[:field_label] %>
-                <%= text_input f, :fact, required: true, class: tw_components()[:input_text] %>
+                <%= text_input f,
+                    :fact,
+                    required: true,
+                    placeholder: "example: Kangaroos can talk",
+                    class: tw_components()[:input_text] %>
                 <%= error_tag f, :fact, class: tw_components()[:field_error] %>
             <% end %>
 
@@ -85,13 +89,21 @@ class="
 
             <%= c :forms, :field do %>
                 <%= label f, :description, class: tw_components()[:field_label] %>
-                <%= textarea f, :description, required: true, class: tw_components()[:input_text] <> " resize-none h-40" %>
+                <%= textarea f,
+                    :description,
+                    required: true,
+                    placeholder: "example: I read online that kangaroos can talk and now I want to know if it's fake.",
+                    class: tw_components()[:input_text] <> " resize-none h-40" %>
                 <%= error_tag f, :description, class: tw_components()[:field_error] %>
             <% end %>
 
             <%= c :forms, :field do %>
                 <%= label f, :rules, class: tw_components()[:field_label] %>
-                <%= textarea f, :rules, required: true, class: tw_components()[:input_text] <> " resize-none h-40" %>
+                <%= textarea f,
+                    :rules,
+                    required: true,
+                    placeholder: "example:\n1 - Don't suggest articles from fakekangaroosfacts.com\n2 - Try not to act like a kangaroo",
+                    class: tw_components()[:input_text] <> " resize-none h-40" %>
                 <%= error_tag f, :rules, class: tw_components()[:field_error] %>
             <% end %>
 
@@ -99,7 +111,12 @@ class="
                 <%= label f, :duration_sec, class: tw_components()[:field_label] do %>
                    Duration: <%= @human_readable_time %>
                 <% end %>
-                <%= range_input f, :duration_sec, required: true, min: 9, max: 81, step: 1, value: @duration_min, class: tw_components()[:input_text] %>
+                <%= range_input f,
+                    :duration_sec,
+                    required: true,
+                    min: 9, max: 81, step: 1,
+                    value: @duration_min,
+                    class: tw_components()[:input_text] %>
                 <%= error_tag f, :duration_sec, class: tw_components()[:field_error] %>
             <% end %>
 

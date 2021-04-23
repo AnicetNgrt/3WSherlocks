@@ -54,6 +54,7 @@ defmodule Fakebusters.MixProject do
       # Fakebusters deps
       {:navigation_history, "~> 0.4.0"}, # Get user's on-site history
       {:math, "~> 0.6.0"}, # Advanced Mathematical operations
+      {:emojix, "~> 0.3.1"}, # Emoji utility
 
       # Dev deps
       {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false}, # Auth system generator

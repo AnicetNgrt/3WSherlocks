@@ -7,6 +7,16 @@ defmodule FakebustersWeb.TailwindHelpers do
       input_text: "
         appearance-none
         text-xl
+        w-full
+        m-1 px-3 py-2
+        focus:outline-none focus:ring-2 ring-offset-2 ring-black
+        rounded-md
+        border-2 border-indigo-800
+        bg-transparent
+      ",
+      input_text_ovsiz: "
+        appearance-none
+        text-xl
         m-1 px-3 py-2
         focus:outline-none focus:ring-2 ring-offset-2 ring-black
         rounded-md
@@ -14,7 +24,7 @@ defmodule FakebustersWeb.TailwindHelpers do
         bg-transparent
       ",
       field_label: "pb-1 pl-2",
-      field_error: "py-1 pl-2 text-red-400",
+      field_error: "py-1 pl-2 text-red-400 w-full",
       form_error: "mb-3 px-3 py-2 rounded-md border-2 border-red-500 text-red-400",
       form_submit: "
         flex items-center justify-center

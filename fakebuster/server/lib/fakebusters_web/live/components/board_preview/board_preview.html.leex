@@ -1,30 +1,53 @@
+<%= if @horizontal do %>
 <div
 class="
     flex flex-col items-center
     transition duration-300 ease-in-out
-    w-64 sm:w-80 h-max
+    w-64 sm:w-80
     px-6 py-4
     bg-indigo-800
     text-white
     rounded-md
-    transform skew-y-3 hover:scale-105
+    transform skew-y-0 hover:scale-105
     hover:skew-y-1
     hover:translate-x-5
 "
 style="
     margin-left: -5px;
+    height: max-content;
     box-shadow: 1rem 0 1rem rgba(0, 0, 0, 0.2);
 ">
-    <div class="text-sm sm:text-md mb-2 text-yellow-300 w-full h-6">
+    <div class="text-md sm:text-lg font-bold mb-2 text-yellow-300 w-full h-6">
         <%= @board.topic_name %>
     </div>
-    <div class="text-lg sm:text-xl text-white w-full h-44">
-        <%= @board.fact %>
+    <div class="text-xs sm:text-md mb-2 text-yellow-300 w-full h-4 sm:h-6">
+        Directed by <%= @board.judge.username %> <%= @board.judge.emoji %>
+    </div>
+    <div class="
+        flex flex-col justify-center
+        w-full h-48
+        pb-4 sm:pb-6
+        border-b-4 border-dotted border-gray-800
+    ">
+        <h1 class="<%=
+            cond do
+                String.length(@board.fact) < 30 -> "text-3xl sm:text-4xl"
+                String.length(@board.fact) < 50 -> "text-2xl sm:text-3xl"
+                String.length(@board.fact) < 60 -> "text-xl sm:text-2xl"
+                true -> "text-lg sm:text-xl"
+            end
+        %>
+        text-white
+        overflow-y-hidden
+        overflow-x-hidden
+        ">
+            <%= @board.fact %>
+        </h1>
     </div>
     <div class="
         flex flex-row
         rounded-md
-        w-full h-28
+        w-full h-14
     ">
         <div class="
             flex flex-row items-center h-14
@@ -35,9 +58,12 @@ style="
             <h1 class="text-xl ml-2 sm:text-2xl"><%= @board.members_count %></h1>
         </div>
     </div>
-    <div class="mt-4 w-full">
+    <div class="mt-4 mb-2 w-full">
         <%= if @board.is_member do %>
-        <button class="
+        <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
+        class="
+            block
+            text-center
             px-3 py-2
             w-full
             border-2 border-green-500 hover:border-green-400
@@ -46,9 +72,12 @@ style="
             text-green-400 hover:text-indigo-900
         ">
             open
-        </button>
+        </a>
         <% else %>
-        <button class="
+        <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
+        class="
+            block
+            text-center
             px-3 py-2
             w-full
             border-2 border-yellow-500 hover:border-yellow-400
@@ -57,7 +86,103 @@ style="
             text-yellow-400 hover:text-indigo-800
         ">
             join
-        </button>
+        </a>
         <% end %>
     </div>
 </div>
+<% else %>
+<div
+class="
+    flex flex-col items-center
+    transition duration-300 ease-in-out
+    w-full
+    px-6 py-4
+    bg-indigo-800
+    text-white
+    rounded-md
+    transform skew-y-0 hover:scale-105
+    my-4 hover:my-80
+"
+style="
+    margin-left: -5px;
+    height: max-content;
+    box-shadow: 1rem 0 1rem rgba(0, 0, 0, 0.2);
+">
+    <div class="
+        pr-4 sm:pr-6
+        overflow-x-hidden
+    " style="
+        min-width: 45rem;
+        max-width: 45rem;
+    ">
+        <div class="text-lg font-bold mb-2 text-yellow-300 w-full h-6">
+            <%= @board.topic_name %>
+        </div>
+        <div class="text-sm mb-2 text-yellow-300 w-full h-4 sm:h-6">
+            Directed by <%= @board.judge.username %> <%= @board.judge.emoji %>
+        </div>
+        <div class="
+            flex flex-col justify-center
+            w-full h-24
+        ">
+            <h1 class="
+            text-xl sm:text-2xl
+            text-white
+            overflow-y-hidden
+            overflow-x-hidden
+            ">
+                <%= @board.fact %>
+            </h1>
+        </div>
+    </div>
+    <div class="flex flex-row items-center w-full">
+        <div class="
+            ml-4
+            flex flex-row
+            rounded-md
+            w-full h-full
+        ">
+            <div class="
+                flex flex-row items-center h-14
+            ">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                </svg>
+                <h1 class="text-xl ml-2 sm:text-2xl"><%= @board.members_count %></h1>
+            </div>
+        </div>
+            <div class="mt-6 mb-2 self-end w-32">
+            <%= if @board.is_member do %>
+            <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
+            class="
+                block
+                text-center
+                px-3 py-2
+                w-full
+                border-2 border-green-500 hover:border-green-400
+                rounded-full
+                hover:bg-green-400
+                text-green-400 hover:text-indigo-900
+            ">
+                open
+            </a>
+            <% else %>
+            <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
+            class="
+                block
+                text-center
+                px-3 py-2
+                w-full
+                border-2 border-yellow-500 hover:border-yellow-400
+                rounded-full
+                hover:bg-yellow-400
+                text-yellow-400 hover:text-indigo-800
+            ">
+                join
+            </a>
+            <% end %>
+        </div>
+    </div>
+
+</div>
+<% end %>

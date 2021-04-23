@@ -1,0 +1,5 @@
+<div class="flex justify-center w-full max-w-full">
+    <div class="flex flex-col flex-grow items-center max-w-full pb-5">
+        <h1><%= @board.fact %></h1>
+    </div>
+</div>

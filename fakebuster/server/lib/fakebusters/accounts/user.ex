@@ -10,6 +10,8 @@ defmodule Fakebusters.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+    field :username, :string
+    field :emoji, :string
 
     timestamps()
   end
@@ -33,9 +35,31 @@ defmodule Fakebusters.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :username, :emoji])
     |> validate_email()
     |> validate_password(opts)
+    |> validate_username()
+    |> maybe_validate_emoji()
+  end
+
+  defp maybe_validate_emoji(changeset) do
+    validate_change(changeset, :emoji, fn :emoji, value ->
+      case {is_binary(value), is_nil(value)} do
+        {_, true} -> []
+        {true, false} ->
+          case Emojix.find_by_unicode(value) do
+            %Emojix.Emoji{} -> []
+            _ -> [{:emoji, "should be a valid emoji"}]
+          end
+        {false, false} -> [{:emoji, "should be a valid emoji"}]
+      end
+    end)
+  end
+
+  defp validate_username(changeset) do
+    changeset
+    |> validate_required([:username])
+    |> validate_length(:username, min: 2, max: 16)
   end
 
   defp validate_email(changeset) do
@@ -51,9 +75,9 @@ defmodule Fakebusters.Accounts.User do
     changeset
     |> validate_required([:password])
     |> validate_length(:password, min: 12, max: 80)
-    # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
+    |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> maybe_hash_password(opts)
   end
 
