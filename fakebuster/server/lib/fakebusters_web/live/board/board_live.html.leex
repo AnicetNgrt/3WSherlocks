@@ -1,6 +1,11 @@
-<%= live_render(
-    @socket,
-    FakebustersWeb.JoinRequestLive,
-    id: "join_req_form",
-    session: %{"board" => @board})
-%>
+<%= if @role == nil do %>
+    <%= live_render @socket, FakebustersWeb.JoinRequestLive, id: "join_req_form", session: %{
+        "board" => @board
+    } %>
+<%= else %>
+    <%= live_render @socket, FakebustersWeb.BoardMsgFeedLive, id: "board_msg_feed", session: %{
+        "board" => @board,
+        "user" => @current_user,
+        "role" => @role
+    } %>
+<% end %>

@@ -14,8 +14,8 @@ defmodule Fakebusters.Boards.JoinRequest do
   @doc false
   def changeset(join_request, attrs) do
     join_request
-    |> cast(attrs, [:motivation, :preferred_role])
-    |> validate_required([:motivation, :preferred_role])
+    |> cast(attrs, [:motivation, :preferred_role, :board_id, :user_id])
+    |> validate_required([:motivation, :preferred_role, :board_id, :user_id])
     |> validate_length(:motivation, min: 6, max: 1000)
   end
 end

@@ -19,9 +19,10 @@ defmodule Fakebusters.Boards.BoardMember do
     |> unsafe_validate_unique([:user_id, :board_id], Fakebusters.Repo)
   end
 
-  def role(:judge), do: 0
-
-  def role(:truthy_advocate), do: 1
-
-  def role(:falsy_advocate), do: 2
+  def role_to_atom(0), do: :judge
+  def role_to_atom(1), do: :truthy_advocate
+  def role_to_atom(2), do: :falsy_advocate
+  def role_to_atom(3), do: :truthy_defender
+  def role_to_atom(4), do: :falsy_defender
+  def role_to_atom(_), do: nil
 end

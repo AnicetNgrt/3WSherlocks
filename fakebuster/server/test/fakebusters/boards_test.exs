@@ -130,13 +130,19 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_board_member/2 with valid data updates the board_member" do
       board_member = board_member_fixture()
-      assert {:ok, %BoardMember{} = board_member} = Boards.update_board_member(board_member, @update_attrs)
+
+      assert {:ok, %BoardMember{} = board_member} =
+               Boards.update_board_member(board_member, @update_attrs)
+
       assert board_member.role == 43
     end
 
     test "update_board_member/2 with invalid data returns error changeset" do
       board_member = board_member_fixture()
-      assert {:error, %Ecto.Changeset{}} = Boards.update_board_member(board_member, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Boards.update_board_member(board_member, @invalid_attrs)
+
       assert board_member == Boards.get_board_member!(board_member.id)
     end
 
@@ -190,14 +196,20 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_join_request/2 with valid data updates the join_request" do
       join_request = join_request_fixture()
-      assert {:ok, %JoinRequest{} = join_request} = Boards.update_join_request(join_request, @update_attrs)
+
+      assert {:ok, %JoinRequest{} = join_request} =
+               Boards.update_join_request(join_request, @update_attrs)
+
       assert join_request.motivation == "some updated motivation"
       assert join_request.preferred_role == 43
     end
 
     test "update_join_request/2 with invalid data returns error changeset" do
       join_request = join_request_fixture()
-      assert {:error, %Ecto.Changeset{}} = Boards.update_join_request(join_request, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Boards.update_join_request(join_request, @invalid_attrs)
+
       assert join_request == Boards.get_join_request!(join_request.id)
     end
 

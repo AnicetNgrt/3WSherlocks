@@ -25,6 +25,31 @@ defmodule Fakebusters.Boards do
     )
   end
 
+  def board_messages(%Board{id: id} = board, :judge) do
+    messages =
+      []
+      |> Enum.concat(board_join_requests(board))
+      |> Enum.sort(&(&1.inserted_at > &2.inserted_at))
+
+    messages
+  end
+
+  def board_messages(%Board{id: id} = board, :truthy_advocate) do
+    []
+  end
+
+  def board_messages(%Board{id: id}, :falsy_advocate) do
+    []
+  end
+
+  def board_messages(%Board{id: id}, :truthy_defender) do
+    []
+  end
+
+  def board_messages(%Board{id: id}, :falsy_defender) do
+    []
+  end
+
   @doc """
   Returns the list of boards.
 
@@ -39,27 +64,11 @@ defmodule Fakebusters.Boards do
   end
 
   def members_count(%Board{id: id} = _board) do
-    query = from bm in BoardMember,
-      where: bm.board_id == ^id
+    query =
+      from bm in BoardMember,
+        where: bm.board_id == ^id
 
     Repo.aggregate(query, :count)
-  end
-
-  def judge(%Board{id: id} = _board) do
-    members = from bm in BoardMember, where: [board_id: ^id, role: 0]
-
-    users = from u in User,
-      join: bm in ^members, on: [user_id: u.id],
-      select: u
-
-    Repo.one(users)
-  end
-
-  def is_member?(%Board{id: board_id} = _board, %User{id: user_id} = _user) do
-    query = from bm in "board_members",
-      where: [user_id: ^user_id, board_id: ^board_id]
-
-    Repo.aggregate(query, :count) > 0
   end
 
   @doc """
@@ -122,16 +131,20 @@ defmodule Fakebusters.Boards do
   end
 
   def create_board_with_judge(attrs, %User{id: id} = _judge) do
-    res = Repo.transaction(fn ->
-      board = Repo.insert!(change_board(%Board{}, attrs))
-      Repo.insert!(change_board_member(%BoardMember{}, %{
-        role: BoardMember.role(:judge),
-        user_id: id,
-        board_id: board.id
-      }))
+    res =
+      Repo.transaction(fn ->
+        board = Repo.insert!(change_board(%Board{}, attrs))
 
-      board
-    end)
+        Repo.insert!(
+          change_board_member(%BoardMember{}, %{
+            role: 0,
+            user_id: id,
+            board_id: board.id
+          })
+        )
+
+        board
+      end)
 
     case res do
       {:ok, %Board{} = board} ->
@@ -223,6 +236,33 @@ defmodule Fakebusters.Boards do
   """
   def list_board_members do
     Repo.all(BoardMember)
+  end
+
+  def judge(%Board{id: id} = _board) do
+    members = from bm in BoardMember, where: [board_id: ^id, role: 0]
+
+    users = from u in User, join: bm in ^members, on: [user_id: u.id], select: u
+
+    Repo.one(users)
+  end
+
+  def is_member?(%Board{id: board_id} = _board, %User{id: user_id} = _user) do
+    query =
+      from bm in "board_members",
+        where: [user_id: ^user_id, board_id: ^board_id]
+
+    Repo.aggregate(query, :count) > 0
+  end
+
+  def role(%Board{id: board_id}, %User{id: user_id}) do
+    query =
+      from bm in BoardMember,
+        where: [user_id: ^user_id, board_id: ^board_id]
+
+    case Repo.one(query) do
+      %BoardMember{role: role} -> role
+      _ -> nil
+    end
   end
 
   @doc """
@@ -336,6 +376,22 @@ defmodule Fakebusters.Boards do
 
   """
   def get_join_request!(id), do: Repo.get!(JoinRequest, id)
+
+  def user_already_has_requested?(%User{id: user_id}, %Board{id: board_id}) do
+    query =
+      from jr in JoinRequest,
+        where: [user_id: ^user_id, board_id: ^board_id]
+
+    Repo.aggregate(query, :count) > 0
+  end
+
+  def board_join_requests(%Board{id: board_id}) do
+    query =
+      from jr in JoinRequest,
+        where: [board_id: ^board_id]
+
+    Repo.all(query)
+  end
 
   @doc """
   Creates a join_request.

@@ -45,13 +45,17 @@ defmodule Fakebusters.Accounts.User do
   defp maybe_validate_emoji(changeset) do
     validate_change(changeset, :emoji, fn :emoji, value ->
       case {is_binary(value), is_nil(value)} do
-        {_, true} -> []
+        {_, true} ->
+          []
+
         {true, false} ->
           case Emojix.find_by_unicode(value) do
             %Emojix.Emoji{} -> []
             _ -> [{:emoji, "should be a valid emoji"}]
           end
-        {false, false} -> [{:emoji, "should be a valid emoji"}]
+
+        {false, false} ->
+          [{:emoji, "should be a valid emoji"}]
       end
     end)
   end
@@ -77,7 +81,9 @@ defmodule Fakebusters.Accounts.User do
     |> validate_length(:password, min: 12, max: 80)
     |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/,
+      message: "at least one digit or punctuation character"
+    )
     |> maybe_hash_password(opts)
   end
 

@@ -5,7 +5,7 @@ defmodule FakebustersWeb.BoardLive do
   use Phoenix.HTML
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
-  alias Fakebusters.Boards.JoinRequest
+  alias Fakebusters.Boards.{JoinRequest, BoardMember}
 
   @impl true
   def mount(params, %{"board" => board} = session, socket) do
@@ -14,35 +14,9 @@ defmodule FakebustersWeb.BoardLive do
     socket =
       socket
       |> assign(:board, board)
-      |> assign(
-        :changeset,
-        Boards.change_join_request(%JoinRequest{})
-      )
       |> assign(:current_user, user)
+      |> assign(:role, BoardMember.role_to_atom(Boards.role(board, user)))
 
     {:ok, socket}
-  end
-
-  def handle_event("validate", %{"join_request" => params}, socket) do
-    changeset =
-      %JoinRequest{}
-      |> Boards.change_join_request(params)
-      |> Map.put(:action, :insert)
-
-    socket = assign(socket, changeset: changeset)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("save", %{"join_request" => params}, socket) do
-    case Boards.create_join_request(params) do
-      {:ok, _jr} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Join request sent")}
-
-      {:error, changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
-    end
   end
 end

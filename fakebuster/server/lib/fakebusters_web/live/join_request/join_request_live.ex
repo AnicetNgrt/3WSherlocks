@@ -19,6 +19,7 @@ defmodule FakebustersWeb.JoinRequestLive do
         Boards.change_join_request(%JoinRequest{})
       )
       |> assign(:current_user, user)
+      |> assign(:already_requested, Boards.user_already_has_requested?(user, board))
 
     {:ok, socket}
   end
@@ -35,10 +36,16 @@ defmodule FakebustersWeb.JoinRequestLive do
   end
 
   def handle_event("save", %{"join_request" => params}, socket) do
+    params =
+      params
+      |> Map.put("board_id", socket.assigns[:board].id)
+      |> Map.put("user_id", socket.assigns[:current_user].id)
+
     case Boards.create_join_request(params) do
       {:ok, _jr} ->
         {:noreply,
          socket
+         |> assign(:already_requested, true)
          |> put_flash(:info, "Join request sent")}
 
       {:error, changeset} ->

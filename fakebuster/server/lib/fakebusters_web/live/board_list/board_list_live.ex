@@ -30,11 +30,12 @@ defmodule FakebustersWeb.BoardListLive do
   defp refresh_list(socket) do
     user = socket.assigns[:current_user]
 
-    boards = Boards.list_boards()
-    |> Enum.map(&(Map.put(&1, :members_count, Boards.members_count(&1))))
-    |> Enum.map(&(Map.put(&1, :topic_name, Topics.get_topic!(&1.topic_id).name)))
-    |> Enum.map(&(Map.put(&1, :is_member, Boards.is_member?(&1, user))))
-    |> Enum.map(&(Map.put(&1, :judge, Boards.judge(&1))))
+    boards =
+      Boards.list_boards()
+      |> Enum.map(&Map.put(&1, :members_count, Boards.members_count(&1)))
+      |> Enum.map(&Map.put(&1, :topic_name, Topics.get_topic!(&1.topic_id).name))
+      |> Enum.map(&Map.put(&1, :is_member, Boards.is_member?(&1, user)))
+      |> Enum.map(&Map.put(&1, :judge, Boards.judge(&1)))
 
     assign(socket, :boards, boards)
   end

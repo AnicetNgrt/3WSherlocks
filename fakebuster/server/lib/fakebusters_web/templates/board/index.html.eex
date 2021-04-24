@@ -1,4 +1,5 @@
 <div class="flex justify-center items-start flex-wrap max-w-full py-10">
+    <%= live_render(@conn, FakebustersWeb.BoardLive, session: %{"board" => @board}) %>
     <div class="
         flex flex-wrap
         justify-between
@@ -28,5 +29,4 @@
             <p class="text-lg"><%= @judge.username %> <%= @judge.emoji %></p>
         </div>
     </div>
-    <%= live_render(@conn, FakebustersWeb.BoardLive, session: %{"board" => @board}) %>
 </div>

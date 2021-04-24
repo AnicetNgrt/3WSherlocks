@@ -35,31 +35,52 @@ defmodule Fakebusters.MixProject do
   defp deps do
     [
       # Phoenix deps
-      {:pbkdf2_elixir, "~> 1.0"}, # Password hashing
-      {:phoenix, "~> 1.5.7"}, # Framework internals & DSL
-      {:phoenix_ecto, "~> 4.1"}, # Database
-      {:ecto_sql, "~> 3.4"}, # Database
-      {:postgrex, ">= 0.0.0"}, # Database
-      {:phoenix_live_view, "~> 0.15.0"}, # DOM patching through Websockets
-      {:floki, ">= 0.27.0", only: :test}, # HTML Parsing
-      {:phoenix_html, "~> 2.11"}, # Templating bits
-      {:phoenix_live_reload, "~> 1.2", only: :dev}, # Hot reload through LiveView
-      {:phoenix_live_dashboard, "~> 0.4"}, # Dashboard for admin monitoring
-      {:telemetry_metrics, "~> 0.4"}, # Telemetry
-      {:telemetry_poller, "~> 0.4"}, # Telemetry
-      {:gettext, "~> 0.11"}, # Strings externalization
-      {:jason, "~> 1.0"}, # JSON encoding/decoding
-      {:plug_cowboy, "~> 2.0"}, # API Middleware engine
+      # Password hashing
+      {:pbkdf2_elixir, "~> 1.0"},
+      # Framework internals & DSL
+      {:phoenix, "~> 1.5.7"},
+      # Database
+      {:phoenix_ecto, "~> 4.1"},
+      # Database
+      {:ecto_sql, "~> 3.4"},
+      # Database
+      {:postgrex, ">= 0.0.0"},
+      # DOM patching through Websockets
+      {:phoenix_live_view, "~> 0.15.0"},
+      # HTML Parsing
+      {:floki, ">= 0.27.0", only: :test},
+      # Templating bits
+      {:phoenix_html, "~> 2.11"},
+      # Hot reload through LiveView
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      # Dashboard for admin monitoring
+      {:phoenix_live_dashboard, "~> 0.4"},
+      # Telemetry
+      {:telemetry_metrics, "~> 0.4"},
+      # Telemetry
+      {:telemetry_poller, "~> 0.4"},
+      # Strings externalization
+      {:gettext, "~> 0.11"},
+      # JSON encoding/decoding
+      {:jason, "~> 1.0"},
+      # API Middleware engine
+      {:plug_cowboy, "~> 2.0"},
 
       # Fakebusters deps
-      {:navigation_history, "~> 0.4.0"}, # Get user's on-site history
-      {:math, "~> 0.6.0"}, # Advanced Mathematical operations
-      {:emojix, "~> 0.3.1"}, # Emoji utility
+      # Get user's on-site history
+      {:navigation_history, "~> 0.4.0"},
+      # Advanced Mathematical operations
+      {:math, "~> 0.6.0"},
+      # Emoji utility
+      {:emojix, "~> 0.3.1"},
 
       # Dev deps
-      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false}, # Auth system generator
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}, # Static code analysis
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false} # Static code analysis
+      # Auth system generator
+      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
+      # Static code analysis
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      # Static code analysis
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 
@@ -76,7 +97,7 @@ defmodule Fakebusters.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "lint.setup": ["deps.compile", "dialyzer --plt"],
-      "lint": ["credo", "dialyzer"]
+      lint: ["credo", "dialyzer"]
     ]
   end
 end
