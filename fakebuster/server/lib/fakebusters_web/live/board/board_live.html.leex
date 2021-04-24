@@ -2,10 +2,86 @@
     <%= live_render @socket, FakebustersWeb.JoinRequestLive, id: "join_req_form", session: %{
         "board" => @board
     } %>
-<%= else %>
-    <%= live_render @socket, FakebustersWeb.BoardMsgFeedLive, id: "board_msg_feed", session: %{
-        "board" => @board,
-        "user" => @current_user,
-        "role" => @role
-    } %>
+<% else %>
+    <%= for channel <- @channels do %>
+        <%= if @current_channel == channel do %>
+        <div class="
+            flex flex-col
+            px-3 py-3
+            sm:mx-6 md:mx-8 sm:mt-6 md:mt-8 mb-0
+            rounded-md rounded-b-none
+            border-indigo-800 border-2
+        "
+        style="
+            width: 64ch;
+            max-width: 100vw;
+        ">
+            <div class="flex justify-between items-center w-full">
+                <%= if Enum.count(@channels) > 1 do %>
+                    <button class="
+                        px-3 py-2
+                        rounded-md
+                        border-indigo-800 border-2
+                        hover:bg-indigo-800
+                        w-max
+                    ">
+                        ← Previous
+                    </button>
+                <% end %>
+                <%= if channel == :events do %>
+                    <p>Events <span class="text-sm text-indigo-500">| Only you can see that</span></p>
+                <% end %>
+                <%= if channel == :judge_t_advocates do %>
+                    <%= if @role == 0 do %>
+                    <p> Chat with truthy side's advocates</p>
+                    <% end %>
+                    <%= if @role == 1 do %>
+                    <p> Chat with the judge</p>
+                    <% end %>
+                <% end %>
+                <%= if channel == :judge_f_advocates do %>
+                    <%= if @role == 0 do %>
+                    <p> Chat with falsy side's advocates</p>
+                    <% end %>
+                    <%= if @role == 2 do %>
+                    <p> Chat with the judge</p>
+                    <% end %>
+                <% end %>
+                <%= if channel == :t_advocates_defenders do %>
+                    <%= if @role == 1 do %>
+                    <p> Chat with your side's defenders</p>
+                    <% end %>
+                    <%= if @role == 3 do %>
+                    <p> Chat with your side's advocates</p>
+                    <% end %>
+                <% end %>
+                <%= if channel == :f_advocates_defenders do %>
+                    <%= if @role == 2 do %>
+                    <p> Chat with your side's defenders</p>
+                    <% end %>
+                    <%= if @role == 4 do %>
+                    <p> Chat with your side's advocates</p>
+                    <% end %>
+                <% end %>
+                <%= if Enum.count(@channels) > 1 do %>
+                    <button class="
+                        px-3 py-2
+                        rounded-md
+                        border-indigo-800 border-2
+                        hover:bg-indigo-800
+                        w-max
+                    ">
+                        Next →
+                    </button>
+                <% end %>
+            </div>
+        </div>
+        <%= live_render @socket, FakebustersWeb.BoardMsgFeedLive, id: "board_msg_feed", session: %{
+            "board" => @board,
+            "user" => @current_user,
+            "role" => @role,
+            "channel" => channel
+        } %>
+        <% end %>
+    <% end %>
 <% end %>

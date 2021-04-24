@@ -10,6 +10,7 @@ defmodule Fakebusters.Boards do
 
   alias Fakebusters.Boards.Board
   alias Fakebusters.Boards.BoardMember
+  alias Fakebusters.Boards.JoinRequest
 
   @topic inspect(__MODULE__)
 
@@ -25,29 +26,11 @@ defmodule Fakebusters.Boards do
     )
   end
 
-  def board_messages(%Board{id: id} = board, :judge) do
-    messages =
-      []
-      |> Enum.concat(board_join_requests(board))
-      |> Enum.sort(&(&1.inserted_at > &2.inserted_at))
-
-    messages
-  end
-
-  def board_messages(%Board{id: id} = board, :truthy_advocate) do
-    []
-  end
-
-  def board_messages(%Board{id: id}, :falsy_advocate) do
-    []
-  end
-
-  def board_messages(%Board{id: id}, :truthy_defender) do
-    []
-  end
-
-  def board_messages(%Board{id: id}, :falsy_defender) do
-    []
+  def board_events(%Board{id: id} = board) do
+    Enum.sort(
+      board_join_requests(board),
+      &(&1.inserted_at > &2.inserted_at)
+    )
   end
 
   @doc """
@@ -265,6 +248,25 @@ defmodule Fakebusters.Boards do
     end
   end
 
+  def add_board_member_delete_request(%{
+    user_id: user_id,
+    board_id: board_id
+  } = attrs) do
+    {:ok, _} = Repo.transaction(fn ->
+      %BoardMember{} = Repo.insert!(change_board_member(%BoardMember{}, attrs))
+
+      query =
+        from jr in JoinRequest,
+          where: [board_id: ^board_id, user_id: ^user_id]
+
+      jr = Repo.one(query)
+
+      {:ok, %JoinRequest{}} = delete_join_request(jr)
+
+      jr
+    end)
+  end
+
   @doc """
   Gets a single board_member.
 
@@ -345,8 +347,6 @@ defmodule Fakebusters.Boards do
   def change_board_member(%BoardMember{} = board_member, attrs \\ %{}) do
     BoardMember.changeset(board_member, attrs)
   end
-
-  alias Fakebusters.Boards.JoinRequest
 
   @doc """
   Returns the list of join_requests.

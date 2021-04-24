@@ -1,22 +1,31 @@
-<div class="flex flex-col">
-    <div class="
-        messages
-        flex flex-col
-        px-6 py-6 pr-12
-        sm:m-6 md:m-8
-        rounded-md
-        border-indigo-800 border-2
-        overflow-y-auto
-        scrollbar scrollbar-thumb-indigo-600 scrollbar-track-indigo-900
-    "
-    style="
-        width: 65ch;
-        max-width: 100%;
-        height: calc(100vh - 25rem);
-    ">
-        <%= for message <- Enum.reverse(@messages) do %>
-            <% is_author = message.user_id == @current_user.id %>
-            <%= live_component @socket, BoardMsg, message: message, is_author: is_author%>
-        <% end %>
-    </div>
+<div class="
+    messages
+    flex flex-col
+    px-6 py-6 pr-12
+    sm:mx-6 md:mx-8 mb-6 md:mb-8 mt-0
+    rounded-md rounded-t-none
+    border-indigo-800 border-2 border-t-0
+    overflow-y-auto
+    scrollbar scrollbar-thumb-indigo-600 scrollbar-track-indigo-900
+"
+style="
+    width: 64ch;
+    max-width: 100vw;
+    height: 35rem;
+">
+    <%= for message <- Enum.reverse(@messages) do %>
+        <% is_author = message.user_id == @current_user.id %>
+
+        <div class="<%= message_styles(is_author) %>">
+            <p class="<%= author_styles(is_author) %>">
+            <%= message_header(
+                NaiveDateTime.to_string(message.inserted_at),
+                message.author,
+                human_readable_role(message.author_role),
+                is_author
+            ) %>
+            </p>
+        <%= live_component @socket, BoardMsg, id: message.id, board_id: @board.id, message: message, is_author: is_author %>
+        </div>
+    <% end %>
 </div>

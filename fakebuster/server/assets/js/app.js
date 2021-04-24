@@ -34,20 +34,24 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 
-//// BEGIN BORROW
+/// BEGIN BORROW
 
 // https://github.com/elixirschool/live-view-chat/blob/master/assets/js/app.js
 // Apache License 2.0
 // Lets you have automatic scrolling to bottom in messages lists
 
 // Select the node that will be observed for mutations
-const targetNode = document.getElementsByClassName("messages")[0]
+const container = document.getElementsByClassName("messages")[0]
+
+console.log(JSON.stringify(container))
 
 document.addEventListener("DOMContentLoaded", function() {
-  console.log("HELLLLo")
-  console.log(JSON.stringify(targetNode.scrollTop))
-  targetNode.scrollTop = targetNode.scrollHeight
-  console.log(JSON.stringify(targetNode.scrollTop))
+  console.log(JSON.stringify(container.scrollTop))
+  console.log(JSON.stringify(container.scrollTopMax))
+  console.log(JSON.stringify(container.scrollHeight))
+  container.scrollTop = container.scrollHeight
+  console.log(JSON.stringify(container.scrollTop))
+  console.log(container)
 });
 
 // Options for the observer (which mutations to observe)
@@ -56,13 +60,13 @@ let config = { attributes: true, childList: true, subtree: true };
 var callback = function(mutationsList, observer) {
   for(var mutation of mutationsList) {
     if (mutation.type == 'childList') {
-      targetNode.scrollTop = targetNode.scrollHeight
+      
     }
   }
 };
 // Create an observer instance linked to the callback function
 var observer = new MutationObserver(callback);
 // Start observing the target node for configured mutations
-observer.observe(targetNode, config);
+observer.observe(container, config);
 
-//// END BORROW
+/// END BORROW

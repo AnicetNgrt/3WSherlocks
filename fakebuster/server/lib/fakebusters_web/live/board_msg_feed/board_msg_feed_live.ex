@@ -6,12 +6,15 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
   alias FakebustersWeb.LiveComponents.BoardMsg
+  import FakebustersWeb.RolesHelpers
 
   @impl true
-  def mount(params, %{"board" => board, "role" => role, "user" => user} = session, socket) do
-    messages = Boards.board_messages(board, role)
-    IO.inspect(role)
-    IO.inspect(messages)
+  def mount(
+        params,
+        %{"board" => board, "role" => role, "user" => user, "channel" => channel} = session,
+        socket
+      ) do
+    messages = fetch_messages(board, user, channel)
 
     socket =
       socket
@@ -30,5 +33,83 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
       )
 
     {:ok, socket}
+  end
+
+  def handle_event("assign", %{"role" => role, "user_id" => user_id}, socket) do
+    role = case role do
+      "1" -> 1
+      "2" -> 2
+      "3" -> 3
+      "4" -> 4
+      _ -> nil
+    end
+
+    Boards.add_board_member_delete_request(%{
+      user_id: user_id,
+      board_id: socket.assigns.board.id,
+      role: role
+    })
+
+    {:noreply, socket}
+  end
+
+  defp fetch_messages(board, _user, :events) do
+    Boards.board_events(board)
+  end
+
+  defp fetch_messages(_, _, _) do
+    []
+  end
+
+  defp message_header(date, author, author_role, false = _is_author) do
+    """
+    #{date} ▶ #{author.username} #{author.emoji} [#{author_role}]
+    """
+  end
+
+  defp message_header(date, author, author_role, true = _is_author) do
+    """
+    [#{author_role}] #{author.emoji} #{author.username} ◀ #{date}
+    """
+  end
+
+  defp author_styles(is_author) do
+    """
+    text-yellow-300 text-xs pb-1
+    max-w-full
+    """ <>
+      if is_author do
+        """
+          self-end
+        """
+      else
+        """
+          self-start
+        """
+      end
+  end
+
+  defp message_styles(is_author) do
+    """
+      flex
+      flex-col
+      px-6 py-4
+      mb-4
+      rounded-xl
+      w-max
+      max-w-full
+    """ <>
+      if is_author do
+        """
+          self-end
+          rounded-tr-none
+          bg-indigo-600
+        """
+      else
+        """
+          rounded-tl-none
+          bg-indigo-800
+        """
+      end
   end
 end
