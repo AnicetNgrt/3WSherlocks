@@ -3,7 +3,7 @@ defmodule FakebustersWeb.TailwindHelpers do
 
   def tw_components() do
     %{
-      form_title: "text-2xl mb-5 text-yellow-400",
+      form_title: "text-2xl mb-5 text-yellow-300",
       input_text: "
         appearance-none
         text-xl

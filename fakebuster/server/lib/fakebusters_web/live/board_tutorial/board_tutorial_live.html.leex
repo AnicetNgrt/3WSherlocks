@@ -1,0 +1,42 @@
+<% bold_text = "text-indigo-300" %>
+
+<article class="flex flex-col items-center mt-3 mb-6">
+    <button
+    class="flex items-center cursor-pointer"
+    phx-click="show_tutorial">
+        <h1 class="px-2 py-1 mr-3 bg-yellow-300 rounded-full text-indigo-800">
+            Tutorial
+        </h1>
+        <h1 class="text-2xl underline text-yellow-300 hover:text-white">
+            What is an investigation?
+        </h1>
+    </button>
+    <%= if @show_tutorial do %>
+    <div class="
+        mt-3 px-6 py-4
+        rounded-md
+        text-xl text-indigo-500
+        max-w-prose
+        border-indigo-800 border-2
+    ">
+        <p class="mb-4">
+            Investigations are <span class="<%= bold_text %>">temporary chat rooms</span> where investigators have to <span class="<%= bold_text %>">judge whether a fact is truthy or falsy</span>.
+        </p>
+        <p class="mb-4">
+            <span class="<%= bold_text %>">Two sides face off:</span> Half of the investigators have to argue that the fact is <span class="<%= bold_text %>">truthty</span>, the other half have to argue that it's <span class="<%= bold_text %>">falsy</span>.
+            <br/>
+            On top of that, investigators have to engage in one of <span class="<%= bold_text %>">three roles</span>: the <span class="<%= bold_text %>">judge</span>, the <span class="<%= bold_text %>">advocate</span> or the <span class="<%= bold_text %>">defender</span>.
+        </p>
+        <p class="mb-4">
+            <span class="<%= bold_text %>">Defenders</span> have to <span class="<%= bold_text %>">find evidences</span> or proofs <span class="<%= bold_text %>">on the Internet</span> for their side and submit them.
+            <br/>
+            <span class="<%= bold_text %>">Advocates</span> have to study and <span class="<%= bold_text %>">curate the evidences</span> found by their side's defenders and present them to the judge.
+            <br/>
+            <span class="<%= bold_text %>">The judge</span> is the only neutral member, he has to monitor the room and <span class="<%= bold_text %>">evaluate curated evidences</span> from both sides.
+        </p>
+        <p>
+            <span class="<%= bold_text %>">At the end, everyone vote "truthy" or "falsy"</span> in order to establish the final verdict. Judge's vote is worth 10 votes, advocates' votes are worth 3 votes.
+        </p>
+    </div>
+    <% end %>
+</article>

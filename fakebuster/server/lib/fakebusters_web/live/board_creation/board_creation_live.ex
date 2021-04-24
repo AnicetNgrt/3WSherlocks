@@ -23,7 +23,6 @@ defmodule FakebustersWeb.BoardCreationLive do
       )
       |> assign(:current_user, user)
       |> assign(:show_form, false)
-      |> assign(:show_form_explanation, false)
       |> assign(:duration_min, @duration_min)
       |> assign(
         :topics,
@@ -37,12 +36,6 @@ defmodule FakebustersWeb.BoardCreationLive do
 
   @impl true
   def handle_event("show_form", _, socket), do: {:noreply, assign(socket, :show_form, true)}
-
-  @impl true
-  def handle_event("show_form_explanation", _, socket),
-    do:
-      {:noreply,
-       assign(socket, :show_form_explanation, not socket.assigns[:show_form_explanation])}
 
   def handle_event("validate", %{"board" => params}, socket) do
     params = fix_duration(params)

@@ -1,32 +1,6 @@
-<%= c :forms, :form do %>
-    <%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save] %>
-        <%= c :forms, :field do %>
-            <%= label f, :preferred_role, class: tw_components()[:field_label] do %>
-                Preferred role
-            <% end %>
-            <%= select(
-                f,
-                :preferred_role,
-                ["Truthy side's Advocate": 1, "Falsy side's Advocate": 2, "Truthy side's Defender": 3, "Falsy side's Defender": 4],
-                prompt: "Pick a preferred role ↓",
-                required: true,
-                class: tw_components()[:input_text]
-            ) %>
-            <%= error_tag f, :preferred_role, class: tw_components()[:field_error] %>
-        <% end %>
-
-        <%= c :forms, :field do %>
-            <%= label f, :motivation, class: tw_components()[:field_label] %>
-            <%= textarea f,
-                :motivation,
-                required: true,
-                placeholder: "example: I'm an expert and I would really like to help!",
-                class: tw_components()[:input_text] <> " resize-none h-40" %>
-            <%= error_tag f, :motivation, class: tw_components()[:field_error] %>
-        <% end %>
-
-        <%= c :forms, :buttons do %>
-            <%= submit "Send", class: tw_components()[:form_submit] %>
-        <% end %>
-    </form>
-<% end %>
+<%= live_render(
+    @socket,
+    FakebustersWeb.JoinRequestLive,
+    id: "join_req_form",
+    session: %{"board" => @board})
+%>
