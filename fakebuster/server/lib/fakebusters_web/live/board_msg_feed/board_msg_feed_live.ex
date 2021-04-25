@@ -41,13 +41,14 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   end
 
   def handle_event("assign", %{"role" => role, "user_id" => user_id}, socket) do
-    role = case role do
-      "1" -> 1
-      "2" -> 2
-      "3" -> 3
-      "4" -> 4
-      _ -> nil
-    end
+    role =
+      case role do
+        "1" -> 1
+        "2" -> 2
+        "3" -> 3
+        "4" -> 4
+        _ -> nil
+      end
 
     Boards.add_board_member_delete_request(%{
       user_id: user_id,
@@ -85,14 +86,12 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
 
   @impl true
   def handle_info({Boards, :new, message}, socket) do
-    {:noreply,
-      assign(socket, [message | socket.assigns[:messages]])}
+    {:noreply, assign(socket, :messages, [message | socket.assigns[:messages]])}
   end
 
   @impl true
   def handle_info({Boards, :delete, message}, socket) do
-    {:noreply,
-      assign(socket, List.delete(socket.assigns[:messages], message))}
+    {:noreply, assign(socket, List.delete(socket.assigns[:messages], message))}
   end
 
   defp add_message_meta(socket, params) do

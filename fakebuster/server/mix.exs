@@ -73,6 +73,8 @@ defmodule Fakebusters.MixProject do
       {:math, "~> 0.6.0"},
       # Emoji utility
       {:emojix, "~> 0.3.1"},
+      # URL parsing
+      {:ex_url, "~> 1.3.0"},
 
       # Dev deps
       # Auth system generator

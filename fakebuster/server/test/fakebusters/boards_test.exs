@@ -263,14 +263,20 @@ defmodule Fakebusters.BoardsTest do
 
     test "update_board_message/2 with valid data updates the board_message" do
       board_message = board_message_fixture()
-      assert {:ok, %BoardMessage{} = board_message} = Boards.update_board_message(board_message, @update_attrs)
+
+      assert {:ok, %BoardMessage{} = board_message} =
+               Boards.update_board_message(board_message, @update_attrs)
+
       assert board_message.body == "some updated body"
       assert board_message.channel == 43
     end
 
     test "update_board_message/2 with invalid data returns error changeset" do
       board_message = board_message_fixture()
-      assert {:error, %Ecto.Changeset{}} = Boards.update_board_message(board_message, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Boards.update_board_message(board_message, @invalid_attrs)
+
       assert board_message == Boards.get_board_message!(board_message.id)
     end
 

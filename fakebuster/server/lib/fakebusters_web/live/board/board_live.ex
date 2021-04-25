@@ -33,7 +33,9 @@ defmodule FakebustersWeb.BoardLive do
   end
 
   def shift_channel(socket, shift) do
-    current_index = Enum.find_index(socket.assigns[:channels], &(&1 == socket.assigns[:current_channel]))
+    current_index =
+      Enum.find_index(socket.assigns[:channels], &(&1 == socket.assigns[:current_channel]))
+
     new_index = rem(current_index + shift, Enum.count(socket.assigns[:channels]))
 
     assign(socket, :current_channel, Enum.at(socket.assigns[:channels], new_index))

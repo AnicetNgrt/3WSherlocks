@@ -59,8 +59,9 @@ defmodule Fakebusters.Boards do
     textable = Channels.textable_channel?(num)
 
     if textable do
-      query = from mc in BoardMessage,
-        where: [board_id: ^board_id, channel: ^num]
+      query =
+        from mc in BoardMessage,
+          where: [board_id: ^board_id, channel: ^num]
 
       Repo.all(query)
     else
@@ -283,23 +284,26 @@ defmodule Fakebusters.Boards do
     end
   end
 
-  def add_board_member_delete_request(%{
-    user_id: user_id,
-    board_id: board_id
-  } = attrs) do
-    {:ok, _} = Repo.transaction(fn ->
-      %BoardMember{} = Repo.insert!(change_board_member(%BoardMember{}, attrs))
+  def add_board_member_delete_request(
+        %{
+          user_id: user_id,
+          board_id: board_id
+        } = attrs
+      ) do
+    {:ok, _} =
+      Repo.transaction(fn ->
+        %BoardMember{} = Repo.insert!(change_board_member(%BoardMember{}, attrs))
 
-      query =
-        from jr in JoinRequest,
-          where: [board_id: ^board_id, user_id: ^user_id]
+        query =
+          from jr in JoinRequest,
+            where: [board_id: ^board_id, user_id: ^user_id]
 
-      jr = Repo.one(query)
+        jr = Repo.one(query)
 
-      {:ok, %JoinRequest{}} = delete_join_request(jr)
+        {:ok, %JoinRequest{}} = delete_join_request(jr)
 
-      jr
-    end)
+        jr
+      end)
   end
 
   @doc """
@@ -337,8 +341,9 @@ defmodule Fakebusters.Boards do
   end
 
   def board_members(board_id) do
-    query = from bm in BoardMember,
-      where: [board_id: ^board_id]
+    query =
+      from bm in BoardMember,
+        where: [board_id: ^board_id]
 
     Repo.all(query)
   end
@@ -448,16 +453,18 @@ defmodule Fakebusters.Boards do
 
   """
   def create_join_request(attrs \\ %{}) do
-    res = %JoinRequest{}
-    |> JoinRequest.changeset(attrs)
-    |> Repo.insert()
+    res =
+      %JoinRequest{}
+      |> JoinRequest.changeset(attrs)
+      |> Repo.insert()
 
     case res do
       {:ok, jr} ->
         notify_board_channel_subscribers(jr.board_id, :events, :new, jr)
         res
 
-      _ -> res
+      _ ->
+        res
     end
   end
 
@@ -499,7 +506,8 @@ defmodule Fakebusters.Boards do
         notify_board_channel_subscribers(jr.board_id, :events, :delete, jr)
         res
 
-      _ -> res
+      _ ->
+        res
     end
   end
 
@@ -558,9 +566,10 @@ defmodule Fakebusters.Boards do
 
   """
   def create_board_message(attrs \\ %{}) do
-    res = %BoardMessage{}
-    |> BoardMessage.changeset(attrs)
-    |> Repo.insert()
+    res =
+      %BoardMessage{}
+      |> BoardMessage.changeset(attrs)
+      |> Repo.insert()
 
     case res do
       {:ok, bm} ->
@@ -568,10 +577,13 @@ defmodule Fakebusters.Boards do
           bm.board_id,
           Channels.num_to_channel(bm.channel),
           :new,
-          bm)
+          bm
+        )
+
         res
 
-      _ -> res
+      _ ->
+        res
     end
   end
 

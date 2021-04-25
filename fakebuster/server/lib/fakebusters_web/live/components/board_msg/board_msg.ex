@@ -5,6 +5,7 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
   alias Fakebusters.Boards
   alias Fakebusters.Accounts
   alias Fakebusters.Boards.{JoinRequest, BoardMember, BoardMessage}
+  import FakebustersWeb.HyperlinksHelpers
 
   def render(
         %{
@@ -122,7 +123,14 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
       ) do
     ~L"""
       <p class="<%= if is_author do 'mr-4' else 'ml-4' end%> mt-2">
-        <%= message.body %>
+        <%= for el <- Enum.reverse(wrap_hyperlinks(message.body)) do %>
+          <%= case el do %>
+            <% {:link, %{href: href, host: host, path: path}} -> %>
+              <a href="<%= href %>" class="<%= message_links_style() %>"><%= host %><%= path %></a>
+            <% {:word, word} -> %>
+              <%= word %>
+          <% end %>
+        <% end %>
       </p>
     """
   end
@@ -131,6 +139,13 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
     ~L"""
       Unsupported message type
     """
+  end
+
+  def message_links_style() do
+    "
+    text-yellow-300
+    underline
+    "
   end
 
   def button_style(color) do
