@@ -4,7 +4,7 @@
     justify-center
     mt-6
 ">
-    <%= if not @board.finished do %>
+    <%= if @board.finished == false do %>
         <%= if @role == nil do %>
             <%= live_render @socket, FakebustersWeb.JoinRequestLive, id: "join_req_form", session: %{
                 "board" => @board
@@ -78,7 +78,7 @@
             <h1 class="italic text-yellow-300 mb-2">Fact debated</h1>
             <p class="text-lg">"<%= @board.fact %>"</p>
         </div>
-        <%= if not @board.finished do %>
+        <%= if @board.finished == false do %>
         <div class="mt-3 w-full mr-2 px-3 py-2 border-indigo-800 border-2 rounded-md">
             <h1 class="italic text-yellow-300 mb-2">Time remaining before voting</h1>
             <%= TimeHelpers.human_readable_time(@seconds_left) %>
