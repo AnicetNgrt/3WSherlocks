@@ -3,17 +3,25 @@ defmodule FakebustersWeb.BoardLive do
 
   use FakebustersWeb, :live_view
   use Phoenix.HTML
+  alias Fakebusters.Countdown
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
   alias Fakebusters.Boards.{JoinRequest, Channels, BoardMember}
+  alias FakebustersWeb.TimeHelpers
+
+  @update_countdown_every 10
 
   @impl true
   def mount(params, %{"board" => board} = session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
     role = Boards.role(board, user)
     channels = Channels.role_channels(role)
+    seconds_left = Boards.seconds_left(board)
 
     Boards.subscribe_to_board_channel(board.id, :events)
+
+    countdown_id = :crypto.rand_uniform(0, 9_999_999)
+    {:ok, _} = Countdown.spawn_and_subscribe(countdown_id, seconds_left)
 
     socket =
       socket
@@ -21,6 +29,7 @@ defmodule FakebustersWeb.BoardLive do
       |> assign(:judge, Boards.judge(board))
       |> assign(:current_user, user)
       |> assign(:channels, channels)
+      |> assign(:seconds_left, seconds_left)
       |> assign(:current_channel, List.last(channels))
       |> assign(:role, role)
 
@@ -33,6 +42,11 @@ defmodule FakebustersWeb.BoardLive do
 
   def handle_event("next_channel", _, socket) do
     {:noreply, shift_channel(socket, 1)}
+  end
+
+  @impl true
+  def handle_info({Countdown, :countdown, seconds_left}, socket) do
+    {:noreply, assign(socket, :seconds_left, seconds_left)}
   end
 
   @impl true

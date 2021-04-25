@@ -34,8 +34,12 @@
     " style="
         max-height: 55rem;
     ">
-        <%= for board <- Enum.reverse(@boards) do %>
-            <%= live_component @socket, BoardPreview, board: board, horizontal: false %>
+        <%= if length(@boards) > 0 do %>
+            <%= for board <- Enum.reverse(@boards) do %>
+                <%= live_component @socket, BoardPreview, board: board, horizontal: false %>
+            <% end %>
+        <% else %>
+            <p class="text-xl text-indigo-500">There is nothing there yet 📭</p>
         <% end %>
     </div>
 </div>

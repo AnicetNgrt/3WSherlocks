@@ -1585,18 +1585,19 @@ defmodule FakebustersWeb.HyperlinksHelpers do
 
   def wrap_hyperlinks(text) do
     String.split(text)
-    |> Enum.reduce([], fn (el, acc) ->
-      parsed_el = if el =~ "http://" or el =~ "https://" do
-        el
-      else
-        Enum.reduce_while(@watched_domain_names, el, fn (ext, el) ->
-          if String.ends_with?(el, ext) or el =~ ext <> "/" do
-            {:halt, "http://" <> el}
-          else
-            {:cont, el}
-          end
-        end)
-      end
+    |> Enum.reduce([], fn el, acc ->
+      parsed_el =
+        if el =~ "http://" or el =~ "https://" do
+          el
+        else
+          Enum.reduce_while(@watched_domain_names, el, fn ext, el ->
+            if String.ends_with?(el, ext) or el =~ ext <> "/" do
+              {:halt, "http://" <> el}
+            else
+              {:cont, el}
+            end
+          end)
+        end
 
       url = URL.parse(parsed_el)
 

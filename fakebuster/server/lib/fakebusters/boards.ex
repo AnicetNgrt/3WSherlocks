@@ -149,6 +149,13 @@ defmodule Fakebusters.Boards do
     res
   end
 
+  def seconds_left(%Board{duration_sec: ds, inserted_at: inserted_at}) do
+    now_ndt = NaiveDateTime.local_now()
+
+    NaiveDateTime.add(inserted_at, ds, :second)
+    |> NaiveDateTime.diff(now_ndt, :second)
+  end
+
   def create_board_with_judge(attrs, %User{id: id} = _judge) do
     res =
       Repo.transaction(fn ->

@@ -107,7 +107,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     |> Map.put("channel", Channels.channel_to_num(socket.assigns[:channel]))
   end
 
-  # HACK
+  # TODO find the root of this issue
   # For some reason members board messages never sort in the right order
   # So I have to reverse them here
   defp fetch_messages(board_id, :members) do

@@ -37,11 +37,16 @@ defmodule FakebustersWeb.TimeHelpers do
         {hours, sec} -> {sec, ["#{hours} hours" | parts]}
       end
 
-    {_sec, parts} =
+    {sec, parts} =
       case extract_minutes(sec) do
         {0, sec} -> {sec, parts}
         {minutes, sec} -> {sec, ["#{minutes} minutes" | parts]}
       end
+
+    parts = case sec do
+      0 -> parts
+      _ -> ["#{sec} seconds" | parts]
+    end
 
     Enum.join(Enum.reverse(parts), " ")
   end

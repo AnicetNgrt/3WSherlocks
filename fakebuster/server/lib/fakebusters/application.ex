@@ -17,7 +17,8 @@ defmodule Fakebusters.Application do
       FakebustersWeb.Endpoint,
       # Start a worker by calling: Fakebusters.Worker.start_link(arg)
       # {Fakebusters.Worker, arg}
-      {Fakebusters.Topics.Initiator, []}
+      {Fakebusters.Topics.Initiator, []},
+      {DynamicSupervisor, strategy: :one_for_one, name: Fakebusters.CountdownsSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

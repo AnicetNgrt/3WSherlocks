@@ -9,13 +9,14 @@ defmodule FakebustersWeb.BoardListLive do
   alias FakebustersWeb.LiveComponents.BoardPreview
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, %{"mode" => mode} = session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
 
     socket =
       socket
+      |> assign(:mode, mode)
       |> assign(:current_user, user)
-      |> refresh_list()
+      |> refresh_list(mode)
 
     Boards.subscribe_globally()
 
@@ -24,10 +25,10 @@ defmodule FakebustersWeb.BoardListLive do
 
   @impl true
   def handle_info({Boards, _, _}, socket) do
-    {:noreply, refresh_list(socket)}
+    {:noreply, refresh_list(socket, socket.assigns[:mode])}
   end
 
-  defp refresh_list(socket) do
+  defp refresh_list(socket, _) do
     user = socket.assigns[:current_user]
 
     boards =
