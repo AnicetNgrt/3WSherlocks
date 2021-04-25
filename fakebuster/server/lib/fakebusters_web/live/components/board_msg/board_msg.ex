@@ -108,7 +108,9 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
 
     ~L"""
       <p class="<%= if is_author do 'mr-4' else 'ml-4' end%> mt-2">
-        <%= user.username %> <%= user.emoji %> just joined as a <%= role_hr %>
+        <%= user.username %> <%= user.emoji %>
+        <span class="text-yellow-300">just joined as a</span>
+        <%= role_hr %>
       </p>
     """
   end

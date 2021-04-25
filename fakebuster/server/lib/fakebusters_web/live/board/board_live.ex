@@ -19,8 +19,23 @@ defmodule FakebustersWeb.BoardLive do
       |> assign(:current_user, user)
       |> assign(:channels, channels)
       |> assign(:current_channel, List.first(channels))
-      |> assign(:role, BoardMember.role_to_atom(role))
+      |> assign(:role, role)
 
     {:ok, socket}
+  end
+
+  def handle_event("previous_channel", _, socket) do
+    {:noreply, shift_channel(socket, -1)}
+  end
+
+  def handle_event("next_channel", _, socket) do
+    {:noreply, shift_channel(socket, 1)}
+  end
+
+  def shift_channel(socket, shift) do
+    current_index = Enum.find_index(socket.assigns[:channels], &(&1 == socket.assigns[:current_channel]))
+    new_index = rem(current_index + shift, Enum.count(socket.assigns[:channels]))
+
+    assign(socket, :current_channel, Enum.at(socket.assigns[:channels], new_index))
   end
 end

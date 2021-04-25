@@ -14,6 +14,8 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
         %{"board" => board, "role" => role, "user" => user, "channel" => channel} = session,
         socket
       ) do
+    IO.puts("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
+
     Boards.subscribe_to_board_channel(board.id, channel)
     messages = fetch_messages(board.id, channel)
 

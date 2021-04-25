@@ -59,4 +59,8 @@ defmodule Fakebusters.Boards.BoardMember do
       end
     end)
   end
+
+  def channel_human_readable(:events, _), do: "Administration events"
+  def channel_human_readable(:members, _), do: "Members board"
+
 end
