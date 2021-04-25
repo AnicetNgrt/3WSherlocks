@@ -34,7 +34,7 @@
     " style="
         max-height: 55rem;
     ">
-        <%= for board <- @boards do %>
+        <%= for board <- Enum.reverse(@boards) do %>
             <%= live_component @socket, BoardPreview, board: board, horizontal: false %>
         <% end %>
     </div>

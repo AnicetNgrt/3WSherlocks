@@ -6,7 +6,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
   alias FakebustersWeb.LiveComponents.BoardMsg
-  alias Fakebusters.Boards.BoardMember
+  alias Fakebusters.Boards.{BoardMember, Channels}
 
   @impl true
   def mount(
@@ -22,6 +22,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
       |> assign(:board, board)
       |> assign(:current_user, user)
       |> assign(:role, role)
+      |> assign(:textable, Channels.textable_channel?(channel))
       |> assign(
         :messages,
         Enum.map(messages, fn msg ->
@@ -124,5 +125,20 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
           bg-indigo-800
         """
       end
+  end
+
+  defp message_input_styles() do
+    "
+    appearance-none
+    text-md
+    w-full h-32
+    px-3 py-2
+    focus:outline-none focus:ring-2 ring-offset-2 ring-black
+    rounded-md rounded-r-none
+    border-2 border-r-0 border-indigo-800
+    bg-transparent
+    scrollbar scrollbar-thumb-indigo-600 scrollbar-track-indigo-900
+    resize-none
+    "
   end
 end

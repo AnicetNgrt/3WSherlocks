@@ -13,7 +13,7 @@
         width: 64ch;
         max-width: 100vw;
     ">
-        <div class="flex-grow mr-2 px-3 py-2 border-indigo-800 border-2 rounded-md">
+        <div class="w-full mr-2 px-3 py-2 border-indigo-800 border-2 rounded-md">
             <h1 class="italic text-yellow-300 mb-2">Fact debated</h1>
             <p class="text-lg">"<%= @board.fact %>"</p>
         </div>

@@ -52,6 +52,10 @@ defmodule Fakebusters.Boards do
     )
   end
 
+  def board_channel_messages(_, _) do
+    []
+  end
+
   @doc """
   Returns the list of boards.
 
@@ -498,5 +502,101 @@ defmodule Fakebusters.Boards do
   """
   def change_join_request(%JoinRequest{} = join_request, attrs \\ %{}) do
     JoinRequest.changeset(join_request, attrs)
+  end
+
+  alias Fakebusters.Boards.BoardMessage
+
+  @doc """
+  Returns the list of board_messages.
+
+  ## Examples
+
+      iex> list_board_messages()
+      [%BoardMessage{}, ...]
+
+  """
+  def list_board_messages do
+    Repo.all(BoardMessage)
+  end
+
+  @doc """
+  Gets a single board_message.
+
+  Raises `Ecto.NoResultsError` if the Board message does not exist.
+
+  ## Examples
+
+      iex> get_board_message!(123)
+      %BoardMessage{}
+
+      iex> get_board_message!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_board_message!(id), do: Repo.get!(BoardMessage, id)
+
+  @doc """
+  Creates a board_message.
+
+  ## Examples
+
+      iex> create_board_message(%{field: value})
+      {:ok, %BoardMessage{}}
+
+      iex> create_board_message(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_board_message(attrs \\ %{}) do
+    %BoardMessage{}
+    |> BoardMessage.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a board_message.
+
+  ## Examples
+
+      iex> update_board_message(board_message, %{field: new_value})
+      {:ok, %BoardMessage{}}
+
+      iex> update_board_message(board_message, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_board_message(%BoardMessage{} = board_message, attrs) do
+    board_message
+    |> BoardMessage.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a board_message.
+
+  ## Examples
+
+      iex> delete_board_message(board_message)
+      {:ok, %BoardMessage{}}
+
+      iex> delete_board_message(board_message)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_board_message(%BoardMessage{} = board_message) do
+    Repo.delete(board_message)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking board_message changes.
+
+  ## Examples
+
+      iex> change_board_message(board_message)
+      %Ecto.Changeset{data: %BoardMessage{}}
+
+  """
+  def change_board_message(%BoardMessage{} = board_message, attrs \\ %{}) do
+    BoardMessage.changeset(board_message, attrs)
   end
 end

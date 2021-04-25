@@ -224,4 +224,65 @@ defmodule Fakebusters.BoardsTest do
       assert %Ecto.Changeset{} = Boards.change_join_request(join_request)
     end
   end
+
+  describe "board_messages" do
+    alias Fakebusters.Boards.BoardMessage
+
+    @valid_attrs %{body: "some body", channel: 42}
+    @update_attrs %{body: "some updated body", channel: 43}
+    @invalid_attrs %{body: nil, channel: nil}
+
+    def board_message_fixture(attrs \\ %{}) do
+      {:ok, board_message} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Boards.create_board_message()
+
+      board_message
+    end
+
+    test "list_board_messages/0 returns all board_messages" do
+      board_message = board_message_fixture()
+      assert Boards.list_board_messages() == [board_message]
+    end
+
+    test "get_board_message!/1 returns the board_message with given id" do
+      board_message = board_message_fixture()
+      assert Boards.get_board_message!(board_message.id) == board_message
+    end
+
+    test "create_board_message/1 with valid data creates a board_message" do
+      assert {:ok, %BoardMessage{} = board_message} = Boards.create_board_message(@valid_attrs)
+      assert board_message.body == "some body"
+      assert board_message.channel == 42
+    end
+
+    test "create_board_message/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Boards.create_board_message(@invalid_attrs)
+    end
+
+    test "update_board_message/2 with valid data updates the board_message" do
+      board_message = board_message_fixture()
+      assert {:ok, %BoardMessage{} = board_message} = Boards.update_board_message(board_message, @update_attrs)
+      assert board_message.body == "some updated body"
+      assert board_message.channel == 43
+    end
+
+    test "update_board_message/2 with invalid data returns error changeset" do
+      board_message = board_message_fixture()
+      assert {:error, %Ecto.Changeset{}} = Boards.update_board_message(board_message, @invalid_attrs)
+      assert board_message == Boards.get_board_message!(board_message.id)
+    end
+
+    test "delete_board_message/1 deletes the board_message" do
+      board_message = board_message_fixture()
+      assert {:ok, %BoardMessage{}} = Boards.delete_board_message(board_message)
+      assert_raise Ecto.NoResultsError, fn -> Boards.get_board_message!(board_message.id) end
+    end
+
+    test "change_board_message/1 returns a board_message changeset" do
+      board_message = board_message_fixture()
+      assert %Ecto.Changeset{} = Boards.change_board_message(board_message)
+    end
+  end
 end

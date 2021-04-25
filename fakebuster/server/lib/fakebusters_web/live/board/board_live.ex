@@ -5,13 +5,13 @@ defmodule FakebustersWeb.BoardLive do
   use Phoenix.HTML
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
-  alias Fakebusters.Boards.{JoinRequest, BoardMember}
+  alias Fakebusters.Boards.{JoinRequest, Channels}
 
   @impl true
   def mount(params, %{"board" => board} = session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
     role = Boards.role(board, user)
-    channels = BoardMember.role_channels(role)
+    channels = Channels.role_channels(role)
 
     socket =
       socket
