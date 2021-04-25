@@ -1,5 +1,5 @@
 <main role="main">
-  <div class="hidden relative justify-center">
+  <div class="flex relative justify-center">
     <p class="
       absolute
       border-2 border-green-500
