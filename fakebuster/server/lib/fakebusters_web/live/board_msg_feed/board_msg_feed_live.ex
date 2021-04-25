@@ -86,6 +86,12 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
 
   @impl true
   def handle_info({Boards, :new, message}, socket) do
+    author = Accounts.get_user!(message.user_id)
+
+    message
+    |> Map.put(:author, author)
+    |> Map.put(:author_role, Boards.role(socket.assigns[:board], author))
+
     {:noreply, assign(socket, :messages, [message | socket.assigns[:messages]])}
   end
 

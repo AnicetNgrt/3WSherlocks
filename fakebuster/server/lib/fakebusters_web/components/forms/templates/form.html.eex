@@ -1,6 +1,6 @@
 <div
 class="
-    my-5 sm:m-6 md:m-8
+    sm:mx-6 md:mx-8
     px-3 sm:px-6 py-4
     rounded-md
     border-2 border-indigo-800

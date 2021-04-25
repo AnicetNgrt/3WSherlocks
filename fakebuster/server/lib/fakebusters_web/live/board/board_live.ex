@@ -5,7 +5,7 @@ defmodule FakebustersWeb.BoardLive do
   use Phoenix.HTML
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
-  alias Fakebusters.Boards.{JoinRequest, Channels}
+  alias Fakebusters.Boards.{JoinRequest, Channels, BoardMember}
 
   @impl true
   def mount(params, %{"board" => board} = session, socket) do
@@ -16,6 +16,7 @@ defmodule FakebustersWeb.BoardLive do
     socket =
       socket
       |> assign(:board, board)
+      |> assign(:judge, Boards.judge(board))
       |> assign(:current_user, user)
       |> assign(:channels, channels)
       |> assign(:current_channel, List.first(channels))

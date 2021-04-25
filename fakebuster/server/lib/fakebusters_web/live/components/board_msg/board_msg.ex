@@ -126,7 +126,7 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
         <%= for el <- Enum.reverse(wrap_hyperlinks(message.body)) do %>
           <%= case el do %>
             <% {:link, %{href: href, host: host, path: path}} -> %>
-              <a href="<%= href %>" class="<%= message_links_style() %>"><%= host %><%= path %></a>
+              <a href="<%= href %>" target="_blank" class="<%= message_links_style() %>"><%= host %><%= path %></a>
             <% {:word, word} -> %>
               <%= word %>
           <% end %>
