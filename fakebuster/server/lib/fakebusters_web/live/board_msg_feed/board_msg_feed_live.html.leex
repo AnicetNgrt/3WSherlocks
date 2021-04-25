@@ -14,20 +14,22 @@ style="
     height: 30rem;
 ">
     <%= for message <- @messages do %>
-        <% is_author = message.user_id == @current_user.id %>
+        <% if message.author do %>
+            <% is_author = message.user_id == @current_user.id %>
 
-        <div class="<%= message_styles(is_author) %>"
-            style="word-break: break-word;">
-            <p class="<%= author_styles(is_author) %>">
-            <%= message_header(
-                NaiveDateTime.to_string(message.inserted_at),
-                message.author,
-                BoardMember.role_human_readable(message.author_role),
-                is_author
-            ) %>
-            </p>
-        <%= live_component @socket, BoardMsg, id: message.id, board_id: @board.id, message: message, is_author: is_author %>
-        </div>
+            <div class="<%= message_styles(is_author) %>"
+                style="word-break: break-word;">
+                <p class="<%= author_styles(is_author) %>">
+                <%= message_header(
+                    NaiveDateTime.to_string(message.inserted_at),
+                    message.author,
+                    BoardMember.role_human_readable(message.author_role),
+                    is_author
+                ) %>
+                </p>
+            <%= live_component @socket, BoardMsg, id: message.id, board_id: @board.id, message: message, is_author: is_author %>
+            </div>
+        <% end %>
     <% end %>
 </div>
 <%= if @textable do %>
