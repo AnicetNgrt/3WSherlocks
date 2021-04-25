@@ -100,7 +100,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     messages = socket.assigns[:messages]
     |> Enum.filter(&(&1.id != message.id))
 
-    {:noreply, assign(socket, :messages, message)}
+    {:noreply, assign(socket, :messages, messages)}
   end
 
   defp add_message_meta(socket, params) do
