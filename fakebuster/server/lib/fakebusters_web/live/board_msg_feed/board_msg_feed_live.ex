@@ -162,12 +162,14 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     """ <>
       if is_author do
         """
+          ml-3
           self-end
           rounded-tr-none
           bg-indigo-600
         """
       else
         """
+          mr-3
           rounded-tl-none
           bg-indigo-800
         """

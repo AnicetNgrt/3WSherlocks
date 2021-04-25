@@ -1,12 +1,12 @@
 <div phx-hook="Messages" id="<%= @channel %>" class="
     messages
     flex flex-col
-    px-6 py-6 pr-8
+    xs:px-3 xs:py-3 xs:pr-6 xs:px-6 xs:py-6 xs:pr-8
     sm:mx-6 md:mx-8 mt-0
     rounded-md rounded-t-none <%= if @textable do 'rounded-b-none' end %>
     border-indigo-800 border-2 border-t-0
     overflow-y-auto
-    sm:scrollbar sm:scrollbar-thumb-indigo-600 sm:scrollbar-track-indigo-900
+    xs:scrollbar xs:scrollbar-thumb-indigo-600 xs:scrollbar-track-indigo-900
 "
 style="
     width: 64ch;
