@@ -21,7 +21,7 @@ style="
             <p class="<%= author_styles(is_author) %>">
             <%= message_header(
                 NaiveDateTime.to_string(message.inserted_at),
-                message.user_id,
+                message.author,
                 BoardMember.role_human_readable(message.author_role),
                 is_author
             ) %>
