@@ -1,4 +1,6 @@
 defmodule Fakebusters.Boards.BoardMember do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -14,7 +16,7 @@ defmodule Fakebusters.Boards.BoardMember do
   def changeset(board_member, attrs) do
     board_member
     |> cast(attrs, [:role, :user_id, :board_id])
-    |> validate_inclusion(:role, [0, 1, 2])
+    |> validate_inclusion(:role, [0, 1, 2, 3, 4])
     |> validate_required([:role, :user_id, :board_id])
     |> unsafe_validate_unique([:user_id, :board_id], Fakebusters.Repo)
   end
@@ -25,4 +27,36 @@ defmodule Fakebusters.Boards.BoardMember do
   def role_to_atom(3), do: :truthy_defender
   def role_to_atom(4), do: :falsy_defender
   def role_to_atom(_), do: nil
+
+  def role_human_readable(role) do
+    case role do
+      0 -> "judge"
+      1 -> "truthy side's advocate"
+      2 -> "falsy side's advocate"
+      3 -> "truthy side's defender"
+      4 -> "falsy side's defender"
+      nil -> "outsider"
+    end
+  end
+
+  @channels [
+    %{
+      name: :events,
+      whitelist: [0]
+    },
+    %{
+      name: :members,
+      whitelist: [0, 1, 2, 3, 4]
+    }
+  ]
+
+  def role_channels(role) do
+    Enum.reduce(@channels, [], fn (channel, list) ->
+      if Enum.member?(channel.whitelist, role) do
+        [channel.name | list]
+      else
+        list
+      end
+    end)
+  end
 end

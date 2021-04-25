@@ -3,17 +3,17 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
 
   use Phoenix.LiveComponent
   alias Fakebusters.Boards
+  alias Fakebusters.Accounts
   alias Fakebusters.Boards.JoinRequest
-  import FakebustersWeb.RolesHelpers
+  alias Fakebusters.Boards.BoardMember
 
   def render(
         %{
-          board_id: _board_id,
           message: %JoinRequest{} = message,
           is_author: is_author
         } = assigns
       ) do
-    preferred_role = human_readable_role(message.preferred_role)
+    preferred_role = BoardMember.role_human_readable(message.preferred_role)
 
     ~L"""
       <h1 class="text-xl my-2">Join request</h1>
@@ -94,6 +94,22 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
           Defender
         </button>
       </div>
+    """
+  end
+
+  def render(
+        %{
+          message: %BoardMember{} = message,
+          is_author: is_author
+        } = assigns
+      ) do
+    user = Accounts.get_user!(message.user_id)
+    role_hr = BoardMember.role_human_readable(message.role)
+
+    ~L"""
+      <p class="<%= if is_author do 'mr-4' else 'ml-4' end%> mt-2">
+        <%= user.username %> <%= user.emoji %> just joined as a <%= role_hr %>
+      </p>
     """
   end
 

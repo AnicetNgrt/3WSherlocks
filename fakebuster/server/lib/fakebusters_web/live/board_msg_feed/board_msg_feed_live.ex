@@ -6,7 +6,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
   alias FakebustersWeb.LiveComponents.BoardMsg
-  import FakebustersWeb.RolesHelpers
+  alias Fakebusters.Boards.BoardMember
 
   @impl true
   def mount(
@@ -14,7 +14,8 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
         %{"board" => board, "role" => role, "user" => user, "channel" => channel} = session,
         socket
       ) do
-    messages = fetch_messages(board, user, channel)
+    Boards.subscribe_to_board_channel(board.id, channel)
+    messages = fetch_messages(board.id, channel)
 
     socket =
       socket
@@ -53,8 +54,20 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     {:noreply, socket}
   end
 
-  defp fetch_messages(board, _user, :events) do
-    Boards.board_events(board)
+  @impl true
+  def handle_info({Boards, :new, message}, socket) do
+    {:noreply,
+      assign(socket, [message | socket.assigns[:messages]])}
+  end
+
+  @impl true
+  def handle_info({Boards, :delete, message}, socket) do
+    {:noreply,
+      assign(socket, List.delete(socket.assigns[:messages], message))}
+  end
+
+  defp fetch_messages(board_id, channel) when is_atom(channel) do
+    Boards.board_channel_messages(board_id, channel)
   end
 
   defp fetch_messages(_, _, _) do

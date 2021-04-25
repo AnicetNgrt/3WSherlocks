@@ -18,6 +18,10 @@ defmodule Fakebusters.Boards do
     Phoenix.PubSub.subscribe(Fakebusters.PubSub, @topic)
   end
 
+  def subscribe_to_board_channel(board_id, channel) do
+    Phoenix.PubSub.subscribe(Fakebusters.PubSub, "#{@topic}:B#{board_id}/#{channel}")
+  end
+
   def notify_global_subscribers(payload, event) do
     Phoenix.PubSub.broadcast(
       Fakebusters.PubSub,
@@ -26,9 +30,24 @@ defmodule Fakebusters.Boards do
     )
   end
 
-  def board_events(%Board{id: id} = board) do
+  def notify_board_channel_subscribers(board_id, channel, event, payload) do
+    Phoenix.PubSub.broadcast(
+      Fakebusters.PubSub,
+      "#{@topic}:B#{board_id}/#{channel}",
+      {__MODULE__, event, payload}
+    )
+  end
+
+  def board_channel_messages(board_id, :events) do
     Enum.sort(
-      board_join_requests(board),
+      board_join_requests(board_id),
+      &(&1.inserted_at > &2.inserted_at)
+    )
+  end
+
+  def board_channel_messages(board_id, :members) do
+    Enum.sort(
+      board_members(board_id),
       &(&1.inserted_at > &2.inserted_at)
     )
   end
@@ -301,6 +320,13 @@ defmodule Fakebusters.Boards do
     |> Repo.insert()
   end
 
+  def board_members(board_id) do
+    query = from bm in BoardMember,
+      where: [board_id: ^board_id]
+
+    Repo.all(query)
+  end
+
   @doc """
   Updates a board_member.
 
@@ -385,7 +411,7 @@ defmodule Fakebusters.Boards do
     Repo.aggregate(query, :count) > 0
   end
 
-  def board_join_requests(%Board{id: board_id}) do
+  def board_join_requests(board_id) do
     query =
       from jr in JoinRequest,
         where: [board_id: ^board_id]
@@ -406,9 +432,17 @@ defmodule Fakebusters.Boards do
 
   """
   def create_join_request(attrs \\ %{}) do
-    %JoinRequest{}
+    res = %JoinRequest{}
     |> JoinRequest.changeset(attrs)
     |> Repo.insert()
+
+    case res do
+      {:ok, jr} ->
+        notify_board_channel_subscribers(jr.board_id, :events, :new, jr)
+        res
+
+      _ -> res
+    end
   end
 
   @doc """
@@ -442,7 +476,15 @@ defmodule Fakebusters.Boards do
 
   """
   def delete_join_request(%JoinRequest{} = join_request) do
-    Repo.delete(join_request)
+    res = Repo.delete(join_request)
+
+    case res do
+      {:ok, jr} ->
+        notify_board_channel_subscribers(jr.board_id, :events, :delete, jr)
+        res
+
+      _ -> res
+    end
   end
 
   @doc """
