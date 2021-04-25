@@ -14,7 +14,7 @@ style="
     height: 30rem;
 ">
     <%= for message <- @messages do %>
-        <% if message.author do %>
+        <% if Map.has_key?(message, :author) do %>
             <% is_author = message.user_id == @current_user.id %>
 
             <div class="<%= message_styles(is_author) %>"
