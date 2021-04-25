@@ -12,8 +12,12 @@
         px-4 py-10
         divide-y-2 divide-indigo-800
     ">
-        <%= for board <- @boards do %>
-            <%= live_component @socket, BoardPreview, board: board, horizontal: true %>
+        <%= if length(@boards) > 0 do %>
+            <%= for board <- @boards do %>
+                <%= live_component @socket, BoardPreview, board: board, horizontal: true %>
+            <% end %>
+        <% else %>
+            <p class="text-xl text-indigo-500">There is nothing there yet 📭</p>
         <% end %>
     </div>
 </div>
