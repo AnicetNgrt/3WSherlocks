@@ -34,7 +34,7 @@
                                 ← <span class="hidden sm:inline">Previous</span>
                             </button>
                         <% end %>
-                        <p><%= Channels.channel_human_readable(@current_channel, @role) %></p>
+                        <p class="px-3"><%= Channels.channel_human_readable(@current_channel, @role) %></p>
                         <%= if Enum.count(@channels) > 1 do %>
                             <button phx-click="next_channel" class="
                                 px-3 py-2
