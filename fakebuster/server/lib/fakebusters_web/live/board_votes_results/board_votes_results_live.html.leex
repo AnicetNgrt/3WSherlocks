@@ -1,0 +1,16 @@
+<div class="flex justify-around">
+    <div class="flex flex-col items-center">
+        <h1 class="text-lg text-blue-300">Truthy</h1>
+        <p class="m-2 px-2 py-1 text-2xl">
+            <%= @value_truthy %>
+            <span class="text-sm">(<%= @percent_truthy %>%)</span>
+        </p>
+    </div>
+    <div class="flex flex-col items-center">
+        <h1 class="text-lg text-red-300">False</h1>
+        <p class="m-2 px-2 py-1 text-2xl">
+            <%= @value_false %>
+            <span class="text-sm">(<%= @percent_false %>%)</span>
+        </p>
+    </div>
+</div>

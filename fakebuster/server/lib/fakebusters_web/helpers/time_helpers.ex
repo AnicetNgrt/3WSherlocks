@@ -43,11 +43,42 @@ defmodule FakebustersWeb.TimeHelpers do
         {minutes, sec} -> {sec, ["#{minutes} minutes" | parts]}
       end
 
-    parts = case sec do
-      0 -> parts
-      _ -> ["#{sec} seconds" | parts]
-    end
+    parts =
+      case sec do
+        0 -> parts
+        _ -> ["#{sec} seconds" | parts]
+      end
 
     Enum.join(Enum.reverse(parts), " ")
+  end
+
+  def digital_time(sec) do
+    parts = [""]
+
+    {sec, parts} =
+      case extract_days(sec) do
+        {0, sec} -> {sec, parts}
+        {days, sec} -> {sec, ["#{days}" | parts]}
+      end
+
+    {sec, parts} =
+      case extract_hours(sec) do
+        {0, sec} -> {sec, parts}
+        {hours, sec} -> {sec, ["#{hours}" | parts]}
+      end
+
+    {sec, parts} =
+      case extract_minutes(sec) do
+        {0, sec} -> {sec, parts}
+        {minutes, sec} -> {sec, ["#{minutes}" | parts]}
+      end
+
+    parts =
+      case sec do
+        0 -> parts
+        _ -> ["#{sec}" | parts]
+      end
+
+    Enum.join(Enum.reverse(parts), ":")
   end
 end

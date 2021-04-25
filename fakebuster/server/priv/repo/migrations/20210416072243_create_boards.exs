@@ -6,13 +6,11 @@ defmodule Fakebusters.Repo.Migrations.CreateBoards do
       add :fact, :string
       add :description, :text
       add :rules, :text
-      add :phase, :integer
-      add :verdict_truthy, :integer
-      add :verdict_falsy, :integer
+      add :finished, :boolean
 
       timestamps()
     end
 
-    create index(:boards, [:phase])
+    create index(:boards, [:finished])
   end
 end

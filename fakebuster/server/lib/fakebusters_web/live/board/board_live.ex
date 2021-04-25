@@ -19,6 +19,7 @@ defmodule FakebustersWeb.BoardLive do
     seconds_left = Boards.seconds_left(board)
 
     Boards.subscribe_to_board_channel(board.id, :events)
+    Boards.subscribe_to_board_channel(board.id, :votes)
 
     countdown_id = :crypto.rand_uniform(0, 9_999_999)
     {:ok, _} = Countdown.spawn_and_subscribe(countdown_id, seconds_left)
@@ -46,7 +47,20 @@ defmodule FakebustersWeb.BoardLive do
 
   @impl true
   def handle_info({Countdown, :countdown, seconds_left}, socket) do
-    {:noreply, assign(socket, :seconds_left, seconds_left)}
+    if not socket.assigns[:board].finished do
+      board = if seconds_left < 1 do
+        Boards.update_board(socket.assigns[:board], %{"finished" => true})
+      end
+
+      socket =
+        socket
+        |> assign(:board, board)
+        |> assign(:seconds_left, seconds_left)
+
+      {:noreply, socket}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
@@ -56,6 +70,11 @@ defmodule FakebustersWeb.BoardLive do
     else
       {:noreply, socket}
     end
+  end
+
+  @impl true
+  def handle_info(_, socket) do
+    {:noreply, socket}
   end
 
   defp shift_channel(socket, shift) do

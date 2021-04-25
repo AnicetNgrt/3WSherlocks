@@ -1,6 +1,6 @@
 <div class="board flex flex-wrap justify-center items-start max-w-full py-0">
     <%= live_render(@conn, FakebustersWeb.BoardLive, session: %{"board" => @board}) %>
-    <div class="min-w-max w-1/3 my-6">
+    <div class="my-6" style="width: 100vw;">
         <%= live_render(@conn, FakebustersWeb.BoardTutorialLive) %>
     </div>
 </div>

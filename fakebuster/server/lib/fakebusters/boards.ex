@@ -54,6 +54,10 @@ defmodule Fakebusters.Boards do
     )
   end
 
+  def board_channel_messages(board_id, :votes) do
+    get_votes_for_board(board_id)
+  end
+
   def board_channel_messages(board_id, channel_name) do
     num = Channels.channel_to_num(channel_name)
     textable = Channels.textable_channel?(num)
@@ -150,7 +154,7 @@ defmodule Fakebusters.Boards do
   end
 
   def seconds_left(%Board{duration_sec: ds, inserted_at: inserted_at}) do
-    now_ndt = NaiveDateTime.local_now()
+    now_ndt = NaiveDateTime.utc_now()
 
     NaiveDateTime.add(inserted_at, ds, :second)
     |> NaiveDateTime.diff(now_ndt, :second)
@@ -279,6 +283,8 @@ defmodule Fakebusters.Boards do
 
     Repo.aggregate(query, :count) > 0
   end
+
+  def is_member?(_, _), do: false
 
   def role(%Board{id: board_id}, %User{id: user_id}) do
     query =
@@ -639,5 +645,127 @@ defmodule Fakebusters.Boards do
   """
   def change_board_message(%BoardMessage{} = board_message, attrs \\ %{}) do
     BoardMessage.changeset(board_message, attrs)
+  end
+
+  alias Fakebusters.Boards.BoardVote
+
+  @doc """
+  Returns the list of board_votes.
+
+  ## Examples
+
+      iex> list_board_votes()
+      [%BoardVote{}, ...]
+
+  """
+  def list_board_votes do
+    Repo.all(BoardVote)
+  end
+
+  def get_votes_for_board(board_id) do
+    query =
+      from jr in BoardVote,
+        where: [board_id: ^board_id]
+
+    Repo.all(query)
+  end
+
+  def user_already_has_voted?(%User{id: user_id}, %Board{id: board_id}) do
+    query =
+      from jr in BoardVote,
+        where: [user_id: ^user_id, board_id: ^board_id]
+
+    Repo.aggregate(query, :count) > 0
+  end
+
+  @doc """
+  Gets a single board_vote.
+
+  Raises `Ecto.NoResultsError` if the Board vote does not exist.
+
+  ## Examples
+
+      iex> get_board_vote!(123)
+      %BoardVote{}
+
+      iex> get_board_vote!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_board_vote!(id), do: Repo.get!(BoardVote, id)
+
+  @doc """
+  Creates a board_vote.
+
+  ## Examples
+
+      iex> create_board_vote(%{field: value})
+      {:ok, %BoardVote{}}
+
+      iex> create_board_vote(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_board_vote(attrs, voter_role) do
+    res =
+      %BoardVote{}
+      |> BoardVote.changeset(attrs, voter_role)
+      |> Repo.insert()
+
+    case res do
+      {:ok, bv} ->
+        notify_board_channel_subscribers(bv.board_id, :votes, :new, bv)
+        res
+
+      _ ->
+        res
+    end
+  end
+
+  @doc """
+  Updates a board_vote.
+
+  ## Examples
+
+      iex> update_board_vote(board_vote, %{field: new_value})
+      {:ok, %BoardVote{}}
+
+      iex> update_board_vote(board_vote, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_board_vote(%BoardVote{} = board_vote, attrs) do
+    board_vote
+    |> BoardVote.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a board_vote.
+
+  ## Examples
+
+      iex> delete_board_vote(board_vote)
+      {:ok, %BoardVote{}}
+
+      iex> delete_board_vote(board_vote)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_board_vote(%BoardVote{} = board_vote) do
+    Repo.delete(board_vote)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking board_vote changes.
+
+  ## Examples
+
+      iex> change_board_vote(board_vote)
+      %Ecto.Changeset{data: %BoardVote{}}
+
+  """
+  def change_board_vote(%BoardVote{} = board_vote, attrs, voter_role) do
+    BoardVote.changeset(board_vote, attrs, voter_role)
   end
 end

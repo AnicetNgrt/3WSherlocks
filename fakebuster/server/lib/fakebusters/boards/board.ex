@@ -8,11 +8,9 @@ defmodule Fakebusters.Boards.Board do
   schema "boards" do
     field :description, :string
     field :fact, :string
-    field :phase, :integer
+    field :finished, :boolean, default: false
     field :rules, :string
     field :duration_sec, :integer
-    field :verdict_falsy, :integer
-    field :verdict_truthy, :integer
     belongs_to :topic, Topic
 
     timestamps()
@@ -21,7 +19,7 @@ defmodule Fakebusters.Boards.Board do
   @doc false
   def changeset(board, attrs) do
     board
-    |> cast(attrs, [:fact, :description, :rules, :duration_sec, :topic_id])
+    |> cast(attrs, [:fact, :description, :rules, :duration_sec, :topic_id, :finished])
     |> validate_required([:fact, :description, :rules, :duration_sec, :topic_id])
     |> validate_length(:fact, min: 6, max: 128)
     |> validate_length(:description, max: 1000)

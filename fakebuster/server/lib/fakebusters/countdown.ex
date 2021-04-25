@@ -7,6 +7,7 @@ defmodule Fakebusters.Countdown do
 
   def spawn_and_subscribe(id, duration_sec) do
     Phoenix.PubSub.subscribe(Fakebusters.PubSub, "#{__MODULE__}#{id}")
+
     DynamicSupervisor.start_child(
       Fakebusters.CountdownsSupervisor,
       {__MODULE__, {id, duration_sec}}
@@ -14,11 +15,7 @@ defmodule Fakebusters.Countdown do
   end
 
   def start_link({id, duration_sec}) do
-    IO.puts("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    IO.inspect(id)
     name = String.to_atom("#{__MODULE__}#{id}")
-    IO.inspect(name)
-    IO.puts("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     GenServer.start_link(__MODULE__, {id, duration_sec}, name: name)
   end
 

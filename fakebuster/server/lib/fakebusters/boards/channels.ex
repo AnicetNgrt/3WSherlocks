@@ -27,7 +27,7 @@ defmodule Fakebusters.Boards.Channels do
   def channel_human_readable(:events, _), do: "Administration events"
   def channel_human_readable(:members, _), do: "Members board"
   def channel_human_readable(:judge_t_advocates, _), do: "Advocates (truthy) & Judge"
-  def channel_human_readable(:judge_f_advocates, _), do: "Advocates (falsy) & Judge"
+  def channel_human_readable(:judge_f_advocates, _), do: "Advocates (false) & Judge"
 
   def num_to_channel(num) do
     case Enum.at(@channels, num, nil) do

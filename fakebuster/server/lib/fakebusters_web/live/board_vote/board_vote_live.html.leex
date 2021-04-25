@@ -1,0 +1,24 @@
+<%= if not @already_voted do %>
+<div class="mb-6">
+    <%= c :forms, :form do %>
+        <h1 class="<%= tw_components()[:form_title] %>">Vote</h1>
+        <%= f = form_for @vote_changeset, "#", [phx_change: :validate, phx_submit: :save] %>
+            <%= c :forms, :field do %>
+                <%= select(
+                    f,
+                    :side,
+                    ["✅ Truthy": 0, "⛔ False": 1],
+                    prompt: "Pick a side ↓",
+                    required: true,
+                    class: tw_components()[:input_text]
+                ) %>
+                <%= error_tag f, :side, class: tw_components()[:field_error] %>
+            <% end %>
+
+            <%= c :forms, :buttons do %>
+                <%= submit "Vote", class: tw_components()[:form_submit] %>
+            <% end %>
+        </form>
+    <% end %>
+</div>
+<% end %>

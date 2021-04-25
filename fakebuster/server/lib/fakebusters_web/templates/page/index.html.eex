@@ -4,6 +4,7 @@ class="
     px-2 sm:px-4 py-12 lg:px-32 lg:py-16
     max-w-full
 ">
+    <%= if not @logged_in do %>
     <div
     class="
         transition duration-500 ease-in-out
@@ -45,6 +46,37 @@ class="
             <h2 class="mt-1 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-yellow-400">
                 bring back the light!
             </h2>
+        </div>
+    </div>
+    <div class="
+        hidden md:flex flex-col
+        justify-center items-center
+        w-full h-128
+        text-yellow-300
+    ">
+        <h1 class="animate-bounce mb-2">Scroll down</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" class="animate-bounce h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
+    <% end %>
+
+    <div class="flex flex-wrap justify-center">
+        <div class="flex flex-col items-center">
+            <h1 class="mt-16 text-yellow-300 text-2xl">Ongoing investigations: </h1>
+            <div class="px-0 md:px-16">
+                <%= live_render(@conn, FakebustersWeb.BoardListLive, session: %{
+                    "modes" => [:ongoing]
+                }) %>
+            </div>
+        </div>
+        <div class="flex flex-col items-center">
+            <h1 class="mt-16 text-yellow-300 text-2xl">Finished investigations: </h1>
+            <div class="px-0 md:px-16">
+                <%= live_render(@conn, FakebustersWeb.BoardListLive, session: %{
+                    "modes" => [:finished]
+                }) %>
+            </div>
         </div>
     </div>
 </section>

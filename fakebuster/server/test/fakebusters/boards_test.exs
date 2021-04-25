@@ -291,4 +291,68 @@ defmodule Fakebusters.BoardsTest do
       assert %Ecto.Changeset{} = Boards.change_board_message(board_message)
     end
   end
+
+  describe "board_votes" do
+    alias Fakebusters.Boards.BoardVote
+
+    @valid_attrs %{side: 42, value: 42}
+    @update_attrs %{side: 43, value: 43}
+    @invalid_attrs %{side: nil, value: nil}
+
+    def board_vote_fixture(attrs \\ %{}) do
+      {:ok, board_vote} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Boards.create_board_vote()
+
+      board_vote
+    end
+
+    test "list_board_votes/0 returns all board_votes" do
+      board_vote = board_vote_fixture()
+      assert Boards.list_board_votes() == [board_vote]
+    end
+
+    test "get_board_vote!/1 returns the board_vote with given id" do
+      board_vote = board_vote_fixture()
+      assert Boards.get_board_vote!(board_vote.id) == board_vote
+    end
+
+    test "create_board_vote/1 with valid data creates a board_vote" do
+      assert {:ok, %BoardVote{} = board_vote} = Boards.create_board_vote(@valid_attrs)
+      assert board_vote.side == 42
+      assert board_vote.value == 42
+    end
+
+    test "create_board_vote/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Boards.create_board_vote(@invalid_attrs)
+    end
+
+    test "update_board_vote/2 with valid data updates the board_vote" do
+      board_vote = board_vote_fixture()
+
+      assert {:ok, %BoardVote{} = board_vote} =
+               Boards.update_board_vote(board_vote, @update_attrs)
+
+      assert board_vote.side == 43
+      assert board_vote.value == 43
+    end
+
+    test "update_board_vote/2 with invalid data returns error changeset" do
+      board_vote = board_vote_fixture()
+      assert {:error, %Ecto.Changeset{}} = Boards.update_board_vote(board_vote, @invalid_attrs)
+      assert board_vote == Boards.get_board_vote!(board_vote.id)
+    end
+
+    test "delete_board_vote/1 deletes the board_vote" do
+      board_vote = board_vote_fixture()
+      assert {:ok, %BoardVote{}} = Boards.delete_board_vote(board_vote)
+      assert_raise Ecto.NoResultsError, fn -> Boards.get_board_vote!(board_vote.id) end
+    end
+
+    test "change_board_vote/1 returns a board_vote changeset" do
+      board_vote = board_vote_fixture()
+      assert %Ecto.Changeset{} = Boards.change_board_vote(board_vote)
+    end
+  end
 end

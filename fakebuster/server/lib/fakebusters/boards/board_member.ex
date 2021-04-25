@@ -23,18 +23,18 @@ defmodule Fakebusters.Boards.BoardMember do
 
   def role_to_atom(0), do: :judge
   def role_to_atom(1), do: :truthy_advocate
-  def role_to_atom(2), do: :falsy_advocate
+  def role_to_atom(2), do: :false_advocate
   def role_to_atom(3), do: :truthy_defender
-  def role_to_atom(4), do: :falsy_defender
+  def role_to_atom(4), do: :false_defender
   def role_to_atom(_), do: nil
 
   def role_human_readable(role) do
     case role do
       0 -> "judge"
       1 -> "truthy side's advocate"
-      2 -> "falsy side's advocate"
+      2 -> "false side's advocate"
       3 -> "truthy side's defender"
-      4 -> "falsy side's defender"
+      4 -> "false side's defender"
       nil -> "outsider"
     end
   end
