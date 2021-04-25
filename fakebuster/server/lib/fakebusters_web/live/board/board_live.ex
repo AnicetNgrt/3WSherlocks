@@ -19,6 +19,7 @@ defmodule FakebustersWeb.BoardLive do
     seconds_left = Boards.seconds_left(board)
 
     Boards.subscribe_to_board_channel(board.id, :events)
+    Boards.subscribe_to_board_channel(board.id, :members)
     Boards.subscribe_to_board_channel(board.id, :votes)
 
     countdown_id = :crypto.rand_uniform(0, 9_999_999)
