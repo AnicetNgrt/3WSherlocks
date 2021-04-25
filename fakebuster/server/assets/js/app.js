@@ -17,8 +17,25 @@ import {Socket} from "phoenix"
 import NProgress from "nprogress"
 import {LiveSocket} from "phoenix_live_view"
 
+let Hooks = {}
+
+// Automatic scrolling to bottom in messages lists
+
+Hooks.Messages = {
+  mounted() {
+    this.el.scrollTop = this.el.scrollHeight // Firefox & Safari
+    this.el.scrollTo({ scrollTop: this.el.scrollHeight }) // Chromium
+  },
+  updated() {
+    this.el.scrollTop = this.el.scrollHeight // Firefox & Safari
+    this.el.scrollTo({ scrollTop: this.el.scrollHeight }) // Chromium
+  }
+}
+
+// LiveView setup
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
 
 // Show progress bar on live navigation and form submits
 window.addEventListener("phx:page-loading-start", info => NProgress.start())
@@ -32,42 +49,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
-
-/// BEGIN BORROW
-
-// https://github.com/elixirschool/live-view-chat/blob/master/assets/js/app.js
-// Apache License 2.0
-// Lets you have automatic scrolling to bottom in messages lists
-
-// Select the node that will be observed for mutations
-const container = document.getElementsByClassName("messages")[0]
-
-console.log(JSON.stringify(container))
-
-document.addEventListener("DOMContentLoaded", function() {
-  console.log(JSON.stringify(container.scrollTop))
-  console.log(JSON.stringify(container.scrollTopMax))
-  console.log(JSON.stringify(container.scrollHeight))
-  container.scrollTop = container.scrollHeight
-  container.scrollTo({ scrollTop: container.scrollHeight })
-  console.log(JSON.stringify(container.scrollTop))
-  console.log(container)
-});
-
-// Options for the observer (which mutations to observe)
-let config = { attributes: true, childList: true, subtree: true };
-// Callback function to execute when mutations are observed
-var callback = function(mutationsList, observer) {
-  for(var mutation of mutationsList) {
-    if (mutation.type == 'childList') {
-      
-    }
-  }
-};
-// Create an observer instance linked to the callback function
-var observer = new MutationObserver(callback);
-// Start observing the target node for configured mutations
-observer.observe(container, config);
-
-/// END BORROW

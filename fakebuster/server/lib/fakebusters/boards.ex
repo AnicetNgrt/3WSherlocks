@@ -11,6 +11,8 @@ defmodule Fakebusters.Boards do
   alias Fakebusters.Boards.Board
   alias Fakebusters.Boards.BoardMember
   alias Fakebusters.Boards.JoinRequest
+  alias Fakebusters.Boards.Channels
+  alias Fakebusters.Boards.BoardMessage
 
   @topic inspect(__MODULE__)
 
@@ -52,8 +54,18 @@ defmodule Fakebusters.Boards do
     )
   end
 
-  def board_channel_messages(_, _) do
-    []
+  def board_channel_messages(board_id, channel_name) do
+    num = Channels.channel_to_num(channel_name)
+    textable = Channels.textable_channel?(num)
+
+    if textable do
+      query = from mc in BoardMessage,
+        where: [board_id: ^board_id, channel: ^num]
+
+      Repo.all(query)
+    else
+      []
+    end
   end
 
   @doc """
@@ -504,8 +516,6 @@ defmodule Fakebusters.Boards do
     JoinRequest.changeset(join_request, attrs)
   end
 
-  alias Fakebusters.Boards.BoardMessage
-
   @doc """
   Returns the list of board_messages.
 
@@ -548,9 +558,21 @@ defmodule Fakebusters.Boards do
 
   """
   def create_board_message(attrs \\ %{}) do
-    %BoardMessage{}
+    res = %BoardMessage{}
     |> BoardMessage.changeset(attrs)
     |> Repo.insert()
+
+    case res do
+      {:ok, bm} ->
+        notify_board_channel_subscribers(
+          bm.board_id,
+          Channels.num_to_channel(bm.channel),
+          :new,
+          bm)
+        res
+
+      _ -> res
+    end
   end
 
   @doc """

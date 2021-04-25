@@ -4,8 +4,7 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
   use Phoenix.LiveComponent
   alias Fakebusters.Boards
   alias Fakebusters.Accounts
-  alias Fakebusters.Boards.JoinRequest
-  alias Fakebusters.Boards.BoardMember
+  alias Fakebusters.Boards.{JoinRequest, BoardMember, BoardMessage}
 
   def render(
         %{
@@ -111,6 +110,19 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
         <%= user.username %> <%= user.emoji %>
         <span class="text-yellow-300">just joined as a</span>
         <%= role_hr %>
+      </p>
+    """
+  end
+
+  def render(
+        %{
+          message: %BoardMessage{} = message,
+          is_author: is_author
+        } = assigns
+      ) do
+    ~L"""
+      <p class="<%= if is_author do 'mr-4' else 'ml-4' end%> mt-2">
+        <%= message.body %>
       </p>
     """
   end

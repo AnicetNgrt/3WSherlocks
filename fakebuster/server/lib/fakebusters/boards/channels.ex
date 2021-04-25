@@ -31,8 +31,23 @@ defmodule Fakebusters.Boards.Channels do
     end
   end
 
+  def channel_to_num(name) do
+    res = Enum.reduce_while(@channels, {false, 0}, fn (el, {found, num}) ->
+      if el.name != name do
+        {:cont, {false, num + 1}}
+      else
+        {:halt, {true, num}}
+      end
+    end)
+
+    case res do
+      {true, num} -> num
+      _ -> nil
+    end
+  end
+
   def textable_channels_nums() do
-    Enum.reduce(@channels, {0, []}, fn (channel, {i, list}) ->
+    {_i, list} = Enum.reduce(@channels, {0, []}, fn (channel, {i, list}) ->
       list = if channel.readonly do
         list
       else
@@ -41,10 +56,17 @@ defmodule Fakebusters.Boards.Channels do
 
       {i + 1, list}
     end)
+
+    list
   end
 
-  def textable_channel?(name) do
+  def textable_channel?(name) when is_atom(name) do
     channel = Enum.find(@channels, &(&1.name == name))
+    not channel.readonly
+  end
+
+  def textable_channel?(num) when is_integer(num) do
+    channel = Enum.at(@channels, num)
     not channel.readonly
   end
 

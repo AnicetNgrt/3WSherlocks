@@ -1,4 +1,4 @@
-<div class="
+<div phx-hook="Messages" class="
     messages
     flex flex-col
     px-6 py-6 pr-8
@@ -13,10 +13,11 @@ style="
     max-width: 100vw;
     height: 35rem;
 ">
-    <%= for message <- Enum.reverse(@messages) do %>
+    <%= for message <- @messages do %>
         <% is_author = message.user_id == @current_user.id %>
 
-        <div class="<%= message_styles(is_author) %>">
+        <div class="<%= message_styles(is_author) %>"
+            style="word-break: break-word;">
             <p class="<%= author_styles(is_author) %>">
             <%= message_header(
                 NaiveDateTime.to_string(message.inserted_at),
@@ -41,10 +42,10 @@ style="
         width: 64ch;
         max-width: 100vw;
     ">
-        <%= form_for :message, "#", fn f -> %>
+        <%= f = form_for @message_changeset, "#", [phx_change: :validate, phx_submit: :save] %>
             <div class="flex flex-col">
                 <div class="flex items-center h-full">
-                    <%= textarea f, :message, class: message_input_styles() %>
+                    <%= textarea f, :body, class: message_input_styles() %>
                     <button type="submit"
                     class="
                         flex justify-center items-center
@@ -59,7 +60,8 @@ style="
                         </svg>
                     </button>
                 </div>
+                <%= error_tag f, :body, class: tw_components()[:error_tag] %>
             </div>
-        <% end %>
+        </form>
     </div>
 <% end %>

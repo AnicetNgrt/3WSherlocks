@@ -6,7 +6,8 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   alias Fakebusters.Accounts
   alias Fakebusters.Boards
   alias FakebustersWeb.LiveComponents.BoardMsg
-  alias Fakebusters.Boards.{BoardMember, Channels}
+  alias Fakebusters.Boards.{BoardMember, Channels, BoardMessage}
+  import FakebustersWeb.TailwindHelpers
 
   @impl true
   def mount(
@@ -21,8 +22,10 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
       socket
       |> assign(:board, board)
       |> assign(:current_user, user)
+      |> assign(:channel, channel)
       |> assign(:role, role)
       |> assign(:textable, Channels.textable_channel?(channel))
+      |> assign(:message_changeset, Boards.change_board_message(%BoardMessage{}, %{}))
       |> assign(
         :messages,
         Enum.map(messages, fn msg ->
@@ -55,6 +58,31 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     {:noreply, socket}
   end
 
+  def handle_event("validate", %{"board_message" => params}, socket) do
+    params = add_message_meta(socket, params)
+
+    changeset =
+      %BoardMessage{}
+      |> Boards.change_board_message(params)
+      |> Map.put(:action, :insert)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event("save", %{"board_message" => params}, socket) do
+    params = add_message_meta(socket, params)
+
+    case Boards.create_board_message(params) do
+      {:ok, _bm} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Message sent")}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
   @impl true
   def handle_info({Boards, :new, message}, socket) do
     {:noreply,
@@ -65,6 +93,13 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   def handle_info({Boards, :delete, message}, socket) do
     {:noreply,
       assign(socket, List.delete(socket.assigns[:messages], message))}
+  end
+
+  defp add_message_meta(socket, params) do
+    params
+    |> Map.put("user_id", socket.assigns[:current_user].id)
+    |> Map.put("board_id", socket.assigns[:board].id)
+    |> Map.put("channel", Channels.channel_to_num(socket.assigns[:channel]))
   end
 
   defp fetch_messages(board_id, channel) when is_atom(channel) do
