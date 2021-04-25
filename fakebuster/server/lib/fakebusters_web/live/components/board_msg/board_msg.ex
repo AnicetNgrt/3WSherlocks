@@ -48,9 +48,12 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
         phx-value-role="1"
         phx-value-user_id="<%= message.user_id %>"
         class="
-          <%= button_style('blue-400') %>
+          <%= button_style() %>
           rounded-r-none
           rounded-bl-none
+          text-blue-400
+          hover:bg-blue-400
+          border-blue-400
         ">
           Advocate
         </button>
@@ -58,9 +61,12 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
         phx-value-role="3"
         phx-value-user_id="<%= message.user_id %>"
         class="
-          <%= button_style('blue-400') %>
+          <%= button_style() %>
           rounded-l-none
           rounded-br-none
+          text-blue-400
+          hover:bg-blue-400
+          border-blue-400
         ">
           Defender
         </button>
@@ -77,9 +83,12 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
         phx-value-role="2"
         phx-value-user_id="<%= message.user_id %>"
         class="
-          <%= button_style('pink-400') %>
+          <%= button_style() %>
           rounded-r-none
           rounded-tl-none
+          text-pink-400
+          hover:bg-pink-400
+          border-pink-400
         ">
           Advocate
         </button>
@@ -87,9 +96,12 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
         phx-value-role="4"
         phx-value-user_id="<%= message.user_id %>"
         class="
-          <%= button_style('pink-400') %>
+          <%= button_style() %>
           rounded-l-none
           rounded-tr-none
+          text-pink-400
+          hover:bg-pink-400
+          border-pink-400
         ">
           Defender
         </button>
@@ -148,17 +160,16 @@ defmodule FakebustersWeb.LiveComponents.BoardMsg do
     "
   end
 
-  def button_style(color) do
+  def button_style() do
     "
     text-center
     text-sm hover:font-bold
     px-2 py-1
     mx-1
     flex-grow
-    border-2 border-#{color}
+    border-2
     rounded-xl
-    hover:bg-#{color}
-    text-#{color} hover:text-indigo-800
+    hover:text-indigo-800
     "
   end
 end

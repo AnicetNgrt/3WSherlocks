@@ -97,7 +97,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
 
   @impl true
   def handle_info({Boards, :delete, message}, socket) do
-    {:noreply, assign(socket, List.delete(socket.assigns[:messages], message))}
+    {:noreply, assign(socket, :messages, List.delete(socket.assigns[:messages], message))}
   end
 
   defp add_message_meta(socket, params) do
