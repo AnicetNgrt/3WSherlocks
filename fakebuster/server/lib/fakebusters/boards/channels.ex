@@ -21,13 +21,25 @@ defmodule Fakebusters.Boards.Channels do
       name: :judge_f_advocates,
       readonly: false,
       whitelist: [0, 2]
+    },
+    %{
+      name: :advocates_t_defenders,
+      readonly: false,
+      whitelist: [1, 3]
+    },
+    %{
+      name: :advocates_f_defenders,
+      readonly: false,
+      whitelist: [2, 4]
     }
   ]
 
   def channel_human_readable(:events, _), do: "Administration events"
   def channel_human_readable(:members, _), do: "Members board"
-  def channel_human_readable(:judge_t_advocates, _), do: "Advocates (truthy) & Judge"
-  def channel_human_readable(:judge_f_advocates, _), do: "Advocates (false) & Judge"
+  def channel_human_readable(:judge_t_advocates, _), do: "Advocates (truthy side) & Judge"
+  def channel_human_readable(:judge_f_advocates, _), do: "Advocates (false side) & Judge"
+  def channel_human_readable(:advocates_t_defenders, _), do: "Advocates & Defenders (truthy side)"
+  def channel_human_readable(:advocates_f_defenders, _), do: "Advocates & Defenders (false side)"
 
   def num_to_channel(num) do
     case Enum.at(@channels, num, nil) do
