@@ -107,6 +107,13 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     |> Map.put("channel", Channels.channel_to_num(socket.assigns[:channel]))
   end
 
+  # HACK
+  # For some reason members board messages never sort in the right order
+  # So I have to reverse them here
+  defp fetch_messages(board_id, :members) do
+    Enum.reverse(Boards.board_channel_messages(board_id, :members))
+  end
+
   defp fetch_messages(board_id, channel) when is_atom(channel) do
     Boards.board_channel_messages(board_id, channel)
   end

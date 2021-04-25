@@ -18,15 +18,16 @@
     <%= c :forms, :field do %>
       <%= text_input f, :emoji,
           required: true,
-          maxlength: 2,
-          class: tw_components()[:input_text_ovsiz] <> "text-3xl mr-3 w-16"
+          maxlength: 4,
+          class: tw_components()[:input_text_ovsiz] <> "text-3xl mr-3 w-20"
       %>
       <%= label f, :emoji, class: tw_components()[:field_label] do %>
         <p>Favorite emoji</p>
         <p class="text-xs text-yellow-300">will be used as your profile icon</p>
         <a
           class="text-xs underline text-indigo-500 hover:text-white"
-          href="https://getemoji.com/">
+          href="https://getemoji.com/"
+          target="_blank">
             online emoji picker
         </a>
       <%= end %>

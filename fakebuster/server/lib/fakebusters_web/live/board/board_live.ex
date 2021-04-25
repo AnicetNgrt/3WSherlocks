@@ -13,13 +13,15 @@ defmodule FakebustersWeb.BoardLive do
     role = Boards.role(board, user)
     channels = Channels.role_channels(role)
 
+    Boards.subscribe_to_board_channel(board.id, :events)
+
     socket =
       socket
       |> assign(:board, board)
       |> assign(:judge, Boards.judge(board))
       |> assign(:current_user, user)
       |> assign(:channels, channels)
-      |> assign(:current_channel, List.first(channels))
+      |> assign(:current_channel, List.last(channels))
       |> assign(:role, role)
 
     {:ok, socket}
@@ -33,7 +35,16 @@ defmodule FakebustersWeb.BoardLive do
     {:noreply, shift_channel(socket, 1)}
   end
 
-  def shift_channel(socket, shift) do
+  @impl true
+  def handle_info({Boards, :new, %BoardMember{user_id: user_id, role: role}}, socket) do
+    if user_id == socket.assigns[:current_user].id do
+      {:noreply, assign(socket, :role, role)}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  defp shift_channel(socket, shift) do
     current_index =
       Enum.find_index(socket.assigns[:channels], &(&1 == socket.assigns[:current_channel]))
 
