@@ -23,7 +23,7 @@
                     hover:bg-indigo-800
                     w-max
                 ">
-                    ← Previous
+                    ← <span class="hidden sm:inline">Previous</span>
                 </button>
             <% end %>
             <p><%= BoardMember.channel_human_readable(@current_channel, @role) %></p>
@@ -35,7 +35,7 @@
                     hover:bg-indigo-800
                     w-max
                 ">
-                    Next →
+                    <span class="hidden sm:inline">Next</span> →
                 </button>
             <% end %>
         </div>

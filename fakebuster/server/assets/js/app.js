@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
   console.log(JSON.stringify(container.scrollTopMax))
   console.log(JSON.stringify(container.scrollHeight))
   container.scrollTop = container.scrollHeight
+  container.scrollTo({ scrollTop: container.scrollHeight })
   console.log(JSON.stringify(container.scrollTop))
   console.log(container)
 });
