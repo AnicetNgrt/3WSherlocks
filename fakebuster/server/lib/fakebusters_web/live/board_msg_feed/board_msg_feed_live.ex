@@ -92,7 +92,7 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
     |> Map.put(:author, author)
     |> Map.put(:author_role, Boards.role(socket.assigns[:board], author))
 
-    {:noreply, assign(socket, :messages, [message | socket.assigns[:messages]])}
+    {:noreply, assign(socket, :messages, socket.assigns[:messages] ++ [message])}
   end
 
   @impl true

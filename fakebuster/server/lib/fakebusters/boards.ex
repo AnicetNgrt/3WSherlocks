@@ -348,9 +348,18 @@ defmodule Fakebusters.Boards do
 
   """
   def create_board_member(attrs \\ %{}) do
-    %BoardMember{}
+    res = %BoardMember{}
     |> BoardMember.changeset(attrs)
     |> Repo.insert()
+
+    case res do
+      {:ok, bm} ->
+        notify_board_channel_subscribers(jr.board_id, :members, :new, bm)
+        res
+
+      _ ->
+        res
+    end
   end
 
   def board_members(board_id) do
