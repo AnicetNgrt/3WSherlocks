@@ -354,7 +354,7 @@ defmodule Fakebusters.Boards do
 
     case res do
       {:ok, bm} ->
-        notify_board_channel_subscribers(jr.board_id, :members, :new, bm)
+        notify_board_channel_subscribers(bm.board_id, :members, :new, bm)
         res
 
       _ ->
