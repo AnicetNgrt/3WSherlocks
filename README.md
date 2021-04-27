@@ -43,7 +43,7 @@ Structuré selon les bonnes pratiques recommandées par la communauté Elixir, t
 
 Le code source est organisé en deux modules Elixir de premier niveau :
 
-- `lib/fakebusters` Partie "Model" en MVC standard, il contient les APIs minimales nécessaires à l'exploitation de la logique métier et de la modélisation en données. Il contient aussi la partie *domain driven*.
+- `lib/fakebusters` Partie "Model" en MVC standard, il contient les APIs minimales nécessaires à l'exploitation de la logique métier et de la modélisation des données. Il contient aussi la partie *domain driven*.
 - `lib/fakebusters_web` Partie "View" et "Controller", et bien plus encore. La seule limite est que le code soit exclusif à une interface "web", c'est à dire une utilisation d par WebSockets, APIs HTTP, templates (.eex) et LiveViews (.leex). Si l'on souhaitait par la suite faire un tchat bot ou une GUI avec les bindings Erlang d'OpenGL (pitié ne faites pas ça) nous aurions à créer un autre module du même genre. 
 
 Par ailleurs, les relations de dépendances entre ces deux parties sont strictes, `fakebusters_web` dépend de `fakebusters` mais jamais l'inverse.
