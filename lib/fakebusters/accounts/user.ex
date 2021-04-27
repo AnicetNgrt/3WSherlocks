@@ -43,7 +43,7 @@ defmodule Fakebusters.Accounts.User do
   end
 
   defp maybe_validate_emoji(changeset) do
-    validate_change(changeset, :emoji, fn value ->
+    validate_change(changeset, :emoji, fn (_, value) ->
       case {is_nil(value), is_valid_emoji?(value)} do
         {true, _} -> []
         {false, true} -> []

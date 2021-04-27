@@ -40,6 +40,7 @@ defmodule Fakebusters.Boards.Channels do
   def channel_human_readable(:judge_f_advocates, _), do: "Advocates (false side) & Judge"
   def channel_human_readable(:advocates_t_defenders, _), do: "Advocates & Defenders (truthy side)"
   def channel_human_readable(:advocates_f_defenders, _), do: "Advocates & Defenders (false side)"
+  def channel_human_readable(_, _), do: "Unknown channel"
 
   def num_to_channel(num) do
     case Enum.at(@channels, num, nil) do

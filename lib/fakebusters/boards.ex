@@ -305,7 +305,7 @@ defmodule Fakebusters.Boards do
       ) do
     {:ok, _} =
       Repo.transaction(fn ->
-        %BoardMember{} = Repo.insert!(change_board_member(%BoardMember{}, attrs))
+        {:ok, %BoardMember{}} = create_board_member(attrs)
 
         query =
           from jr in JoinRequest,

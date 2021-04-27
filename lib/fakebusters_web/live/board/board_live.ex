@@ -13,25 +13,22 @@ defmodule FakebustersWeb.BoardLive do
   def mount(_params, %{"board" => board} = session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
     role = Boards.role(board, user)
-    channels = Channels.role_channels(role)
     seconds_left = Boards.seconds_left(board)
-
-    Boards.subscribe_to_board_channel(board.id, :events)
-    Boards.subscribe_to_board_channel(board.id, :members)
-    Boards.subscribe_to_board_channel(board.id, :votes)
 
     countdown_id = :crypto.rand_uniform(0, 9_999_999)
     {:ok, _} = Countdown.spawn_and_subscribe(countdown_id, seconds_left)
+
+    if role == nil do
+      Boards.subscribe_to_board_channel(board.id, :members)
+    end
 
     socket =
       socket
       |> assign(:board, board)
       |> assign(:judge, Boards.judge(board))
       |> assign(:current_user, user)
-      |> assign(:channels, channels)
       |> assign(:seconds_left, seconds_left)
-      |> assign(:current_channel, List.last(channels))
-      |> assign(:role, role)
+      |> update_role(role)
 
     {:ok, socket}
   end
@@ -68,15 +65,23 @@ defmodule FakebustersWeb.BoardLive do
   @impl true
   def handle_info({Boards, :new, %BoardMember{user_id: user_id, role: role}}, socket) do
     if user_id == socket.assigns[:current_user].id do
-      {:noreply, assign(socket, :role, role)}
+      {:noreply, update_role(socket, role)}
     else
       {:noreply, socket}
     end
   end
 
   @impl true
-  def handle_info(_, socket) do
+  def handle_info(data, socket) do
     {:noreply, socket}
+  end
+
+  defp update_role(socket, role) do
+    channels = Channels.role_channels(role)
+    socket
+    |> assign(:role, role)
+    |> assign(:channels, channels)
+    |> assign(:current_channel, List.last(channels))
   end
 
   defp shift_channel(socket, shift) do

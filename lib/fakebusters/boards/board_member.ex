@@ -19,6 +19,7 @@ defmodule Fakebusters.Boards.BoardMember do
     |> validate_inclusion(:role, [0, 1, 2, 3, 4])
     |> validate_required([:role, :user_id, :board_id])
     |> unsafe_validate_unique([:user_id, :board_id], Fakebusters.Repo)
+    |> unique_constraint([:user_id, :board_id])
   end
 
   def role_to_atom(0), do: :judge
