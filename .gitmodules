@@ -1,4 +1,0 @@
-[submodule "hypotheses"]
-	path = hypotheses
-	url = https://github.com/AnicetNgrt/hypotheses.io
-	branch = main
