@@ -1,13 +1,17 @@
 # 3W Sherlocks
+[🔗 Check it out!](https://bourse2021-coddity.anicetnougaret.fr)
+
+# Documentation [FR]
+
 - [🔧 Installation](#-installation)
   - [Envionnement Dev](#envionnement-dev)
 - [🧭 Visite guidée du code source](#-visite-guidée-du-code-source)
   - [Organisation du code](#organisation-du-code)
-    - [Fakebusters et FakebustersWeb](#fakebusters-et-fakebustersweb)
   - [Autres parties notables](#autres-parties-notables)
     - [Où est le JS ???](#où-est-le-js-)
     - [Mix et config](#mix-et-config)
     - [Migrations](#migrations)
+    - [Tests](#tests)
     - [Docker](#docker)
 - [👩‍💻 Commandes utiles](#-commandes-utiles)
   - [Reset la base de donnée](#reset-la-base-de-donnée)
@@ -37,15 +41,14 @@ Le code est organisée de façon monolithique, le back et le front dans un même
 
 Structuré selon les bonnes pratiques recommandées par la communauté Elixir, tel que l'utilisation du ["domain driven design"](https://en.wikipedia.org/wiki/Domain-driven_design) selon les besoins et de certaines briques du MVC que le framework Phoenix impose d'office. 
 
-#### Fakebusters et FakebustersWeb
 Le code source est organisé en deux modules Elixir de premier niveau :
 
 - `lib/fakebusters` Partie "Model" en MVC standard, il contient les APIs minimales nécessaires à l'exploitation de la logique métier et de la modélisation en données. Il contient aussi la partie *domain driven*.
 - `lib/fakebusters_web` Partie "View" et "Controller", et bien plus encore. La seule limite est que le code soit exclusif à une interface "web", c'est à dire une utilisation d par WebSockets, APIs HTTP, templates (.eex) et LiveViews (.leex). Si l'on souhaitait par la suite faire un tchat bot ou une GUI avec les bindings Erlang d'OpenGL (pitié ne faites pas ça) nous aurions à créer un autre module du même genre. 
 
-Cependant on ne peut pas vraiment parler d'une séparation front et back puisqu'il s'agit de templates (comme en PHP mais en bien mieux ici).
+Par ailleurs, les relations de dépendances entre ces deux parties sont strictes, `fakebusters_web` dépend de `fakebusters` mais jamais l'inverse.
 
-Les relations de dépendances entre ces deux parties sont strictes, `fakebusters_web` dépend de `fakebusters` mais jamais l'inverse.
+*NB : on ne peut pas vraiment parler d'une séparation front et back puisqu'il s'agit ici de templating et de server-side rendering (comme en PHP mais en bien mieux).*
 
 ### Autres parties notables
 #### Où est le JS ???
@@ -64,6 +67,9 @@ La config générale est dans `config/config.exs` et les configs spécifiques au
 
 #### Migrations
 Ecto (l'ORM d'Elixir) fonctionne avec des migrations que vous trouverez dans `priv/repo/migrations`.
+
+#### Tests
+Les tests sont dans `test/`. Je dis "les tests" au pluriel, mais en réalité il n'y en a pas. Pas encore du moins 😖 *Tout oubli est une retrouvaille en puissance*.
 
 #### Docker
 Il y a le fameux `Dockerfile` et l'`entrypoint.sh` dans ce repertoire qui décrivent le déploiement de 3W Sherlocks en production.
