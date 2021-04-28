@@ -40,10 +40,9 @@
 
 Le code est organisée de façon monolithique, le back et le front dans un même projet Elixir dont la racine est le répertoire actuel.
 
+Le tout structuré selon les bonnes pratiques recommandées par la communauté Elixir, telles que l'utilisation du ["domain driven design"](https://en.wikipedia.org/wiki/Domain-driven_design) et de certaines briques du MVC (imposées par Phoenix). 
+
 ### Fakebusters et FakebustersWeb
-
-Structuré selon les bonnes pratiques recommandées par la communauté Elixir, telles que l'utilisation du ["domain driven design"](https://en.wikipedia.org/wiki/Domain-driven_design) et de certaines briques du MVC (imposées par Phoenix). 
-
 Le code source est organisé en deux modules Elixir de premier niveau :
 
 - `lib/fakebusters` Partie "Model" en MVC standard, il contient les APIs minimales nécessaires à l'exploitation de la logique métier et de la modélisation des données.
@@ -109,9 +108,9 @@ La partie de l'arbre qui nous intéresse est comme suit :
 
 - `Elixir.Fakebusters.Supervisor` correspond à la racine déclarée dans [Fakebusters.Application](lib/fakebusters/application.ex).
 
-- `Elixir.FakebustersWeb.Endpoint` et ses enfants organisés je sais pas trop comment gèrent les requêtes HTTP et WebSockets.
+- [Elixir.FakebustersWeb.Endpoint](lib/fakebusters_web/endpoint.ex) et ses enfants (organisés je sais pas trop comment) gèrent les requêtes HTTP et WebSockets.
 
-- `Elixir.Fakebusters.CountdownsSupervisor` permet de lancer des décomptes automatiques auxquels les LiveViews peuvent s'abonner pour garder les compteurs de temps côté client à jour.
+- `Elixir.Fakebusters.CountdownsSupervisor` permet de lancer des [décomptes automatiques](lib/fakebusters/countdown.ex) auxquels les LiveViews peuvent s'abonner pour garder les compteurs de temps côté client à jour.
 
 - `Elixir.Fakebusters.PubSub` et ses enfants permettent de mettre en place un Observer Pattern thread safe entre les processus de [Fakebusters]((lib/fakebusters.ex)) et de [FakebustersWeb](lib/fakebusters_web.ex). Par exemple quand un message de tchat est crée [Fakebusters.Boards](lib/fakebusters/boards.ex) notifie le PubSub qui va notifier les controllers des LiveViews dans `lib/fakebusters_web/live` pour actualiser les changements partout en temps réel.
 
