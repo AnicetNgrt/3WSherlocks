@@ -104,8 +104,6 @@ Les applications Elixir sont organisées en "green threads" appelés "BEAM proce
 
 La partie de l'arbre qui nous intéresse est comme suit :
 
-![supervision](docs/process.png)
-
 - `Elixir.Fakebusters.Supervisor` correspond à la racine déclarée dans [Fakebusters.Application](lib/fakebusters/application.ex).
 
 - [Elixir.FakebustersWeb.Endpoint](lib/fakebusters_web/endpoint.ex) et ses enfants (organisés je sais pas trop comment) gèrent les requêtes HTTP et WebSockets.
@@ -115,6 +113,8 @@ La partie de l'arbre qui nous intéresse est comme suit :
 - `Elixir.Fakebusters.PubSub` et ses enfants permettent de mettre en place un Observer Pattern thread safe entre les processus de [Fakebusters]((lib/fakebusters.ex)) et de [FakebustersWeb](lib/fakebusters_web.ex). Par exemple quand un message de tchat est crée [Fakebusters.Boards](lib/fakebusters/boards.ex) notifie le PubSub qui va notifier les controllers des LiveViews dans `lib/fakebusters_web/live` pour actualiser les changements partout en temps réel.
 
 - `Elixir.Fakebusters.Repo` sert à la persistance des données. C'est ce module (donc ce process) qu'on appelle quand on veut exécuter une requête Ecto. Requête ensuite redirigée à une des 10 connexions à PostgreSQL.
+
+![supervision](docs/process.png)
 
 Le tout est robuste grâce à des politiques de redémarrage en cas de crash par exemple. La devise d'Elixir est "Let it crash" au passage.
 
