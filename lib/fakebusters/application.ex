@@ -15,9 +15,9 @@ defmodule Fakebusters.Application do
       {Phoenix.PubSub, name: Fakebusters.PubSub},
       # Start the Endpoint (http/https)
       FakebustersWeb.Endpoint,
-      # Start a worker by calling: Fakebusters.Worker.start_link(arg)
-      # {Fakebusters.Worker, arg}
+      # Starts a job that inserts default topics
       {Fakebusters.Topics.Initiator, []},
+      # Starts a dynamic supervisor for live cooldowns
       {DynamicSupervisor, strategy: :one_for_one, name: Fakebusters.CountdownsSupervisor}
     ]
 
