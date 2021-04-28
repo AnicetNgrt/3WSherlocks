@@ -37,18 +37,18 @@
 *Note au lecteur : l'ancien nom de code du projet étant "fakebusters", il est resté le nom du projet au sein du code source.*
 
 ### Organisation du code
-Le code est organisée de façon monolithique, le back et le front dans un même projet elixir dont la racine est le répertoire actuel.
+Le code est organisée de façon monolithique, le back et le front dans un même projet Elixir dont la racine est le répertoire actuel.
 
-Structuré selon les bonnes pratiques recommandées par la communauté Elixir, tel que l'utilisation du ["domain driven design"](https://en.wikipedia.org/wiki/Domain-driven_design) selon les besoins et de certaines briques du MVC que le framework Phoenix impose d'office. 
+Structuré selon les bonnes pratiques recommandées par la communauté Elixir, telles que l'utilisation du ["domain driven design"](https://en.wikipedia.org/wiki/Domain-driven_design) et de certaines briques du MVC (imposées par Phoenix). 
 
 Le code source est organisé en deux modules Elixir de premier niveau :
 
-- `lib/fakebusters` Partie "Model" en MVC standard, il contient les APIs minimales nécessaires à l'exploitation de la logique métier et de la modélisation des données. Il contient aussi la partie *domain driven*.
-- `lib/fakebusters_web` Partie "View" et "Controller", et bien plus encore. La seule limite est que le code soit exclusif à une interface "web", c'est à dire une utilisation d par WebSockets, APIs HTTP, templates (.eex) et LiveViews (.leex). Si l'on souhaitait par la suite faire un tchat bot ou une GUI avec les bindings Erlang d'OpenGL (pitié ne faites pas ça) nous aurions à créer un autre module du même genre. 
+- `lib/fakebusters` Partie "Model" en MVC standard, il contient les APIs minimales nécessaires à l'exploitation de la logique métier et de la modélisation des données.
+- `lib/fakebusters_web` Partie "View", "Controller", et bien plus encore. La seule limite est que le code soit exclusif à une interface "web", c'est à dire par WebSockets, APIs HTTP, templates (.eex) et LiveViews (.leex). Si l'on souhaitait par la suite faire un tchat bot ou une GUI avec les bindings Erlang d'OpenGL (pitié ne faites pas ça) nous pourrions créer un autre module du même genre. 
 
 Par ailleurs, les relations de dépendances entre ces deux parties sont strictes, `fakebusters_web` dépend de `fakebusters` mais jamais l'inverse.
 
-*NB : on ne peut pas vraiment parler d'une séparation front et back puisqu'il s'agit ici de templating et de server-side rendering (comme en PHP mais en bien mieux).*
+*NB : on ne peut pas vraiment parler ici d'une séparation front et back puisqu'il s'agit de templating et de server-side rendering (comme en PHP mais en bien mieux).*
 
 ### Autres parties notables
 #### Où est le JS ???
@@ -58,7 +58,7 @@ Par exemple si l'on souhaite changer la config PostCSS et Tailwind c'est dans `a
 
 Pour écrire un peu de SASS c'est dans `assets/css/app.scss`.
 
-Pour écrire des [hooks Phoenix](https://hexdocs.pm/phoenix_live_view/js-interop.html) en JS pour réagir côté client de façon plus avancée dans `assets/js/app.js`.
+Pour écrire des [hooks Phoenix](https://hexdocs.pm/phoenix_live_view/js-interop.html) en JS pour réagir côté client de façon plus avancée, c'est dans `assets/js/app.js`.
 
 #### Mix et config
 Le projet Elixir et ses dépendances sont gérés par Mix. Le fichier principal de Mix est `mix.exs` qui contient un peu de configuration et la liste des dépendances.
@@ -72,7 +72,7 @@ Ecto (l'ORM d'Elixir) fonctionne avec des migrations que vous trouverez dans `pr
 Les tests sont dans `test/`. Je dis "les tests" au pluriel, mais en réalité il n'y en a pas. Pas encore du moins 😖 *Tout oubli est une retrouvaille en puissance*.
 
 #### Docker
-Il y a le fameux `Dockerfile` et l'`entrypoint.sh` dans ce repertoire qui décrivent le déploiement de 3W Sherlocks en production.
+Il y a le fameux `Dockerfile` et l'`entrypoint.sh` dans ce repertoire qui simplifient le déploiement en production.
 
 Sur mon VPS il y a aussi une config `docker-compose` et Nginx que vous pouvez retrouver dans [ce repo](https://github.com/AnicetNgrt/personal-vps-setup).
 
