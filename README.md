@@ -6,7 +6,9 @@
 - [🔧 Installation](#-installation)
   - [Envionnement Dev](#envionnement-dev)
 - [🧭 Visite guidée du code source](#-visite-guidée-du-code-source)
-  - [Organisation du code](#organisation-du-code)
+  - [Organisation principale](#organisation-principale)
+    - [MVC ?](#mvc-)
+    - [Arbre de supervision](#arbre-de-supervision)
   - [Autres parties notables](#autres-parties-notables)
     - [Où est le JS ???](#où-est-le-js-)
     - [Mix et config](#mix-et-config)
@@ -36,8 +38,10 @@
 ## 🧭 Visite guidée du code source
 *Note au lecteur : l'ancien nom de code du projet étant "fakebusters", il est resté le nom du projet au sein du code source.*
 
-### Organisation du code
+### Organisation principale
 Le code est organisée de façon monolithique, le back et le front dans un même projet Elixir dont la racine est le répertoire actuel.
+
+#### MVC ?
 
 Structuré selon les bonnes pratiques recommandées par la communauté Elixir, telles que l'utilisation du ["domain driven design"](https://en.wikipedia.org/wiki/Domain-driven_design) et de certaines briques du MVC (imposées par Phoenix). 
 
@@ -49,6 +53,27 @@ Le code source est organisé en deux modules Elixir de premier niveau :
 Par ailleurs, les relations de dépendances entre ces deux parties sont strictes, `fakebusters_web` dépend de `fakebusters` mais jamais l'inverse.
 
 *NB : on ne peut pas vraiment parler ici d'une séparation front et back puisqu'il s'agit de templating et de server-side rendering (comme en PHP mais en bien mieux).*
+
+#### Arbre de supervision
+Les applications Elixir sont organisées en "green threads" appelés "BEAM processes" (!= aux process OS). Tous sont concurrents et communiquent par messages. Ces processus sont hiérarchisés et font partie de ce qu'on appelle un arbre de supervision. Les différents noeuds de cet arbre sont généralement déclarés dans des modules (en Elixir 1 fichier = 1 module si on est propre).
+
+La partie de l'arbre qui nous intéresse est comme suit :
+
+![supervision](docs/process.png)
+
+- `Elixir.Fakebusters.Supervisor` correspond à la racine déclarée dans `lib/fakebusters/application.ex`.
+
+- `Elixir.FakebustersWeb.Endpoint` et ses enfants organisés je sais pas trop comment gèrent les requêtes HTTP et WebSockets.
+
+- `Elixir.Fakebusters.CountdownsSupervisor` permet de lancer des décomptes automatiques auxquels les LiveViews peuvent s'abonner pour garder les compteurs de temps côté client à jour.
+
+- `Elixir.Fakebusters.PubSub` et ses enfants permettent de mettre en place un Observer Pattern thread safe entre les processus de `Fakebusters` et de `FakebustersWeb`. Par exemple quand un message de tchat est crée `Fakebusters.Boards` notifie le PubSub qui va notifier les controllers des LiveViews dans `lib/fakebusters_web/live` pour actualiser les changements partout en temps réel.
+
+- `Elixir.Fakebusters.Repo` sert à la persistance des données. C'est ce module (donc ce process) qu'on appelle quand on veut exécuter une requête Ecto. Requête ensuite redirigée à une des 10 connexions à PostgreSQL.
+
+Le tout est robuste grâce à des politiques de redémarrage en cas de crash par exemple. La devise d'Elixir est "Let it crash" au passage.
+
+*NB : Pour voir cet arbre vous-mêmes faites `iex -S mix` (ou `iex.bat -S mix` sur Windows) puis `:observer.start()`. Rendez-vous ensuite dans `Applications` et `Fakebusters` sur la gauche.*
 
 ### Autres parties notables
 #### Où est le JS ???
