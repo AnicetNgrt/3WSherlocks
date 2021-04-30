@@ -106,7 +106,7 @@ Les applications Elixir sont organisées en modules pour l'aspect sémantique, m
 
 Ces process sont parallèles et communiquent par messages, souvent un module va permettre de décrire un type de process, mais ce n'est pas toujours le cas.
 
-Les processus sont hiérarchisés entre eux et font partie de ce qu'on appelle un arbre de supervision. Les différents noeuds de cet arbre sont généralement déclarés dans des modules (en Elixir 1 fichier = 1 module si on est propre).
+Les processus sont hiérarchisés entre eux et font partie de ce qu'on appelle un arbre de supervision.
 
 La partie de l'arbre qui nous intéresse est comme suit :
 
