@@ -61,11 +61,11 @@ Phoenix propose de nombreux générateurs. Pour différencier mon code du code g
 Comme expliqué ci-dessus, Phoenix impose un simili de modèle MVC.
 
 #### Models & contexts
-Le modèle est découpe en trois "contextes" qui correspondent à la partie Models de MVC :
+Fakebusters est découpé en trois "contextes" qui correspondent à la partie Models de MVC :
 
 - [Fakebusters.Accounts](lib/fakebusters/accounts.ex) Gère l'authent.
 - [Fakebusters.Boards](lib/fakebusters/boards.ex) Gère les investigations, les messages et les votes.
-- [Fakebusters.Topics](lib/fakebusters/topics.ex) Gère les tags. J'ai décidé de le séparer pour le rendre réutilisable pour d'autres features plus tard.
+- [Fakebusters.Topics](lib/fakebusters/topics.ex) Gère les tags. (J'ai décidé de le séparer pour le rendre réutilisable pour d'autres features plus tard.)
 
 Dans les sous dossiers de ces trois contextes l'on retrouve les schémas et les "changesets" (= des règles de validations).
 
