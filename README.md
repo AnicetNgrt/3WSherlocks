@@ -102,7 +102,11 @@ Tout comme les templates, les LiveViews peuvent inclure d'autres LiveViews.
 [FakebustersWeb.Router](lib/fakebusters_web/router.ex) décrit les différentes routes HTTP, WebSockets et LiveViews disponibles, ainsi que les différents middlewares par lesquels ils passent.
 
 ### Arbre de supervision
-Les applications Elixir sont organisées en "green threads" appelés "BEAM processes" (!= aux process OS). Tous sont concurrents et communiquent par messages. Ces processus sont hiérarchisés et font partie de ce qu'on appelle un arbre de supervision. Les différents noeuds de cet arbre sont généralement déclarés dans des modules (en Elixir 1 fichier = 1 module si on est propre).
+Les applications Elixir sont organisées en modules pour l'aspect sémantique, mais aussi en threads super légers qu'on appelle "BEAM processes" pour l'aspect concurrenciel. 
+
+Ces process sont parallèles et communiquent par messages, souvent un module va permettre de décrire un type de process, mais ce n'est pas toujours le cas.
+
+Les processus sont hiérarchisés entre eux et font partie de ce qu'on appelle un arbre de supervision. Les différents noeuds de cet arbre sont généralement déclarés dans des modules (en Elixir 1 fichier = 1 module si on est propre).
 
 La partie de l'arbre qui nous intéresse est comme suit :
 
