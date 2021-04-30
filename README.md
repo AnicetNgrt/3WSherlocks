@@ -84,7 +84,9 @@ Les controllers sont dans `lib/fakebusters_web/controllers`. Ils définissent de
 Les [plugs](https://hexdocs.pm/plug/readme.html) sont principalement des middelewares qui ajoutent ou retirent des assigns et peuvent effectuer des redirections. Je n'ai pas crée de middlewares customs pour ce projet, ils font partis des dépendances mais vous en verrez la mention à plusieurs endroits.
 
 #### LiveViews
-Les LiveViews sont des templates comme les autres, sauf que leur extension est .leex, qu'ils n'ont pas de module associé dans les views et qu'ils sont à côté de leur module LiveView associé qui agit en sorte de controller.
+Les LiveViews sont des templates comme les autres, sauf que leur extension est .leex et qu'ils n'ont pas de module associé dans les views. 
+
+Ils sont situés à côté de leur module LiveView qui agit en sorte de controller "réactif en temps réel".
 
 Tout ce beau monde est situé dans `lib/fakebusters_web/live`.
 
