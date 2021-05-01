@@ -44,12 +44,8 @@ defmodule FakebustersWeb.BoardLive do
 
   @impl true
   def handle_info({Countdown, :countdown, seconds_left}, socket) do
-    if socket.assigns[:board].finished == false do
-      board = if seconds_left < 1 do
-        Boards.update_board(socket.assigns[:board], %{"finished" => true})
-      else
-        socket.assigns[:board]
-      end
+    if socket.assigns[:board].finished == false and seconds_left < 1 do
+      {:ok, board} = Boards.update_board(socket.assigns[:board], %{"finished" => true})
 
       socket =
         socket
@@ -58,7 +54,7 @@ defmodule FakebustersWeb.BoardLive do
 
       {:noreply, socket}
     else
-      {:noreply, socket}
+      {:noreply, assign(socket, :seconds_left, seconds_left)}
     end
   end
 
