@@ -52,7 +52,7 @@ defmodule FakebustersWeb.BoardVotesResultsLive do
       end)
 
     if count_side != 0 do
-      ((count_side + count_others) / count_side) * 100
+      (count_side / (count_side + count_others)) * 100
     else
       0
     end
