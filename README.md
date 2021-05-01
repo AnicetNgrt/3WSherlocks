@@ -196,11 +196,11 @@ Phoenix propose de nombreux générateurs. Pour différencier mon code du code g
 Comme expliqué ci-dessus, Phoenix impose un simili de modèle MVC.
 
 #### Models & contexts
-Le modèle est découpe en trois "contextes" qui correspondent à la partie Models de MVC :
+Fakebusters est découpé en trois "contextes" qui correspondent à la partie Models de MVC :
 
 - [Fakebusters.Accounts](lib/fakebusters/accounts.ex) Gère l'authent.
 - [Fakebusters.Boards](lib/fakebusters/boards.ex) Gère les investigations, les messages et les votes.
-- [Fakebusters.Topics](lib/fakebusters/topics.ex) Gère les tags. J'ai décidé de le séparer pour le rendre réutilisable pour d'autres features plus tard.
+- [Fakebusters.Topics](lib/fakebusters/topics.ex) Gère les tags. (J'ai décidé de le séparer pour le rendre réutilisable pour d'autres features plus tard.)
 
 Dans les sous dossiers de ces trois contextes l'on retrouve les schémas et les "changesets" (= des règles de validations).
 
@@ -219,7 +219,9 @@ Les controllers sont dans `lib/fakebusters_web/controllers`. Ils définissent de
 Les [plugs](https://hexdocs.pm/plug/readme.html) sont principalement des middelewares qui ajoutent ou retirent des assigns et peuvent effectuer des redirections. Je n'ai pas crée de middlewares customs pour ce projet, ils font partis des dépendances mais vous en verrez la mention à plusieurs endroits.
 
 #### LiveViews
-Les LiveViews sont des templates comme les autres, sauf que leur extension est .leex, qu'ils n'ont pas de module associé dans les views et qu'ils sont à côté de leur module LiveView associé qui agit en sorte de controller.
+Les LiveViews sont des templates comme les autres, sauf que leur extension est .leex et qu'ils n'ont pas de module associé dans les views. 
+
+Ils sont situés à côté de leur module LiveView qui agit en sorte de controller "réactif en temps réel".
 
 Tout ce beau monde est situé dans `lib/fakebusters_web/live`.
 
@@ -235,7 +237,11 @@ Tout comme les templates, les LiveViews peuvent inclure d'autres LiveViews.
 [FakebustersWeb.Router](lib/fakebusters_web/router.ex) décrit les différentes routes HTTP, WebSockets et LiveViews disponibles, ainsi que les différents middlewares par lesquels ils passent.
 
 ### Arbre de supervision
-Les applications Elixir sont organisées en "green threads" appelés "BEAM processes" (!= aux process OS). Tous sont concurrents et communiquent par messages. Ces processus sont hiérarchisés et font partie de ce qu'on appelle un arbre de supervision. Les différents noeuds de cet arbre sont généralement déclarés dans des modules (en Elixir 1 fichier = 1 module si on est propre).
+Les applications Elixir sont organisées en modules pour l'aspect sémantique, mais aussi en threads super légers qu'on appelle "BEAM processes" pour l'aspect concurrenciel. 
+
+Ces process sont parallèles et communiquent par messages, souvent un module va permettre de décrire un type de process, mais ce n'est pas toujours le cas.
+
+Les processus sont hiérarchisés entre eux et font partie de ce qu'on appelle un arbre de supervision.
 
 La partie de l'arbre qui nous intéresse est comme suit :
 
