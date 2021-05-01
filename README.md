@@ -2,6 +2,7 @@
 [🔗 Check it out!](https://bourse2021-coddity.anicetnougaret.fr)
 
 # Documentation [FR]
+Documentation pour le jury de la bourse Coddity.
 
 - [🔧 Installation](#-installation)
   - [Envionnement Dev](#envionnement-dev)
