@@ -5,6 +5,9 @@
 
 - [🔧 Installation](#-installation)
   - [Envionnement Dev](#envionnement-dev)
+- [🍷 Concepts Elixir pour review le code](#-concepts-elixir-pour-review-le-code)
+  - [Return des fonctions](#return-des-fonctions)
+  - [Pattern matching](#pattern-matching)
 - [🧭 Visite guidée du code source](#-visite-guidée-du-code-source)
   - [Fakebusters et FakebustersWeb](#fakebusters-et-fakebustersweb)
   - [Code autogénéré et code fait main](#code-autogénéré-et-code-fait-main)
@@ -34,6 +37,138 @@
 5. Faites `cd assets`, `npm install` puis `cd ..`
 6. Lancez le serveur `mix phx.server`
 7. [Amusez-vous bien :)](http://localhost:4000)
+
+## 🍷 Concepts Elixir pour review le code
+Elixir est un langage pas comme les autres. Si vous avez un dev Ruby sous la main alors il n'aura pas trop de soucis, mais sinon je dois vous expliquer certaines choses.
+
+### Return des fonctions
+Le return d'une fonction est le résultat de sa dernière instruction.
+
+```elixir
+# renvoie 5
+def ma_fonction do
+  5
+end
+
+# renvoie 6
+def ma_fonction_v2, do: 6
+
+# renvoie 5 si param est true, 6 sinon
+def ma_fonction_v3(param) do
+  if param do
+    ma_fonction
+  else
+    ma_fonction_v2
+  end
+end
+```
+
+### Pattern matching
+Le pattern matching c'est l'orsqu'on essaye de faire correspondre une valeur avec un pattern.
+
+Une valeur c'est n'importe quelle chose qu'on pourrait mettre dans une variable. (`6`, `40.5`, `"hello world"`, `%Point2D{x: 5, y: 10}`...)
+
+Un pattern représente un "ensemble de valeurs possible", un peu comme une expression régulière. Il est composé de valeurs et/ou de variables.
+
+Le pattern `[5, _]` correspond à toutes les listes de taille 2 commençant par 5. Le mot-clé `_` match avec n'importe quelle valeur de n'importe quel type. Ici, 5 doit matcher avec le premier élément et `_` avec le second.
+
+Le pattern `[5 | _]` correspond à toutes les listes (peu importe leur taille) commençant par 5. Avec l'opérateur `|` on a donc 5 qui doit matcher avec le premier élément et `_` avec la liste de tous les éléments suivants.
+
+Le pattern `[5 | a]` fait la même chose que celui du dessus, mais il crée aussi une variable nommée `a` matchant avec n'importe quelle valeur de n'importe quel type. La valeur matchant `a` lui sera assignée en cas de succès.
+
+Pour que le pattern matching fonctionne il faut donc que la valeur soit un sous-ensemble des valeurs correspondant au pattern.
+
+#### Exemples
+Le `=` effectue le pattern matching entre la valeur à droite et le pattern à gauche. Comme tous les pattern matchings, il y a affectation si succès. Donc pour les cas simples ça fonctionne comme le `=` dans tous les langages.
+
+```elixir
+def main do
+  var = 6
+  # var peut matcher l'ensemble des valeurs de
+  # n'importe quel type, dont 6 fait évidemment
+  # partie
+  # var vaut maintenant 6
+
+  6 = var
+  # pattern matching de var par 6
+  # ne plante pas car var vaut 6
+  # c'est donc un sous-ensemble de {6}
+
+  5 = var
+  # pattern matching de var par 5
+  # plante car var (= 6) n'appartient pas à
+  # l'ensemble {5}
+```
+
+```elixir
+def main do
+  {a, b, c} = {1, 2, 3}
+  # {a, b, c} correspond à l'ensemble des triplets
+  # de valeurs de n'importe quel type
+  # donc {1, 2, 3} est un sous-ensemble valide
+
+  # Succès donc affectation
+  IO.puts("#{a}, #{b}, #{c}")
+  # 1, 2, 3
+
+  {a, b, c} = {:ok, [12, 35], "hello"}
+  # {:ok, [12, 35], "hello"} est un sous-ensemble valide
+  # des triplets de valeurs de n'importe quel type
+  
+  # Succès donc affectation
+  IO.puts("#{a}, #{b}, #{c}")
+  # :ok, [12, 35], hello
+
+  {a, {b, c}, d} = {1, 2, 3}
+  # plante
+  # 2 n'appartient pas à l'ensemble des couples
+  # de valeurs de n'importe quel type
+
+  {a, {b, c}, d} = {1, {28.08, "hello world"}, 3}
+  # fonctionne
+  # {28.08, "hello world"} fait bien parti de
+  # l'ensemble des couples de valeurs de n'importe quel type
+end
+```
+
+Le pattern matching est aussi effectué lorsqu'on utilise le mot-clé `case` : 
+
+```elixir
+def fonction(valeur) do
+  case valeur do
+    # passe ici si valeur est un tuple à 4 valeurs
+    # tel que sa dernière valeur vaut 10
+    {a, b, c, 10} -> {:ok, b}
+
+    # passe ici si valeur est quoi que ce soit
+    # d'autre que ce qui peut matcher au dessus
+    # un peu comme le 'default' dans un switch case
+    _ -> :error
+end
+
+fonction({1, 2, 3, 10}) # {:ok, 2}
+fonction({{}, "b", 54.3, 10}) # {:ok, "b"}
+
+fonction("test") # :error
+fonction({}) # :error
+fonction({10, [1, 2], "truc", "machin"}) # :error
+```
+
+Les appels de fonction sont du pattern matching, ce qui permet de faire des surcharges :
+
+```elixir
+def fonction(:ok), do: "il m'a donné :ok"
+def fonction(19), do: "il m'a donné 19"
+def fonction({a, b}), do: "il m'a donné un couple de valeurs"
+def fonction(_), do: "il m'a donné n'importe quoi"
+
+fonction(:ok) # "il m'a donné :ok"
+fonction(19) # "il m'a donné 19"
+fonction({1, "hello world"}) # "il m'a donné un couple de valeurs"
+fonction(%{x: 10, y: -35}) # "il m'a donné n'importe quoi"
+```
+
+Il y a d'autres cas mais ce sont les principaux.
 
 ## 🧭 Visite guidée du code source
 *Note au lecteur : l'ancien nom de code du projet étant "fakebusters", il est resté le nom du projet au sein du code source.*

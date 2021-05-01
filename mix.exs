@@ -4,14 +4,26 @@ defmodule Fakebusters.MixProject do
   def project do
     [
       app: :fakebusters,
-      version: "0.1.0",
+      version: "0.1.0-dev",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      dialyzer: [plt_add_deps: :transitive]
+      dialyzer: [plt_add_deps: :transitive],
+
+      # Docs
+      name: "Fakebusters",
+      source_url: "https://github.com/AnicetNgrt/BourseCoddity2021",
+      homepage_url: "https://bourse2021-coddity.anicetnougaret.fr",
+      docs: [
+        main: "Fakebusters", # The main page in the docs
+        authors: ["Anicet Nougaret"],
+        output: "hex_docs",
+        #logo: "path/to/logo.png",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -75,6 +87,8 @@ defmodule Fakebusters.MixProject do
       {:emojix, "~> 0.3.1"},
       # URL parsing
       {:ex_url, "~> 1.3.0"},
+      # Documentation generation
+      {:ex_doc, "~> 0.24.2", runtime: false},
 
       # Dev deps
       # Auth system generator

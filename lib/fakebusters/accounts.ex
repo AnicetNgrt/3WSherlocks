@@ -1,6 +1,8 @@
 defmodule Fakebusters.Accounts do
   @moduledoc """
   The Accounts context.
+
+  Manages user profiles and authentication
   """
 
   import Ecto.Query, warn: false

@@ -72,7 +72,7 @@ defmodule FakebustersWeb.BoardLive do
   end
 
   @impl true
-  def handle_info(data, socket) do
+  def handle_info(_data, socket) do
     {:noreply, socket}
   end
 

@@ -18,7 +18,11 @@ defmodule Fakebusters.Application do
       # Starts a job that inserts default topics
       {Fakebusters.Topics.Initiator, []},
       # Starts a dynamic supervisor for live cooldowns
-      {DynamicSupervisor, strategy: :one_for_one, name: Fakebusters.CountdownsSupervisor}
+      {
+        DynamicSupervisor,
+        strategy: :one_for_one,
+        name: Fakebusters.CountdownsSupervisor
+      }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
