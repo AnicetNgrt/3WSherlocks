@@ -1,5 +1,7 @@
 defmodule Fakebusters.Boards.Channels do
-  @moduledoc false
+  @moduledoc """
+  Board channels helper module.
+  """
 
   @channels [
     %{

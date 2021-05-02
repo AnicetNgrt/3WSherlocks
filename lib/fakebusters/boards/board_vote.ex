@@ -1,5 +1,7 @@
 defmodule Fakebusters.Boards.BoardVote do
-  @moduledoc false
+  @moduledoc """
+  Board vote schema and validation rules.
+  """
 
   use Ecto.Schema
   import Ecto.Changeset

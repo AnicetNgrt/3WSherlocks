@@ -1,5 +1,7 @@
 defmodule Fakebusters.Boards.JoinRequest do
-  @moduledoc false
+  @moduledoc """
+  Join request schema and validation rules.
+  """
 
   use Ecto.Schema
   import Ecto.Changeset

@@ -1,5 +1,7 @@
 defmodule Fakebusters.Accounts.User do
-  @moduledoc false
+  @moduledoc """
+  User account schema and validation rules.
+  """
 
   use Ecto.Schema
   import Ecto.Changeset

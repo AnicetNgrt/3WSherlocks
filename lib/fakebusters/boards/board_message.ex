@@ -1,5 +1,7 @@
 defmodule Fakebusters.Boards.BoardMessage do
-  @moduledoc false
+  @moduledoc """
+  Board message schema and validation rules.
+  """
 
   use Ecto.Schema
   alias Fakebusters.Boards.Channels
