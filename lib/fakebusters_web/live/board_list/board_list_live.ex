@@ -45,11 +45,16 @@ defmodule FakebustersWeb.BoardListLive do
     %{"filter" => %{
       "search_phrase" => search,
       "state" => state,
-      "membership" => membership,
       "topic_id" => topic_id
     } = filter
     }, socket
   ) do
+    membership = if Map.has_key?(filter, "membership") do
+      filter["membership"]
+    else
+      "any"
+    end
+
     topic_id = case Integer.parse(topic_id, 10) do
       {id, _} -> id
       _ -> nil
