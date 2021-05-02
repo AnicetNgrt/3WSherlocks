@@ -3,6 +3,7 @@
 <h1 class="mt-8 text-3xl mb-6">Settings</h1>
 
 <div class="flex flex-wrap justify-center w-screen">
+<div class="mb-6">
 <%= c :forms, :form do %>
   <h3 class="<%= tw_components()[:form_title] %>">Change email</h3>
 
@@ -32,6 +33,7 @@
     <% end %>
   <% end %>
 <% end %>
+</div>
 
 <%= c :forms, :form do %>
   <h3 class="<%= tw_components()[:form_title] %>">Change password</h3>
