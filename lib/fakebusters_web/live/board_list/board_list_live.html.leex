@@ -7,7 +7,7 @@
 ">
     <div class="bg-gray-800 sticky top-0 h-6 w-full z-20"></div>
     <div class="
-        sticky top-6
+        xs:sticky top-6
         w-full
         z-20
         p-3
@@ -27,7 +27,7 @@
                         :search_phrase,
                         placeholder: "Search fact",
                         class: tw_components()[:input_text_ovsiz] <>
-                            " bg-gradient-to-t from-gray-800 w-max"
+                            " bg-gradient-to-t from-gray-800 w-60 sm:w-max"
                     %>
                 </div>
                 <div class="flex items-center space-x-1 flex-wrap">
@@ -58,7 +58,8 @@
                         [{"any topic ↓", "any"} | @topics],
                         selected: @filter_topic_id,
                         required: true,
-                        class: tw_components()[:input_text] <> " flex-grow w-max bg-gradient-to-t from-gray-800"
+                        class: tw_components()[:input_text] <>
+                            " flex-grow w-max bg-gradient-to-t from-gray-800"
                     ) %>
                     <div></div>
                 </div>
@@ -84,7 +85,7 @@
                     <%= live_component @socket, BoardPreview, board: board, horizontal: true %>
                 <% end %>
             <% else %>
-                <p class="text-xl text-indigo-500 h-96">No investigation found!</p>
+                <p class="text-xl text-indigo-500 h-64">No investigation found!</p>
             <% end %>
         </div>
     </div>
