@@ -2,13 +2,15 @@
     <%= if not @logged_in do %>
         <%= render "_presentation.html", assigns %>
     <% end %>
-    <%= live_render(@conn, FakebustersWeb.BoardTutorialLive) %>
+    <div class="mt-6">
+        <%= live_render(@conn, FakebustersWeb.BoardTutorialLive) %>
+    </div>
     <%= if @logged_in do %>
         <%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
     <% end %>
     <div class="flex flex-wrap justify-center max-w-full">
         <div class="flex flex-col items-center max-w-full">
-            <h1 class="mt-16 text-yellow-300 text-2xl">Browse investigations </h1>
+            <h1 class="mt-6 text-yellow-300 text-2xl">Browse investigations </h1>
             <%= live_render(@conn, FakebustersWeb.BoardListLive, session: %{
                 "modes" => [:user, :finished]
             }) %>

@@ -59,7 +59,37 @@ style="
         </div>
     </div>
     <div class="mt-4 mb-2 w-full">
-        <%= if @board.is_member do %>
+        <%= if not @board.finished do %>
+            <%= if @board.is_member do %>
+            <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
+            class="
+                block
+                text-center
+                px-3 py-2
+                w-full
+                border-2 border-green-500 hover:border-green-400
+                rounded-full
+                hover:bg-green-400
+                text-green-400 hover:text-indigo-900
+            ">
+                open
+            </a>
+            <% else %>
+            <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
+            class="
+                block
+                text-center
+                px-3 py-2
+                w-full
+                border-2 border-yellow-500 hover:border-yellow-400
+                rounded-full
+                hover:bg-yellow-400
+                text-yellow-400 hover:text-indigo-800
+            ">
+                join
+            </a>
+            <% end %>
+        <% else %>
         <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
         class="
             block
@@ -71,26 +101,16 @@ style="
             hover:bg-green-400
             text-green-400 hover:text-indigo-900
         ">
-            open
-        </a>
-        <% else %>
-        <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
-        class="
-            block
-            text-center
-            px-3 py-2
-            w-full
-            border-2 border-yellow-500 hover:border-yellow-400
-            rounded-full
-            hover:bg-yellow-400
-            text-yellow-400 hover:text-indigo-800
-        ">
-            join
+            see results
         </a>
         <% end %>
     </div>
 </div>
+
+
 <% else %>
+
+
 <div
 class="
     flex flex-col items-center
