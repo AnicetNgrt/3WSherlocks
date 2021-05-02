@@ -21,6 +21,9 @@ defmodule Fakebusters.Topics do
     Repo.all(Topic)
   end
 
+  @doc """
+  Returns the list of topics sorted ascendant by names
+  """
   def list_topics_sort_names_asc() do
     from(t in Topic, order_by: [asc: t.name])
     |> Repo.all()
