@@ -10,10 +10,8 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
   </head>
-  <body class="scrollbar scrollbar-thumb-indigo-600 scrollbar-track-indigo-900 overflow-x-hidden">
+  <body class="scrollbar scrollbar-thumb-indigo-600 scrollbar-track-indigo-900">
     <div class="
-      w-screen
-      min-h-screen
       max-w-screen
       bg-gray-800 text-white">
       <%= @inner_content %>

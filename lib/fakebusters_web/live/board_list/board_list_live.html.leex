@@ -1,18 +1,53 @@
-<div class="flex flex-col items-center max-w-full my-6">
+<div class="flex flex-col items-center max-w-screen my-6 h-max">
+    <div class="bg-gray-800 sticky top-0 z-20 h-6 w-full"></div>
     <div class="
-        flex justify-center
+        sticky top-6
         w-full
+        z-20
         border-2 lg:border-b-0 border-indigo-800
+        bg-gradient-to-b from-gray-800
         rounded-md lg:rounded-b-none
     ">
         <%= f = form_for :filter, "#", [phx_change: "filter"] %>
-            <div class="flex items-center p-1">
-                <div class="mr-2 text-3xl">🔎</div>
-                <%= text_input f,
-                    :search_phrase,
-                    placeholder: "Search fact",
-                    class: tw_components()[:input_text]
-                %>
+            <div class="flex justify-around p-1 flex-wrap">
+                <div class="flex items-center">
+                    <div class="mr-2 text-3xl">🔎</div>
+                    <%= text_input f,
+                        :search_phrase,
+                        placeholder: "Search fact",
+                        class: tw_components()[:input_text] <> " bg-gradient-to-t from-gray-800"
+                    %>
+                </div>
+                <div class="flex items-center space-x-1 flex-wrap">
+                    <%= select(
+                        f,
+                        :state,
+                        [{"any state ↓", "any"}, "ongoing", "finished"],
+                        selected: @filter_state,
+                        required: true,
+                        class: tw_components()[:input_text] <> " flex-grow w-max bg-gradient-to-t from-gray-800"
+                    ) %>
+                    <%= if @current_user do %>
+                        <%= select(
+                            f,
+                            :membership,
+                            [{"any role ↓", "any"}, "outsider", "member"],
+                            selected: @filter_membership,
+                            required: true,
+                            class: tw_components()[:input_text] <> " flex-grow w-max bg-gradient-to-t from-gray-800"
+                        ) %>
+                        <div></div>
+                    <% end %>
+                    <%= select(
+                        f,
+                        :topic_id,
+                        [{"any topic ↓", "any"} | @topics],
+                        selected: @filter_topic_id,
+                        required: true,
+                        class: tw_components()[:input_text] <> " flex-grow w-max bg-gradient-to-t from-gray-800"
+                    ) %>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>
@@ -41,18 +76,17 @@
     </div>
     <div class="
         hidden lg:block
-        max-w-full
         overflow-y-auto
         px-12
         border-2 border-indigo-800 rounded-md rounded-t-none
-        scrollbar scrollbar-thumb-indigo-600 scrollbar-track-indigo-900
+    " style="
+        min-height: 100vh;
     ">
         <div class="
             flex flex-col items-center
             px-4 py-5
             divide-y-2 divide-indigo-800
         " style="
-            max-height: 55rem;
             width: 80ch;
             max-width: 100vw;
         ">
