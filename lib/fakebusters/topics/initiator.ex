@@ -1,5 +1,15 @@
 defmodule Fakebusters.Topics.Initiator do
-  @moduledoc false
+  @moduledoc """
+  Inserts de-facto topics to the database.
+
+  You may wonder why I did a database table in the first place if this is not dynamic?
+
+  ...
+
+  (no answers)
+
+  # TODO Make it static
+  """
 
   use Task
   require Logger
@@ -30,10 +40,12 @@ defmodule Fakebusters.Topics.Initiator do
     %{name: "food"}
   ]
 
+  @doc false
   def start_link(_arg) do
     Task.start_link(__MODULE__, :run, [])
   end
 
+  @doc false
   def run() do
     Enum.map(@topics, fn %{name: name} = topic ->
       case Repo.get_by(Topic, name: name) do
