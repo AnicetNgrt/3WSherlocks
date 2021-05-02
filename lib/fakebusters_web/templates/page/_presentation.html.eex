@@ -5,7 +5,7 @@ class="
     border-2 border-black
     w-max
     mt-6
-    rounded-t-xl rounded-b-md
+    rounded-t-2xl rounded-b-md
     shadow-md hover:shadow-xl
     transform hover:scale-105
     max-w-full
@@ -30,17 +30,22 @@ class="
         width: 65ch;
         max-width: calc(100vw - 2rem);
     ">
-        <h1 class="text-yellow-400 text-4xl sm:text-5xl lg:text-7xl font-bold text-center">
+        <h1 class="text-indigo-400 text-4xl sm:text-5xl lg:text-7xl font-bold text-center">
             3W <span class="">Sherlocks</span>
         </h1>
-        <p class="mt-6 md:mt-8 lg:mt-10 text-xs sm:text-md lg:text-xl break-all text-indigo-400">
-            Fake news on the Internet shadow the truth.
+        <p class="m-4 md:mt-8 lg:mt-10 text-xs sm:text-md lg:text-xl break-all text-indigo-400">
+            Investigate facts, defeat fake news
         </p>
-        <h2 class="mt-1 text-xs sm:text-md lg:text-xl text-indigo-400">
-            Become a sherlock,
-        </h2>
-        <h2 class="mt-4 text-2xl lg:text-3xl xl:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-yellow-400">
-            bring back the light!
+        <h2 class="
+            mt-2
+            text-2xl lg:text-3xl xl:text-4xl
+            font-bold
+            px-6 py-3
+            rounded-full rounded-l-none
+            text-yellow-400
+            bg-gradient-to-r from-transparent to-indigo-800
+        ">
+            Bring back the light!
         </h2>
     </div>
 </div>
