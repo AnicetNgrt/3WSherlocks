@@ -48,12 +48,14 @@
                         <% end %>
                     </div>
                 </div>
-                <%= live_render @socket, FakebustersWeb.BoardMsgFeedLive, id: "board_msg_feed_#{@current_channel}", session: %{
-                    "board" => @board,
-                    "user" => @current_user,
-                    "role" => @role,
-                    "channel" => @current_channel
-                } %>
+                <div style="height: max-content; min-height:35rem">
+                    <%= live_render @socket, FakebustersWeb.BoardMsgFeedLive, id: "board_msg_feed_#{@current_channel}", session: %{
+                        "board" => @board,
+                        "user" => @current_user,
+                        "role" => @role,
+                        "channel" => @current_channel
+                    } %>
+                </div>
             </div>
         <% end %>
     <% else %>
