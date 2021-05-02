@@ -2,7 +2,7 @@
     flex flex-col items-center
     bg-gray-800
     z-20
-    mb-24 lg:mb-6
+    lg:mb-6
     max-w-screen h-max w-screen
 ">
     <div class="bg-gray-800 sticky top-0 h-6 w-full z-20"></div>
@@ -10,7 +10,7 @@
         sticky top-6
         w-full
         z-20
-        py-3
+        p-3
         border-2 lg:border-b-0 border-indigo-800
         rounded-md lg:rounded-none
         bg-gradient-to-b from-gray-800
@@ -26,7 +26,8 @@
                     <%= text_input f,
                         :search_phrase,
                         placeholder: "Search fact",
-                        class: tw_components()[:input_text] <> " bg-gradient-to-t from-gray-800"
+                        class: tw_components()[:input_text] <>
+                            " bg-gradient-to-t from-gray-800"
                     %>
                 </div>
                 <div class="flex items-center space-x-1 flex-wrap">
@@ -36,7 +37,8 @@
                         [{"any state ↓", "any"}, "ongoing", "finished"],
                         selected: @filter_state,
                         required: true,
-                        class: tw_components()[:input_text] <> " flex-grow w-max bg-gradient-to-t from-gray-800"
+                        class: tw_components()[:input_text] <>
+                            " flex-grow w-max bg-gradient-to-t from-gray-800"
                     ) %>
                     <%= if @current_user do %>
                         <%= select(
@@ -45,7 +47,8 @@
                             [{"any role ↓", "any"}, "outsider", "member"],
                             selected: @filter_membership,
                             required: true,
-                            class: tw_components()[:input_text] <> " flex-grow w-max bg-gradient-to-t from-gray-800"
+                            class: tw_components()[:input_text] <>
+                                " flex-grow w-max bg-gradient-to-t from-gray-800"
                         ) %>
                         <div></div>
                     <% end %>
@@ -73,7 +76,7 @@
         <div class="
             flex flex-row-reverse justify-center
             w-max min-w-full h-full
-            px-4 py-10
+            px-2 pt-6
             divide-y-2 divide-indigo-800
         ">
             <%= if length(@boards) > 0 do %>
@@ -81,7 +84,7 @@
                     <%= live_component @socket, BoardPreview, board: board, horizontal: true %>
                 <% end %>
             <% else %>
-                <p class="text-xl text-indigo-500">There is nothing there yet 📭</p>
+                <p class="text-xl text-indigo-500 h-96">No investigation found!</p>
             <% end %>
         </div>
     </div>
@@ -105,7 +108,7 @@
                     <%= live_component @socket, BoardPreview, board: board, horizontal: false %>
                 <% end %>
             <% else %>
-                <p class="text-xl text-indigo-500 mt-32">There is nothing there yet 📭</p>
+                <p class="text-xl text-indigo-500 mt-32">No investigation found!</p>
             <% end %>
         </div>
     </div>

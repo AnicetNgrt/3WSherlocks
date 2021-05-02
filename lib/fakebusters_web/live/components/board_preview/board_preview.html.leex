@@ -3,37 +3,37 @@
 class="
     flex flex-col items-center
     transition duration-300 ease-in-out
-    w-64 sm:w-80
-    px-6 py-4
+    w-56
+    mr-6
+    px-3 py-2
     bg-indigo-800
     text-white
     rounded-md
-    transform skew-y-0 hover:scale-105
-    hover:skew-y-1
+    rounded-b-3xl
+    transform hover:scale-105
+    skew-y-1
     hover:translate-x-5
 "
 style="
-    margin-left: -5px;
     height: max-content;
-    box-shadow: 1rem 0 1rem rgba(0, 0, 0, 0.2);
 ">
-    <div class="text-md sm:text-lg font-bold mb-2 text-yellow-300 w-full h-6">
+    <div class="text-md sm:text-lg font-bold text-yellow-300 w-full">
         <%= @board.topic_name %>
     </div>
-    <div class="text-xs sm:text-md mb-2 text-yellow-300 w-full h-4 sm:h-6">
+    <div class="text-xs sm:text-md mb-2 text-yellow-300 w-full">
         Judge: <%= @board.judge.username %> <%= @board.judge.emoji %>
     </div>
     <div class="
         flex flex-col justify-center
-        w-full h-48
+        w-full h-44
         pb-4 sm:pb-6
         border-b-4 border-dotted border-gray-800
     ">
         <h1 class="<%=
             cond do
-                String.length(@board.fact) < 30 -> "text-3xl sm:text-4xl"
-                String.length(@board.fact) < 50 -> "text-2xl sm:text-3xl"
-                String.length(@board.fact) < 60 -> "text-xl sm:text-2xl"
+                String.length(@board.fact) < 30 -> "text-2xl sm:text-3xl"
+                String.length(@board.fact) < 50 -> "text-xl sm:text-2xl"
+                String.length(@board.fact) < 60 -> "text-lg sm:text-xl"
                 true -> "text-lg sm:text-xl"
             end
         %>
@@ -58,7 +58,7 @@ style="
             <h1 class="text-xl ml-2 sm:text-2xl"><%= @board.members_count %></h1>
         </div>
     </div>
-    <div class="mt-4 mb-2 w-full">
+    <div class="mt-4 mb-1 w-full">
         <%= if not @board.finished do %>
             <%= if @board.is_member do %>
             <a href="<%= FakebustersWeb.Router.Helpers.board_path(@socket, :index, @board.id) %>"
@@ -68,7 +68,7 @@ style="
                 px-3 py-2
                 w-full
                 border-2 border-green-500 hover:border-green-400
-                rounded-full
+                rounded-2xl rounded-t-md
                 hover:bg-green-400
                 text-green-400 hover:text-indigo-900
             ">
@@ -82,7 +82,7 @@ style="
                 px-3 py-2
                 w-full
                 border-2 border-yellow-500 hover:border-yellow-400
-                rounded-full
+                rounded-2xl rounded-t-md
                 hover:bg-yellow-400
                 text-yellow-400 hover:text-indigo-800
             ">
@@ -97,7 +97,7 @@ style="
             px-3 py-2
             w-full
             border-2 border-green-500 hover:border-green-400
-            rounded-full
+            rounded-2xl rounded-t-md
             hover:bg-green-400
             text-green-400 hover:text-indigo-900
         ">
