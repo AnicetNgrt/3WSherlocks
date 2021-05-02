@@ -112,7 +112,7 @@ defmodule Fakebusters.Boards do
   def search_boards(search_phrase) do
     from(
       b in Board,
-      where: fragment("SIMILARITY(?, ?) > 0",  b.fact, ^search_phrase),
+      where: fragment("SIMILARITY(?, ?) > 0", b.fact, ^search_phrase),
       order_by: fragment("LEVENSHTEIN(?, ?)", b.fact, ^search_phrase)
     )
     |> Repo.all()
@@ -403,9 +403,10 @@ defmodule Fakebusters.Boards do
 
   """
   def create_board_member(attrs \\ %{}) do
-    res = %BoardMember{}
-    |> BoardMember.changeset(attrs)
-    |> Repo.insert()
+    res =
+      %BoardMember{}
+      |> BoardMember.changeset(attrs)
+      |> Repo.insert()
 
     case res do
       {:ok, bm} ->
