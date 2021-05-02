@@ -27,34 +27,36 @@ defmodule FakebustersWeb.BoardVotesResultsLive do
     {:noreply, socket}
   end
 
-  defp calculate_value(votes, side) do
-    Enum.filter(votes, &(&1.side == side))
-    |> Enum.reduce(0, &(&1.value + &2))
-  end
-
   defp apply_votes(socket, votes) do
+    {value_t, value_f} = calculate_values(votes)
+    {perc_t, perc_f} = calculate_percentages(value_t, value_f)
+
     socket
     |> assign(:votes, votes)
-    |> assign(:value_truthy, calculate_value(votes, 0))
-    |> assign(:value_false, calculate_value(votes, 1))
-    |> assign(:percent_truthy, calculate_percentage(votes, 0))
-    |> assign(:percent_false, calculate_percentage(votes, 1))
+    |> assign(:value_truthy, value_t)
+    |> assign(:value_false, value_f)
+    |> assign(:percent_truthy, round(perc_t))
+    |> assign(:percent_false, round(perc_f))
   end
 
-  defp calculate_percentage(votes, side) do
-    {count_side, count_others} =
-      Enum.reduce(votes, {0, 0}, fn (el, {count_side, count_others}) ->
-        if el.side == side do
-          {count_side + 1, count_others}
-        else
-          {count_side, count_others + 1}
-        end
-      end)
+  defp calculate_values(votes) do
+    Enum.reduce(votes, {0, 0}, fn (v, {value_t, value_f}) ->
+      if v.side == 0 do
+        {value_t + v.value, value_f}
+      else
+        {value_t, value_f + v.value}
+      end
+    end)
+  end
 
-    if count_side != 0 do
-      (count_side / (count_side + count_others)) * 100
+  defp calculate_percentages(value_t, value_f) do
+    total = value_t + value_f
+    fper = &((&1 / total) * 100)
+
+    if total != 0 do
+      {fper.(value_t), fper.(value_f)}
     else
-      0
+      {0, 0}
     end
   end
 end
