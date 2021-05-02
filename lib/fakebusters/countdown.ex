@@ -1,10 +1,15 @@
 defmodule Fakebusters.Countdown do
-  @moduledoc false
+  @moduledoc """
+  Simple GenServer that can be spawned. Once spawned counts down for some duration and notifies a PubSub every second.
+  """
 
   @step 1
 
   use GenServer
 
+  @doc """
+  Spawns a Countdown and subscribes the current process to its PubSub.
+  """
   def spawn_and_subscribe(id, duration_sec) do
     Phoenix.PubSub.subscribe(Fakebusters.PubSub, "#{__MODULE__}#{id}")
 
@@ -14,11 +19,13 @@ defmodule Fakebusters.Countdown do
     )
   end
 
+  @doc false
   def start_link({id, duration_sec}) do
     name = String.to_atom("#{__MODULE__}#{id}")
     GenServer.start_link(__MODULE__, {id, duration_sec}, name: name)
   end
 
+  @doc false
   @impl true
   def init(state) do
     schedule_countdown()
@@ -26,6 +33,7 @@ defmodule Fakebusters.Countdown do
     {:ok, state}
   end
 
+  @doc false
   @impl true
   def handle_info(:countdown, {id, duration_sec}) do
     duration_sec = duration_sec - @step
