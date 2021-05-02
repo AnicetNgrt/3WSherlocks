@@ -1,6 +1,33 @@
 defmodule FakebustersWeb.HyperlinksHelpers do
   @moduledoc false
 
+  def wrap_hyperlinks(text) do
+    String.split(text)
+    |> Enum.reduce([], fn el, acc ->
+      parsed_el =
+        if el =~ "http://" or el =~ "https://" do
+          el
+        else
+          Enum.reduce_while(watched_domain_names(), el, fn ext, el ->
+            if String.ends_with?(el, ext) or el =~ ext <> "/" do
+              {:halt, "http://" <> el}
+            else
+              {:cont, el}
+            end
+          end)
+        end
+
+      url = URL.parse(parsed_el)
+
+      if url.authority != nil do
+        [{:link, %{href: parsed_el, host: url.host, path: url.path}} | acc]
+      else
+        [{:word, el} | acc]
+      end
+    end)
+  end
+
+  # Yeah, it's long
   @known_top_level_domains [
     ".aaa", ".aarp", ".abarth", ".abb", ".abbott", ".abbvie", ".abc", ".able", ".abogado", ".abudhabi",
     ".ac", ".academy", ".accenture", ".accountant", ".accountants", ".aco", ".active", ".actor", ".ad",
@@ -155,31 +182,8 @@ defmodule FakebustersWeb.HyperlinksHelpers do
     ".yun", ".za", ".zappos", ".zara", ".zero", ".zip", ".zippo", ".zm", ".zone", ".zuerich", ".zw"
   ]
 
+  # Constant for optimization
   @watched_domain_names Enum.filter(@known_top_level_domains, &(String.length(&1) < 5))
 
-  def wrap_hyperlinks(text) do
-    String.split(text)
-    |> Enum.reduce([], fn el, acc ->
-      parsed_el =
-        if el =~ "http://" or el =~ "https://" do
-          el
-        else
-          Enum.reduce_while(@watched_domain_names, el, fn ext, el ->
-            if String.ends_with?(el, ext) or el =~ ext <> "/" do
-              {:halt, "http://" <> el}
-            else
-              {:cont, el}
-            end
-          end)
-        end
-
-      url = URL.parse(parsed_el)
-
-      if url.authority != nil do
-        [{:link, %{href: parsed_el, host: url.host, path: url.path}} | acc]
-      else
-        [{:word, el} | acc]
-      end
-    end)
-  end
+  defp watched_domain_names, do: @watched_domain_names
 end
