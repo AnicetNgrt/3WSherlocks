@@ -1,6 +1,10 @@
 defmodule Fakebusters.Boards do
   @moduledoc """
   The Boards context.
+
+  Manages investigations, votes, join requests, investigation messages and investigation members.
+
+  Investigations are referenced as "boards" within the codebase.
   """
 
   import Ecto.Query, warn: false
@@ -16,14 +20,23 @@ defmodule Fakebusters.Boards do
 
   @topic inspect(__MODULE__)
 
+  @doc """
+  Subscribes the current process to boards' global PubSub
+  """
   def subscribe_globally() do
     Phoenix.PubSub.subscribe(Fakebusters.PubSub, @topic)
   end
 
+  @doc """
+  Subscribes the current process to a specific board's channel's PubSub
+  """
   def subscribe_to_board_channel(board_id, channel) do
     Phoenix.PubSub.subscribe(Fakebusters.PubSub, "#{@topic}:B#{board_id}/#{channel}")
   end
 
+  @doc """
+  Lets you notify all the processes subscribed to boards' global PubSub
+  """
   def notify_global_subscribers(payload, event) do
     Phoenix.PubSub.broadcast(
       Fakebusters.PubSub,
@@ -32,6 +45,9 @@ defmodule Fakebusters.Boards do
     )
   end
 
+  @doc """
+  Lets you notify all the processes subscribed to a specific board's channel's PubSub
+  """
   def notify_board_channel_subscribers(board_id, channel, event, payload) do
     Phoenix.PubSub.broadcast(
       Fakebusters.PubSub,
@@ -40,6 +56,9 @@ defmodule Fakebusters.Boards do
     )
   end
 
+  @doc """
+  Get all available messages for a specific board channel
+  """
   def board_channel_messages(board_id, :events) do
     Enum.sort(
       board_join_requests(board_id),
@@ -86,6 +105,10 @@ defmodule Fakebusters.Boards do
     Repo.all(Board)
   end
 
+  @doc """
+  Searches and sorts boards using full text search.
+  Uses postgres' search capabilities under the hood such as the SIMILARITY and LEVENSHTEIN functions.
+  """
   def search_boards(search_phrase) do
     from(
       b in Board,
@@ -95,6 +118,9 @@ defmodule Fakebusters.Boards do
     |> Repo.all()
   end
 
+  @doc """
+  Returns the member count of a board.
+  """
   def members_count(%Board{id: id} = _board) do
     query =
       from bm in BoardMember,
@@ -162,6 +188,9 @@ defmodule Fakebusters.Boards do
     res
   end
 
+  @doc """
+  Returns time left in seconds before voting begins on a board.
+  """
   def seconds_left(%Board{duration_sec: ds, inserted_at: inserted_at}) do
     now_ndt = NaiveDateTime.utc_now()
 
@@ -169,6 +198,10 @@ defmodule Fakebusters.Boards do
     |> NaiveDateTime.diff(now_ndt, :second)
   end
 
+  @doc """
+  Creates a board and an initial board member with role 0 (judge).
+  Fails if any of those two transactions fail.
+  """
   def create_board_with_judge(attrs, %User{id: id} = _judge) do
     res =
       Repo.transaction(fn ->
@@ -277,6 +310,9 @@ defmodule Fakebusters.Boards do
     Repo.all(BoardMember)
   end
 
+  @doc """
+  Returns the judge of a board as an Account struct.
+  """
   def judge(%Board{id: id} = _board) do
     members = from bm in BoardMember, where: [board_id: ^id, role: 0]
 
@@ -285,6 +321,9 @@ defmodule Fakebusters.Boards do
     Repo.one(users)
   end
 
+  @doc """
+  Returns if an account is member of a board.
+  """
   def is_member?(%Board{id: board_id} = _board, %User{id: user_id} = _user) do
     query =
       from bm in "board_members",
@@ -295,6 +334,9 @@ defmodule Fakebusters.Boards do
 
   def is_member?(_, _), do: false
 
+  @doc """
+  Returns an account's role within a board if it is part of it, `nil` otherwise.
+  """
   def role(%Board{id: board_id}, %User{id: user_id}) do
     query =
       from bm in BoardMember,
@@ -306,6 +348,10 @@ defmodule Fakebusters.Boards do
     end
   end
 
+  @doc """
+  Creates a new board member and destroys the underlying account's join request to that board.
+  Fails if any of those two transactions fails.
+  """
   def add_board_member_delete_request(
         %{
           user_id: user_id,
@@ -455,6 +501,9 @@ defmodule Fakebusters.Boards do
   """
   def get_join_request!(id), do: Repo.get!(JoinRequest, id)
 
+  @doc """
+  Returns if an account has already sent a join request to a specific board.
+  """
   def user_already_has_requested?(%User{id: user_id}, %Board{id: board_id}) do
     query =
       from jr in JoinRequest,
@@ -463,6 +512,9 @@ defmodule Fakebusters.Boards do
     Repo.aggregate(query, :count) > 0
   end
 
+  @doc """
+  Returns all join requests for a specific board.
+  """
   def board_join_requests(board_id) do
     query =
       from jr in JoinRequest,
@@ -680,6 +732,9 @@ defmodule Fakebusters.Boards do
     Repo.all(BoardVote)
   end
 
+  @doc """
+  Returns all votes for a specific board
+  """
   def get_votes_for_board(board_id) do
     query =
       from jr in BoardVote,
@@ -688,6 +743,9 @@ defmodule Fakebusters.Boards do
     Repo.all(query)
   end
 
+  @doc """
+  Returns if an account has already voted for a board.
+  """
   def user_already_has_voted?(%User{id: user_id}, %Board{id: board_id}) do
     query =
       from jr in BoardVote,
