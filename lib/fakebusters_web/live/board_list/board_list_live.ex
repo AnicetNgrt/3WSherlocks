@@ -19,6 +19,7 @@ defmodule FakebustersWeb.BoardListLive do
 
     socket =
       socket
+      |> assign(:search, "")
       |> assign(:modes, modes)
       |> assign(:current_user, user)
       |> refresh_list()
@@ -35,20 +36,27 @@ defmodule FakebustersWeb.BoardListLive do
 
   @impl true
   def handle_event("filter", %{"filter" => %{"search_phrase" => search}}, socket) do
-    socket = refresh_list(socket)
+    socket =
+      socket
+      |> assign(:search, search)
+      |> refresh_list()
 
     {:noreply, socket}
   end
 
   defp refresh_list(socket) do
     user = socket.assigns[:current_user]
+    search = socket.assigns[:search]
 
-    boards =
+    boards = if String.length(search) > 1 do
+      Boards.search_boards(search)
+    else
       Boards.list_boards()
-      |> Enum.map(&Map.put(&1, :members_count, Boards.members_count(&1)))
-      |> Enum.map(&Map.put(&1, :topic_name, Topics.get_topic!(&1.topic_id).name))
-      |> Enum.map(&Map.put(&1, :is_member, Boards.is_member?(&1, user)))
-      |> Enum.map(&Map.put(&1, :judge, Boards.judge(&1)))
+    end
+    |> Enum.map(&Map.put(&1, :members_count, Boards.members_count(&1)))
+    |> Enum.map(&Map.put(&1, :topic_name, Topics.get_topic!(&1.topic_id).name))
+    |> Enum.map(&Map.put(&1, :is_member, Boards.is_member?(&1, user)))
+    |> Enum.map(&Map.put(&1, :judge, Boards.judge(&1)))
 
     assign(socket, :boards, boards)
   end
