@@ -18,10 +18,11 @@ defmodule Fakebusters.MixProject do
       source_url: "https://github.com/AnicetNgrt/BourseCoddity2021",
       homepage_url: "https://bourse2021-coddity.anicetnougaret.fr",
       docs: [
-        main: "Fakebusters", # The main page in the docs
+        # The main page in the docs
+        main: "Fakebusters",
         authors: ["Anicet Nougaret"],
         output: "hex_docs",
-        #logo: "path/to/logo.png",
+        # logo: "path/to/logo.png",
         extras: ["README.md"]
       ]
     ]

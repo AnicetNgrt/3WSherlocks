@@ -89,17 +89,19 @@ defmodule FakebustersWeb.BoardMsgFeedLive do
   def handle_info({Boards, :new, message}, socket) do
     author = Accounts.get_user!(message.user_id)
 
-    message = message
-    |> Map.put(:author, author)
-    |> Map.put(:author_role, Boards.role(socket.assigns[:board], author))
+    message =
+      message
+      |> Map.put(:author, author)
+      |> Map.put(:author_role, Boards.role(socket.assigns[:board], author))
 
     {:noreply, assign(socket, :messages, socket.assigns[:messages] ++ [message])}
   end
 
   @impl true
   def handle_info({Boards, :delete, message}, socket) do
-    messages = socket.assigns[:messages]
-    |> Enum.filter(&(&1.id != message.id))
+    messages =
+      socket.assigns[:messages]
+      |> Enum.filter(&(&1.id != message.id))
 
     {:noreply, assign(socket, :messages, messages)}
   end

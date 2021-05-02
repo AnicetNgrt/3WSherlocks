@@ -40,7 +40,7 @@ defmodule FakebustersWeb.BoardVotesResultsLive do
   end
 
   defp calculate_values(votes) do
-    Enum.reduce(votes, {0, 0}, fn (v, {value_t, value_f}) ->
+    Enum.reduce(votes, {0, 0}, fn v, {value_t, value_f} ->
       if v.side == 0 do
         {value_t + v.value, value_f}
       else
@@ -51,7 +51,7 @@ defmodule FakebustersWeb.BoardVotesResultsLive do
 
   defp calculate_percentages(value_t, value_f) do
     total = value_t + value_f
-    fper = &((&1 / total) * 100)
+    fper = &(&1 / total * 100)
 
     if total != 0 do
       {fper.(value_t), fper.(value_f)}

@@ -20,8 +20,7 @@ defmodule Fakebusters.Application do
       # Starts a dynamic supervisor for live cooldowns
       {
         DynamicSupervisor,
-        strategy: :one_for_one,
-        name: Fakebusters.CountdownsSupervisor
+        strategy: :one_for_one, name: Fakebusters.CountdownsSupervisor
       }
     ]
 

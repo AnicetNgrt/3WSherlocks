@@ -86,6 +86,18 @@ defmodule Fakebusters.Boards do
     Repo.all(Board)
   end
 
+  def search_boards(search_phrase) do
+    start_character = String.slice(search_phrase, 0..1)
+
+    from(
+      b in Boards,
+      where: ilike(b.fact, ^"#{start_character}%"),
+      where: fragment("SIMILARITY(?, ?) > 0", b.fact, ^search_phrase),
+      order_by: fragment("LEVENSHTEIN(?, ?)", b.fact, ^search_phrase)
+    )
+    |> Repo.all()
+  end
+
   def members_count(%Board{id: id} = _board) do
     query =
       from bm in BoardMember,
@@ -348,9 +360,10 @@ defmodule Fakebusters.Boards do
 
   """
   def create_board_member(attrs \\ %{}) do
-    res = %BoardMember{}
-    |> BoardMember.changeset(attrs)
-    |> Repo.insert()
+    res =
+      %BoardMember{}
+      |> BoardMember.changeset(attrs)
+      |> Repo.insert()
 
     case res do
       {:ok, bm} ->

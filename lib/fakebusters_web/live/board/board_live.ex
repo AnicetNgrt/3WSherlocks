@@ -74,6 +74,7 @@ defmodule FakebustersWeb.BoardLive do
 
   defp update_role(socket, role) do
     channels = Channels.role_channels(role)
+
     socket
     |> assign(:role, role)
     |> assign(:channels, channels)
