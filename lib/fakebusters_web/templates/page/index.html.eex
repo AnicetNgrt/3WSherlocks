@@ -3,7 +3,9 @@
         <%= render "_presentation.html", assigns %>
     <% end %>
     <%= live_render(@conn, FakebustersWeb.BoardTutorialLive) %>
-    <%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
+    <%= if @logged_in do %>
+        <%= live_render(@conn, FakebustersWeb.BoardCreationLive) %>
+    <% end %>
     <div class="flex flex-wrap justify-center max-w-full">
         <div class="flex flex-col items-center max-w-full">
             <h1 class="mt-16 text-yellow-300 text-2xl">Browse investigations </h1>
