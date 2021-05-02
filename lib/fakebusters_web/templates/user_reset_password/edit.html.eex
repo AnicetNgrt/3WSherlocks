@@ -1,3 +1,5 @@
+<%= c :misc, :back_link, name: "main page", path: Routes.page_path(@conn, :index) %>
+
 <h1>Reset password</h1>
 
 <%= form_for @changeset, Routes.user_reset_password_path(@conn, :update, @token), fn f -> %>

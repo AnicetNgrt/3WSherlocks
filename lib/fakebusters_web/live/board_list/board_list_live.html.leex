@@ -16,18 +16,18 @@
         bg-gradient-to-b from-gray-800
     "
     style="
-        width: 85.5ch;
+        width: 88.5ch;
         max-width: 100vw;
     ">
         <%= f = form_for :filter, "#", [phx_change: "filter"] %>
-            <div class="flex justify-around flex-wrap lg:px-12">
+            <div class="flex justify-around flex-wrap">
                 <div class="flex items-center">
-                    <div class="mr-2 text-3xl">🔎</div>
+                    <div class="lg:mr-2 text-2xl">🔎</div>
                     <%= text_input f,
                         :search_phrase,
                         placeholder: "Search fact",
-                        class: tw_components()[:input_text] <>
-                            " bg-gradient-to-t from-gray-800"
+                        class: tw_components()[:input_text_ovsiz] <>
+                            " bg-gradient-to-t from-gray-800 w-max"
                     %>
                 </div>
                 <div class="flex items-center space-x-1 flex-wrap">
@@ -100,7 +100,7 @@
             px-12 py-5
             divide-y-2 divide-indigo-800
         " style="
-            width: 85ch;
+            width: 88.1ch;
             max-width: 100vw;
         ">
             <%= if length(@boards) > 0 do %>

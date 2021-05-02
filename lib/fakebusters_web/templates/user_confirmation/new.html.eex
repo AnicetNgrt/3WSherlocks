@@ -1,3 +1,5 @@
+<%= c :misc, :back_link, name: "main page", path: Routes.page_path(@conn, :index) %>
+
 <%= c :forms, :form do %>
   <h1 class="<%= tw_components()[:form_title] %>">Confirmation</h1>
 

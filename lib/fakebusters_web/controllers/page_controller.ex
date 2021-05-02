@@ -4,6 +4,7 @@ defmodule FakebustersWeb.PageController do
   def index(conn, _params) do
     conn
     |> assign(:logged_in, conn.assigns[:current_user] != nil)
+    |> assign(:in_main_page, true)
     |> render("index.html")
   end
 end

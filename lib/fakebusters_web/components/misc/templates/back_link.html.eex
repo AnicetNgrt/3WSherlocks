@@ -1,0 +1,13 @@
+<div class="m-3 px-3 mb-6 flex"
+style="
+  width: 65ch;
+  max-width: 100vw;
+">
+  <a class="
+    hover:underline
+    text-indigo-500
+    cursor-pointer
+  " href="<%= @path %>">
+    ← Back to <%= @name %>
+  </a>
+</div>

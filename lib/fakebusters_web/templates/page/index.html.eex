@@ -10,7 +10,7 @@
     <% end %>
     <div class="flex flex-wrap justify-center max-w-full">
         <div class="flex flex-col items-center max-w-full">
-            <h1 class="mt-6 text-yellow-300 text-2xl">Browse investigations </h1>
+            <h1 class="mt-12 text-yellow-300 text-2xl">Browse investigations </h1>
             <%= live_render(@conn, FakebustersWeb.BoardListLive, session: %{
                 "modes" => [:user, :finished]
             }) %>

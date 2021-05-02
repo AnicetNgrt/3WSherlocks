@@ -1,3 +1,5 @@
+<%= c :misc, :back_link, name: "main page", path: Routes.page_path(@conn, :index) %>
+
 <h1 class="mt-8 text-3xl mb-6">Settings</h1>
 
 <div class="flex flex-wrap justify-center w-screen">
