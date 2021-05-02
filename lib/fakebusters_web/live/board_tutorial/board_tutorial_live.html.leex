@@ -2,12 +2,12 @@
 
 <article class="flex flex-col items-center mt-6 mb-6">
     <button
-    class="flex items-center cursor-pointer"
+    class="flex items-center cursor-pointer text-indigo-500 hover:text-yellow-300"
     phx-click="show_tutorial">
-        <h1 class="px-2 py-1 mr-3 bg-yellow-300 rounded-full text-indigo-800">
-            Tutorial
+        <h1 class="text-xl sm:text-2xl mr-2">
+            Tutorial:
         </h1>
-        <h1 class="text-xl sm:text-2xl underline text-yellow-300 hover:text-white">
+        <h1 class="text-xl sm:text-2xl underline">
             What is an investigation?
         </h1>
     </button>
@@ -39,7 +39,7 @@
             <span class="<%= bold_text %>">The judge</span> is the only neutral member, he has to monitor the room and <span class="<%= bold_text %>">evaluate curated evidences</span> from both sides.
         </p>
         <p>
-            <span class="<%= bold_text %>">At the end, everyone vote "truthy" or "false"</span> in order to establish the final verdict. Judge's vote is worth 10 votes, advocates' votes are worth 3 votes.
+            <span class="<%= bold_text %>">At the end, everyone vote "truthy" or "false"</span> in order to establish the final verdict. Judge's vote is worth 10x, advocates' votes are worth 3x, and defenders' votes are worth 1x.
         </p>
     </div>
     <% end %>

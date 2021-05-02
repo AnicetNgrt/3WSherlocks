@@ -1,5 +1,4 @@
 <a
-href="<%= Routes.dashboard_path(@conn, :index) %>"
 class="
     flex items-center justify-center
     transition duration-100 ease-in-out

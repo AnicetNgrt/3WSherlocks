@@ -20,6 +20,8 @@ defmodule Fakebusters.Boards.BoardVote do
     |> validate_required([:side, :board_id, :user_id])
     |> put_value(voter_role)
     |> validate_inclusion(:side, [0, 1])
+    # having value == 0 will fail the changeset
+    # that's on purpose to avoid outsiders voting somehow
     |> validate_inclusion(:value, [1, 3, 10])
   end
 
@@ -29,5 +31,6 @@ defmodule Fakebusters.Boards.BoardVote do
 
   defp role_vote_value(0), do: 10
   defp role_vote_value(role) when role <= 2, do: 3
-  defp role_vote_value(_), do: 1
+  defp role_vote_value(role) when is_integer(role), do: 1
+  defp role_vote_value(_), do: 0
 end

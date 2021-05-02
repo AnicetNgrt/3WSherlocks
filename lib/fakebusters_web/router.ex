@@ -31,7 +31,6 @@ defmodule FakebustersWeb.Router do
   scope "/", FakebustersWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/dashboard", DashboardController, :index
     get "/investigations/:id", BoardController, :index
   end
 

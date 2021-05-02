@@ -1,4 +1,4 @@
-<%= if not @already_voted do %>
+<%= if not @already_voted and @role != nil do %>
 <div class="mb-6">
     <%= c :forms, :form do %>
         <h1 class="<%= tw_components()[:form_title] %>">Vote</h1>
