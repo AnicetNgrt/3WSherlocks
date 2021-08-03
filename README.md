@@ -28,7 +28,7 @@ Documentation pour le jury de la bourse Coddity.
 - [💡 Resources utiles](#-resources-utiles)
 
 ## 🔧 Installation
-### Envionnement Dev
+### Environnement Dev
 1. Mettez en place une base de donnée PostgreSQL avec identifiant `postgres` et mot de passe `postgres` sur `localhost:5432`
    - Avec docker 🐳 : `docker run --name postgres-fakebusters -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres:alpine` 
    - [Sans docker](https://www.postgresql.org/download/)
